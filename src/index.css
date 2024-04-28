@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{@apply m-0 p-0 box-border}
+
+html, body{@apply bg-gradient-to-r from-white/90 to-white text-[#004242] h-screen overflow-x-hidden select-none scroll-smooth }
+
+
+@font-face {
+    font-family: "AliandoRocky";
+    src: url('./fonts/AliandoRocky.ttf');
+}
+
+.scrollbar::-webkit-scrollbar{@apply hidden}
+
+.barcodeUp{
+    animation: barup forwards .3s ease-in;
+}
+.barcodeDown{
+    animation: bardown forwards .3s ease-in;
+}
+
+.mobileMenu {
+    position: absolute;
+    width: 100%;
+    left: 0;
+}
+
+.mobileClose {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 0px;
+    top: 0rem;
+}
+
+@keyframes mobileopen {
+    from{
+        top: -99rem;
+    }
+    to{
+        top: 6rem;
+    }
+}
+
+@keyframes mobileclose {
+    from{
+       
+    }
+    to{
+       height: 0px;
+       line-height: 0px;
+    }
+}
+
+/* platforms barcode */
+@keyframes barup {
+    0%{
+        @apply rounded-full bg-white left-3 h-20 w-20 fixed bottom-14 drop-shadow-md 
+    }
+    100%{
+        @apply bottom-48 left-3 rounded-lg h-24 w-24 fixed drop-shadow-md z-50
+    }
+}
+
+@keyframes bardown {
+    0%{
+        @apply bottom-48 left-3 rounded-lg h-24 w-24 fixed drop-shadow-md 
+    }
+    100%{
+        @apply rounded-full left-3 h-16 w-16 fixed bottom-14 drop-shadow-md z-50
+    }
+}
+
+
