@@ -1233,7 +1233,7 @@ const Dashboard = () => {
                                 </div>
                                 <div
                                   onClick={() =>
-                                    handleConfirmEdit(
+                                    handleConfirmDelete(
                                       data.id,
                                       data.name,
                                       "testimonial"

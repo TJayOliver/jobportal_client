@@ -1,17 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wgh@100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 *{@apply m-0 p-0 box-border}
 
-html, body{@apply bg-gradient-to-r from-white/90 to-white text-[#004242] h-screen overflow-x-hidden select-none scroll-smooth }
-
+html, body{@apply bg-gradient-to-r from-white/90 to-white text-[#004242] h-screen inter overflow-x-hidden select-none scroll-smooth }
 
 @font-face {
     font-family: "AliandoRocky";
     src: url('./fonts/AliandoRocky.ttf');
 }
 
+.inter{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings: "slnt" 0;
+}
 .scrollbar::-webkit-scrollbar{@apply hidden}
 
 .barcodeUp{

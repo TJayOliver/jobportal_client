@@ -5,8 +5,11 @@ import { HiMiniTrash } from "react-icons/hi2";
 import Pagination from "../Pagination";
 import axios from "axios";
 import { BASE_URL } from "../../../pages/request";
+import { ThreeDots } from "react-loader-spinner";
 
 const Subscribers = () => {
+  axios.defaults.withCredentials = true;
+
   const [retrievedSubscriberData, setRetrievedSubscriberData] = useState([]);
   const [notificationMessages, setNotificationMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,7 +20,6 @@ const Subscribers = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-
     fetch(
       "subscriber/read",
       setRetrievedSubscriberData,
@@ -25,10 +27,8 @@ const Subscribers = () => {
       signal,
       setMessage
     );
-
-    return () => {
-      controller.abort();
-    };
+    fetch("messages", setNotificationMessages, setLoading, signal, setMessage);
+    return () => controller.abort();
   }, []);
 
   const lastPostIndex = currentPage * postPerPage;
@@ -82,17 +82,43 @@ const Subscribers = () => {
 
   const submitMail = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         `${BASE_URL}/subscriber/notify`,
         mailContent
       );
+      setLoading(false);
       setMessage(response.data.message);
       window.alert(response.data.message);
       window.location.reload();
     } catch (error) {
+      setLoading(false);
       setMessage(error.response.data.message);
       window.alert(error.response.data.message);
+    }
+  };
+
+  const deleteMessages = async () => {
+    let response = confirm(
+      "Are you sure you want to delete all messages from the database?"
+    );
+    if (response) {
+      try {
+        const response = await axios.delete(
+          `${BASE_URL}/messages/delete`,
+          mailContent
+        );
+        setMessage(response.data.message);
+        window.alert(response.data.message);
+        window.location.reload();
+      } catch (error) {
+        setMessage(error.response.data.message);
+        window.alert(error.response.data.message);
+        window.location.reload();
+      }
+    } else {
+      window.location.reload();
     }
   };
 
@@ -175,9 +201,13 @@ const Subscribers = () => {
 
               <button
                 type="submit"
-                className="bg-teal-600 hover:bg-teal-500 p-3 rounded-md text-white font-medium"
+                className="bg-teal-600 hover:bg-teal-500 p-3 flex justify-center items-center rounded-md text-white font-medium"
               >
-                Send
+                {loading ? (
+                  <ThreeDots color="white" height="8px" />
+                ) : (
+                  <p className="font-medium">Send</p>
+                )}
               </button>
             </form>
           </div>
@@ -236,6 +266,11 @@ const Subscribers = () => {
       {/* Sent messages */}
       {viewMessages && (
         <div className="p-2">
+          <div className="p-2 text-red-500 font-medium flex  items-center gap-1">
+            <HiMiniTrash />
+            <p onClick={deleteMessages}>Delete All Messages</p>
+          </div>
+
           <div className=" border border-gray-200 rounded-md">
             <table className=" min-w-full divide-y divide-gray-200">
               <thead className=" bg-gray-50">
@@ -244,9 +279,11 @@ const Subscribers = () => {
                     Subject
                   </th>
                   <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                    Date Sent
+                    Message
                   </th>
-                  <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
+                  <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                    Message ID
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -261,17 +298,10 @@ const Subscribers = () => {
                         {data.subject}
                       </td>
                       <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                        {data.datecreated}
+                        {data.message}
                       </td>
-                      <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                        <div
-                          onClick={() =>
-                            Delete(data.id, "scholarship", "Scholarship")
-                          }
-                          className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
-                        >
-                          <HiMiniTrash />
-                        </div>
+                      <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                        {data.messageId}
                       </td>
                     </tr>
                   ))

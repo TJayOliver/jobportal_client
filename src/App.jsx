@@ -16,9 +16,12 @@ import JobDescription from "./pages/Job/JobDescription.jsx";
 import ScholarshipDescription from "./pages/Scholarship/scholarshipDescription.jsx";
 import ScholarshipCategory from "./pages/Scholarship/scholarshipCategory.jsx";
 
-import SubscribersList from "./components/Dashboard/subscriberList/subscribersList.jsx";
 import Dashboard from "./pages/administrator/dashboard.jsx";
 import Unsubscribe from "./pages/unSubscribe.jsx";
+
+import { Error } from "./components/Error/error.jsx";
+
+import { ErrorBoundary } from "react-error-boundary";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,8 +54,7 @@ const router = createBrowserRouter(
 
       <Route path="/dashboard" element={<Dashboard />} />
 
-      <Route path="/subscribers" element={<SubscribersList />} />
-      <Route path="/unsubscribe/:id" element={<Unsubscribe />} />
+      <Route path="/unsubscribe" element={<Unsubscribe />} />
     </Route>
   )
 );
@@ -60,7 +62,9 @@ const router = createBrowserRouter(
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <ErrorBoundary FallbackComponent={Error}>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
     </>
   );
 }

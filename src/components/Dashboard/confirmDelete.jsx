@@ -60,7 +60,7 @@ const ConfirmDelete = ({ id, route, title }) => {
 
             <button
               onClick={handleDisplay}
-              className="  h-10 p-2 rounded-md w-full bg-blue-600 hover:text-white hover:border-none hover:duration-300 hover:ease-in"
+              className="  h-10 p-2 rounded-md w-full bg-red-500 hover:text-white hover:border-none hover:duration-300 hover:ease-in text-white"
             >
               DONE
             </button>

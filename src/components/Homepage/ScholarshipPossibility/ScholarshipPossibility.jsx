@@ -18,7 +18,7 @@ const ScholarshipPossibility = () => {
         </small>
         <br></br>
         <Link to={"/scholarship"}>
-          <p className="p-2 w-[10rem] rounded-md whitespace-nowrap bg-gradient-to-tr from-blue-500 to-teal-500 text-white hover:bg-[#024d4d]">
+          <p className="p-2 w-[15rem] rounded-md whitespace-nowrap bg-gradient-to-tr from-blue-500 to-teal-500 text-white hover:bg-[#024d4d]">
             Search Scholarships
           </p>
         </Link>

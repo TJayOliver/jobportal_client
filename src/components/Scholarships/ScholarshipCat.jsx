@@ -7,7 +7,7 @@ const ScholarshipCategoryBox = ({ image, category, text, to, color }) => {
       />
       <div className=" flex flex-col items-center text-center">
         <p className="font-medium text-2xl">{category}</p>
-        <p>{text}</p>
+        <small>{text}</small>
       </div>
       <a
         href={to}

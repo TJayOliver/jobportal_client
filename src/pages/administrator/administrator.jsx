@@ -2,6 +2,7 @@ import { BASE_URL } from "../request";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 const Administrator = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Administrator = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleCredentials = (e) => {
     const { name, value } = e.target;
@@ -21,14 +23,17 @@ const Administrator = () => {
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         `${BASE_URL}/admin/signin`,
         credentials
       );
+      setLoading(false);
       const user = response.data.user.id;
       navigate("/dashboard", { state: user });
     } catch (error) {
+      setLoading(false);
       if (error.response.status === 401) {
         setMessage("Username or Password is Incorrect");
       } else if (error.response.status === 429) {
@@ -75,8 +80,12 @@ const Administrator = () => {
 
             <small className=" text-red-600">{message}</small>
 
-            <button className="rounded-md h-10 px-2 bg-blue-500 text-white font-medium hover:bg-blue-600">
-              Sign In
+            <button className="rounded-md h-10 px-2 bg-blue-500 flex justify-center items-center text-white font-medium hover:bg-blue-600">
+              {loading ? (
+                <ThreeDots color="white" height="8px" />
+              ) : (
+                <p className="font-medium">Sign In</p>
+              )}
             </button>
           </form>
         </div>
