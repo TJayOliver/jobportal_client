@@ -48,7 +48,7 @@ const FeaturedJobs = () => {
   return (
     <section className=" flex justify-center gap-4 p-2">
       {/* Latest Jobs and scholarships */}
-      <div className="bg-gray-50 h-[27rem] w-[58rem] rounded-2xl p-2 relative overflow-hidden">
+      <div className="bg-[#FEFAF6] h-[27rem] w-[58rem] rounded-2xl p-2 relative overflow-hidden">
         {/* Heading */}
         <div className="flex justify-between">
           <p className=" font-bold text-xl text-black ">
@@ -94,20 +94,24 @@ const FeaturedJobs = () => {
                   : "grid grid-cols-2 md:grid-cols-4 gap-y-24 gap-14 p-2 absolute duration-300 ease-in translate-x-[58rem]"
               }
             >
-              {featuredjobs.map((job, id) => (
-                <FeaturedBox
-                  key={id}
-                  image={job.image}
-                  location={job.location}
-                  company={job.company}
-                  duration={job.duration}
-                  position={job.position}
-                  category={job.categoryname}
-                  salary={job.salary}
-                  description={job.responsibility}
-                  to={`/job/${job.id}/${job.position}`}
-                />
-              ))}
+              {!featuredjobs ? (
+                <Loading />
+              ) : (
+                featuredjobs.map((job, id) => (
+                  <FeaturedBox
+                    key={id}
+                    image={job.image}
+                    location={job.location}
+                    company={job.company}
+                    duration={job.duration}
+                    position={job.position}
+                    category={job.categoryname}
+                    salary={job.salary}
+                    description={job.responsibility}
+                    to={`/job/${job.id}`}
+                  />
+                ))
+              )}
             </div>
 
             <div
@@ -127,7 +131,7 @@ const FeaturedJobs = () => {
                   position={scholarship.country}
                   category={scholarship.scholarshiptype}
                   description={scholarship.description}
-                  to={`/scholarship/${scholarship.id}/${scholarship.position}/${scholarship.company}`}
+                  to={`/scholarship/${scholarship.id}`}
                 />
               ))}
             </div>

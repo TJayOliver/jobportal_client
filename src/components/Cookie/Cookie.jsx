@@ -26,9 +26,9 @@ const Cookie = () => {
       }
     >
       <p className=" flex items-center text-sm">
-        We use cookies to collect your location data to provide you with a
-        better user experience and personalized content. By continuing to use
-        our site, you consent to our use of cookies.
+        We use cookies to collect your data to provide you with a better user
+        experience and personalized content. By continuing to use our site, you
+        consent to our use of cookies.
       </p>
       <form onSubmit={submit} className="flex gap-3">
         <button

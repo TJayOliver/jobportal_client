@@ -14,6 +14,7 @@ import { LatestBox } from "./article";
 import { BsFacebook, BsLinkedin, BsTwitterX } from "react-icons/bs";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
 import Cookie from "../../components/Cookie/Cookie";
+import moment from "moment";
 
 const ArticlePost = () => {
   const params = useParams();
@@ -43,7 +44,7 @@ const ArticlePost = () => {
     );
     fetch("article/featured", setFeatured, setLoading, signal, setMessage);
     return () => controller.abort();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const data = async () => {
@@ -69,7 +70,8 @@ const ArticlePost = () => {
           { name },
           signal
         );
-        setAuthorDetails(response.data.admin);
+        const author = [response.data.admin];
+        setAuthorDetails(author);
         return () => controller.abort();
       } catch (error) {
         console.error(error.message);
@@ -105,7 +107,6 @@ const ArticlePost = () => {
           )}
           {/* author */}
           <div className="flex justify-between items-center text-xl">
-            {/* author */}
             <div className="flex gap-3 items-center">
               {/* author image */}
               {loading ? (
@@ -126,7 +127,10 @@ const ArticlePost = () => {
                 articles.map((post, id) => (
                   <div key={id} className="flex flex-col gap-1">
                     <small className="font-bold">{post.author}</small>
-                    <small>{post.datecreated}</small>
+                    <small>
+                      {" "}
+                      {moment(post.datecreated).format("YYYY-MM-DD")}
+                    </small>
                   </div>
                 ))
               )}
@@ -137,13 +141,22 @@ const ArticlePost = () => {
             ) : (
               authorDetails.map((author, id) => (
                 <div key={id} className="flex gap-2 text-2xl">
-                  <a href={`https://facebook.com/${author.facebook}`}>
+                  <a
+                    target="blank"
+                    href={`https://facebook.com/${author.facebook}`}
+                  >
                     <BsFacebook />
                   </a>
-                  <a href={`https://twitter.com/${author.twitter}`}>
+                  <a
+                    target="blank"
+                    href={`https://twitter.com/${author.twitter}`}
+                  >
                     <BsTwitterX />
                   </a>
-                  <a href={`https://linkedin.com/${author.linkedin}`}>
+                  <a
+                    target="blank"
+                    href={`https://linkedin.com/${author.linkedin}`}
+                  >
                     <BsLinkedin />
                   </a>
                 </div>
@@ -205,7 +218,7 @@ const ArticlePost = () => {
                 key={id}
                 image={post.image}
                 author={post.author}
-                datecreated={post.datecreated}
+                datecreated={moment(post.datecreated).format("YYYY-MM-DD")}
                 title={post.title}
                 brief={post.post}
                 category={post.category}

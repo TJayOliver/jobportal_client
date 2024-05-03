@@ -1,7 +1,7 @@
 import FormInputs from "../formInputs";
 import { countries } from "../countries";
 import { useEffect, useState } from "react";
-import { fetch } from "../../../pages/request";
+import { fetch, BASE_URL } from "../../../pages/request";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -13,16 +13,13 @@ const JobForm = ({ username }) => {
 
   const [responsibility, setResponsibility] = useState("");
   const [requirements, setRequirements] = useState("");
-  const [qualifications, setQualification] = useState("");
   const [overview, setOverview] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     fetch("category", setCategory, setLoading, signal, setMessage);
-    return () => {
-      controller.abort();
-    };
+    return () => controller.abort();
   }, []);
 
   const [gform, setGForm] = useState({
@@ -37,7 +34,6 @@ const JobForm = ({ username }) => {
     duration: "",
     responsibility: "",
     requirements: "",
-    qualifications: "",
     jobcategory: "",
     author: username,
   });
@@ -54,7 +50,6 @@ const JobForm = ({ username }) => {
       image: e.target.files[0],
       responsibility: responsibility,
       requirements: requirements,
-      qualifications: qualifications,
       overview: overview,
       author: username,
     });
@@ -67,11 +62,9 @@ const JobForm = ({ username }) => {
       newFormData.append(key, gform[key]);
     }
     try {
-      const response = await axios.post(
-        "http://localhost:4040/job/create",
-        newFormData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await axios.post(`${BASE_URL}/job/create`, newFormData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       const data = response.data.message;
       setMessage(data);
       setSubmitted(true);
@@ -241,18 +234,6 @@ const JobForm = ({ username }) => {
             formats={formats}
             value={requirements}
             onChange={setRequirements}
-          />
-        </div>
-
-        <div>
-          <p>Qualifications</p>
-          <ReactQuill
-            className=" border-black border-[1px] rounded-lg"
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            value={qualifications}
-            onChange={setQualification}
           />
         </div>
 

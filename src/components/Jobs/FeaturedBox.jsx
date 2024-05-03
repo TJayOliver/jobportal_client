@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import parser from "html-react-parser";
+import { BASE_URL } from "../../pages/request";
 
 const FeaturedBox = ({
   image,
@@ -11,13 +12,13 @@ const FeaturedBox = ({
 }) => {
   return (
     <div className=" h-24 shrink-0 text-md">
-      <div className=" flex flex-col p-2 shrink-0 grow-0 justify-between">
+      <div className=" flex flex-col p-2 shrink-0 grow-0 justify-between gap-4">
         <div className=" flex justify-between h-[3.5rem] mb-3 ">
+          {/* Company Logo and Location */}
           <div className=" flex gap-1">
-            {/* Company Logo and Location */}
             <div className=" rounded-full h-12 w-12 border-[1px] bg-white drop-shadow-sm flex shrink-0">
               <img
-                src={`http://localhost:4040/upload/${image}`}
+                src={`${BASE_URL}/upload/${image}`}
                 loading="lazy"
                 className="h-full w-full object-cover rounded-full"
               />
@@ -25,7 +26,6 @@ const FeaturedBox = ({
 
             <div>
               <p className=" font-bold text-md line-clamp-4">{company}..</p>
-              <small>{location}</small>
             </div>
           </div>
         </div>

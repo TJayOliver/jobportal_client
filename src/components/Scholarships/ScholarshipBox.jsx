@@ -1,3 +1,7 @@
+/* eslint-disable react/prop-types */
+import parser from "html-react-parser";
+import { BASE_URL } from "../../pages/request";
+
 const ScholarshipBox = ({
   image,
   scholarshiptype,
@@ -17,7 +21,7 @@ const ScholarshipBox = ({
       <div className="flex justify-between">
         <div className="flex gap-3">
           <img
-            src={image}
+            src={`${BASE_URL}/upload/${image}`}
             className="h-10 w-10 object-cover rounded-sm bg-gray-100"
           ></img>
           <div>
@@ -37,7 +41,7 @@ const ScholarshipBox = ({
 
       {/* description scholarships */}
       <div>
-        <div dangerouslySetInnerHTML={{ __html: description }} />
+        <p>{parser(`${description}`)}</p>
       </div>
     </a>
   );

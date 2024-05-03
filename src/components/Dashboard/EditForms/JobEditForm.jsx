@@ -3,7 +3,7 @@ import { countries } from "../countries";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "../../Loading/Loading";
-import { fetch } from "../../../pages/request";
+import { fetch, BASE_URL } from "../../../pages/request";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats } from "../../reactquillmodules";
@@ -12,7 +12,6 @@ const JobEditForm = ({ id }) => {
   const [category, setCategory] = useState([]);
   const [responsibility, setResponsibility] = useState("");
   const [requirements, setRequirements] = useState("");
-  const [qualification, setQualifications] = useState("");
   const [overview, setOverview] = useState("");
 
   const [gform, setGForm] = useState({
@@ -27,7 +26,6 @@ const JobEditForm = ({ id }) => {
     duration: "",
     responsibility: "",
     requirements: "",
-    qualification: "",
     jobcategory: "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -44,10 +42,46 @@ const JobEditForm = ({ id }) => {
       image: e.target.files[0],
       responsibility: responsibility,
       requirements: requirements,
-      qualification: qualification,
       overview: overview,
     });
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const fetchEdit = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/job/edit/${id}`);
+        const retrievedData = response.data.data;
+        setGForm({
+          image: retrievedData.image,
+          company: retrievedData.company,
+          salary: retrievedData.salary,
+          location: retrievedData.location,
+          website: retrievedData.website,
+          featured: retrievedData.featured,
+          position: retrievedData.position,
+          duration: retrievedData.duration,
+          jobcategory: retrievedData.jobcategory,
+        });
+        setResponsibility(retrievedData.responsibility);
+        setRequirements(retrievedData.requirements);
+        setOverview(retrievedData.overview);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        window.alert(error.response.data.message);
+        window.location.reload();
+        console.error(error.message);
+      }
+    };
+
+    fetch("category", setCategory, setLoading, signal, setMessage);
+    fetchEdit();
+
+    return () => controller.abort();
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -57,7 +91,7 @@ const JobEditForm = ({ id }) => {
         newFormData.append(key, gform[key]);
       }
       const response = await axios.put(
-        `http://localhost:4040/job/update/${id}`,
+        `${BASE_URL}/job/update/${id}`,
         newFormData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -72,44 +106,6 @@ const JobEditForm = ({ id }) => {
     }
   };
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    const fetchEdit = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4040/job/edit/${id}`
-        );
-        const retrievedData = response.data.data[0];
-        setGForm({
-          image: retrievedData.image,
-          company: retrievedData.company,
-          salary: retrievedData.salary,
-          location: retrievedData.location,
-          website: retrievedData.website,
-          featured: retrievedData.featured,
-          position: retrievedData.position,
-          duration: retrievedData.duration,
-          jobcategory: retrievedData.jobcategory,
-        });
-        setResponsibility(retrievedData.responsibility);
-        setRequirements(retrievedData.requirements);
-        setQualifications(retrievedData.qualification);
-        setOverview(retrievedData.overview);
-        setLoading(false);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    fetch("category", setCategory, setLoading, signal, setMessage);
-    fetchEdit();
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
   return (
     <section>
       {loading ? (
@@ -274,18 +270,6 @@ const JobEditForm = ({ id }) => {
             />
           </div>
 
-          <div>
-            <p>Qualifications</p>
-            <ReactQuill
-              className=" border-black border-[1px] rounded-lg"
-              theme="snow"
-              modules={modules}
-              formats={formats}
-              value={qualification}
-              onChange={setQualifications}
-            />
-          </div>
-
           <FormInputs
             label="Upload Job Flyer"
             htmlFor="image"
@@ -297,7 +281,7 @@ const JobEditForm = ({ id }) => {
           />
 
           <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500">
-            POST
+            UPDATE
           </button>
         </form>
       )}

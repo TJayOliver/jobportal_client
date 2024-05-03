@@ -21,6 +21,7 @@ import Platforms from "../../components/Platforms/Platforms";
 import Subscribe from "../../components/Subscribe/Subscribe";
 import parser from "html-react-parser";
 import Cookie from "../../components/Cookie/Cookie";
+import moment from "moment";
 
 export const ScholarshipBox = ({
   image,
@@ -44,7 +45,7 @@ export const ScholarshipBox = ({
           </a>
         </div>
         <p>{country}</p>
-        <small className="line-clamp-5">{parser(description)}</small>
+        <small className="line-clamp-5">{parser(`${description}`)}</small>
         <div className="flex gap-2">
           <small>{agent}</small>
           <small>{scholarshiptype}</small>
@@ -78,7 +79,7 @@ const Scholarship = () => {
       setCookieTracker
     );
     fetch(
-      "article/category/scholarship",
+      "article/category/Scholarship",
       setArticle,
       setLoading,
       signal,
@@ -353,7 +354,7 @@ const Scholarship = () => {
                   key={id}
                   image={post.image}
                   author={post.author}
-                  datecreated={post.datecreated}
+                  datecreated={moment(post.datecreated).format("DD-MM-YYYY")}
                   title={post.title}
                   brief={post.post}
                   category={post.category}

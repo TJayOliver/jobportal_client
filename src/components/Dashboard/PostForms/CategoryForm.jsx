@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import FormInputs from "../formInputs";
-import { fetch } from "../../../pages/request.js";
+import { fetch, BASE_URL } from "../../../pages/request.js";
 
 const CategoryForm = () => {
   const [cForm, setCForm] = useState({ categoryname: "" });
-  const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
 
   const formValues = (e) => {
@@ -16,10 +15,7 @@ const CategoryForm = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:4040/category/create",
-        cForm
-      );
+      const response = await axios.post(`${BASE_URL}/category/create`, cForm);
       setMessage(response.data.message);
       window.alert(response.data.message);
       window.location.reload();
@@ -32,7 +28,7 @@ const CategoryForm = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch("category", setretrievedCat, signal, setMessage);
+    fetch("category", setCForm, signal, setMessage);
     return () => controller.abort();
   }, []);
 

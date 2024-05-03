@@ -46,6 +46,7 @@ const Subscribers = () => {
   const [viewMessages, setViewMessages] = useState(false);
   const [subscriberList, setSubscriberList] = useState(true);
 
+  const [content, setContent] = useState("");
   const [mailContent, setMailContent] = useState({ subject: "", message: "" });
 
   const handleSendMail = () => {
@@ -122,6 +123,23 @@ const Subscribers = () => {
     }
   };
 
+  const deleteSubscriber = async (email) => {
+    let response = confirm("Are you sure you want to delete this subscriber?");
+    if (response) {
+      try {
+        const response = await axios.post(`${BASE_URL}/unsubscribe`, { email });
+        setMessage(response.data.message);
+        window.alert("Successfully Deleted");
+        window.location.reload();
+      } catch (error) {
+        setMessage(error.response.data.message);
+        window.alert(error.response.data.message);
+        window.location.reload();
+      }
+    } else {
+      window.location.reload();
+    }
+  };
   return (
     <section>
       {/* buttons */}
@@ -240,9 +258,7 @@ const Subscribers = () => {
                       </td>
                       <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
                         <div
-                          onClick={() =>
-                            Delete(data.id, "scholarship", "Scholarship")
-                          }
+                          onClick={() => deleteSubscriber(data.email)}
                           className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
                         >
                           <HiMiniTrash />
@@ -266,7 +282,7 @@ const Subscribers = () => {
       {/* Sent messages */}
       {viewMessages && (
         <div className="p-2">
-          <div className="p-2 text-red-500 font-medium flex  items-center gap-1">
+          <div className="p-2 text-red-500 font-medium flex  items-center gap-1 hover:underline">
             <HiMiniTrash />
             <p onClick={deleteMessages}>Delete All Messages</p>
           </div>
@@ -280,9 +296,6 @@ const Subscribers = () => {
                   </th>
                   <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
                     Message
-                  </th>
-                  <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                    Message ID
                   </th>
                 </tr>
               </thead>
@@ -299,9 +312,6 @@ const Subscribers = () => {
                       </td>
                       <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
                         {data.message}
-                      </td>
-                      <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                        {data.messageId}
                       </td>
                     </tr>
                   ))

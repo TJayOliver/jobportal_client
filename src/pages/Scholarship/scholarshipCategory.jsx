@@ -20,6 +20,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import Platforms from "../../components/Platforms/Platforms";
 import Subscribe from "../../components/Subscribe/Subscribe";
 import Cookie from "../../components/Cookie/Cookie";
+import moment from "moment";
 
 const Scholarship = () => {
   const params = useParams();
@@ -48,7 +49,6 @@ const Scholarship = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-
     fetch(
       "scholarship",
       setScholarship,
@@ -58,50 +58,66 @@ const Scholarship = () => {
       setCookieTracker
     );
     fetch(
-      "scholarship/category/Government",
-      setGovernmentScholarships,
-      setLoading,
-      signal,
-      setMessage
-    );
-    fetch(
-      "scholarship/category/Organizational",
-      setOrganizationalScholarships,
-      setLoading,
-      signal,
-      setMessage
-    );
-    fetch(
-      "scholarship/category/Private",
-      setPrivateScholarships,
-      setLoading,
-      signal,
-      setMessage
-    );
-    fetch(
-      "scholarship/category/Research",
-      setResearchScholarships,
-      setLoading,
-      signal,
-      setMessage
-    );
-    fetch(
-      "scholarship/category/International",
-      setInternationalScholarships,
-      setLoading,
-      signal,
-      setMessage
-    );
-    fetch(
-      "article/category/scholarship",
+      "article/category/Scholarship",
       setArticle,
       setLoading,
       signal,
       setMessage
     );
-
     return () => controller.abort();
   }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    if (category === "Government") {
+      fetch(
+        "scholarship/category/Government",
+        setGovernmentScholarships,
+        setLoading,
+        signal,
+        setMessage
+      );
+    }
+    if (category === "Organizational") {
+      fetch(
+        "scholarship/category/Organizational",
+        setOrganizationalScholarships,
+        setLoading,
+        signal,
+        setMessage
+      );
+    }
+    if (category === "Private") {
+      fetch(
+        "scholarship/category/Private",
+        setPrivateScholarships,
+        setLoading,
+        signal,
+        setMessage
+      );
+    }
+    if (category === "International") {
+      fetch(
+        "scholarship/category/International",
+        setInternationalScholarships,
+        setLoading,
+        signal,
+        setMessage
+      );
+    }
+    if (category === "Research") {
+      fetch(
+        "scholarship/category/Research",
+        setResearchScholarships,
+        setLoading,
+        signal,
+        setMessage
+      );
+    }
+    return () => controller.abort();
+  }, [category]);
 
   const container = document.getElementById("container");
 
@@ -145,6 +161,7 @@ const Scholarship = () => {
 
   const allScholars = scholarships.slice(firstPageIndex, lastPageIndex);
   const gov = governmentScholarship.slice(firstPageIndex, lastPageIndex);
+  console.log(gov);
   const org = organizationalScholarship.slice(firstPageIndex, lastPageIndex);
   const priv = privateScholarship.slice(firstPageIndex, lastPageIndex);
   const res = researchScholarship.slice(firstPageIndex, lastPageIndex);
@@ -245,22 +262,24 @@ const Scholarship = () => {
                 {loading ? (
                   <Loading className="justify-center m-auto" />
                 ) : (
-                  <div className="flex flex-wrap gap-4">
-                    {searchResults.length === 0
-                      ? `No Scholarships for ${searchInput.country} Found`
-                      : searchResultsData.map((list, id) => (
-                          <ScholarshipBox
-                            key={id}
-                            image={list.image}
-                            scholarshiptype={list.scholarshiptype}
-                            agent={list.agent}
-                            date={list.datecreated}
-                            location={list.country}
-                            scholarshipname={list.scholarshipname}
-                            description={list.description}
-                            to={`/scholarship/${list.scholarshipname}/${list.id}`}
-                          />
-                        ))}
+                  <div>
+                    <div className="flex flex-wrap gap-4">
+                      {searchResults.length === 0
+                        ? `No Scholarships for ${searchInput.country} Found`
+                        : searchResultsData.map((list, id) => (
+                            <ScholarshipBox
+                              key={id}
+                              image={list.image}
+                              scholarshiptype={list.scholarshiptype}
+                              agent={list.agent}
+                              date={list.datecreated}
+                              location={list.country}
+                              scholarshipname={list.scholarshipname}
+                              description={list.description}
+                              to={`/scholarship/${list.scholarshipname}/${list.id}`}
+                            />
+                          ))}
+                    </div>
                     <Pagination
                       totalPost={searchResults.length}
                       postPerPage={postPerPage}
@@ -488,7 +507,7 @@ const Scholarship = () => {
                   key={id}
                   image={post.image}
                   author={post.author}
-                  datecreated={post.datecreated}
+                  datecreated={moment(post.datecreated).format("YYYY-MM-DD")}
                   title={post.title}
                   brief={post.post}
                   category={post.category}

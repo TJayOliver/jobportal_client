@@ -4,6 +4,7 @@ import { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats } from "../../reactquillmodules";
+import { BASE_URL } from "../../../pages/request";
 
 const ArticleForm = ({ username }) => {
   const [content, setContent] = useState("");
@@ -40,7 +41,7 @@ const ArticleForm = ({ username }) => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:4040/article/create",
+        `${BASE_URL}/article/create`,
         newformData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

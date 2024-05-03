@@ -1,24 +1,45 @@
 import FormInputs from "../formInputs";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../../pages/request";
 
 const CategoryEditForm = ({ id }) => {
   const [cForm, setCForm] = useState({ categoryname: "" });
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
 
+  axios.defaults.withCredentials = true;
+
   const formValues = (e) => {
     const { name, value } = e.target;
     setCForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  useEffect(() => {
+    const fetchCategoryName = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/category/edit/${id}`);
+        const retrievedData = response.data.data;
+        const categoryName =
+          retrievedData.length > 0 ? retrievedData[0].categoryname : "";
+        setCForm({ categoryname: categoryName });
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    fetchCategoryName();
+  }, []);
+
   const submit = async (e) => {
     e.preventDefault();
+    if (!cForm.categoryname) {
+      window.alert("Category name cannot be empty");
+      return;
+    }
     try {
       const response = await axios.put(
-        `http://localhost:4040/category/update/${id}`,
-        cForm,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        `${BASE_URL}/category/update/${id}`,
+        cForm
       );
       const data = response.data.message;
       setSubmitted(true);
@@ -29,16 +50,6 @@ const CategoryEditForm = ({ id }) => {
       window.alert(error.response.data.message);
     }
   };
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:4040/category/edit/${id}`)
-      .then((response) => {
-        const retrievedData = response.data.data[0];
-        setCForm({ categoryname: retrievedData.categoryname });
-      })
-      .catch((error) => console.error(error));
-  }, []);
 
   return (
     <section className="relative">

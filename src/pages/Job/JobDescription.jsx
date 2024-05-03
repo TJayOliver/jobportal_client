@@ -14,6 +14,7 @@ import { JobBox } from "../Job/Jobs";
 import { BiSolidLocationPlus } from "react-icons/bi";
 import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
+import moment from "moment";
 
 const JobDescription = () => {
   const params = useParams();
@@ -31,7 +32,6 @@ const JobDescription = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-
     fetch("job/featured", setFeaturedJobs, setLoading, signal, setMessage);
     fetchByID(
       "job/read",
@@ -42,7 +42,6 @@ const JobDescription = () => {
       setMessage,
       setCookieTracker
     );
-
     return () => controller.abort();
   }, []);
 
@@ -65,10 +64,7 @@ const JobDescription = () => {
   const submitSubscribe = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:4040/subscribe",
-        subcribeEmail
-      );
+      const response = await axios.post(`${BASE_URL}/subscribe`, subcribeEmail);
       const data = response.data.message;
       setSubscribeResponse(data);
       setCheckSubscribeResponse(true);
@@ -132,7 +128,7 @@ const JobDescription = () => {
           )}
         </section>
 
-        <section className="max-w-6xl flex flex-col md:flex-row md:flex m-auto justify-between gap-4 mb-3">
+        <section className="max-w-6xl flex flex-col md:flex-row md:flex m-auto justify-between gap-4 mb-5">
           {/* main */}
           <section
             id="decription"
@@ -172,19 +168,6 @@ const JobDescription = () => {
                 jobs.map((job, id) => (
                   <div key={id} className="text-justify">
                     {parser(job.requirements)}
-                  </div>
-                ))
-              )}
-            </div>
-
-            <div id="Qualifications" className="flex flex-col gap-2">
-              <h1 className="font-bold text-2xl">Qualification</h1>
-              {loading ? (
-                <Loading />
-              ) : (
-                jobs.map((job, id) => (
-                  <div key={id} className="text-justify">
-                    {parser(job.qualification)}
                   </div>
                 ))
               )}
@@ -270,7 +253,7 @@ const JobDescription = () => {
                   <div>
                     {jobs.map((job, id) => (
                       <p key={id} className="font-bold">
-                        {job.datecreated}
+                        {moment(job.datecreated).format("DD-MM-YYYY")}
                       </p>
                     ))}
                     <small>Date Posted</small>
@@ -284,6 +267,7 @@ const JobDescription = () => {
                 jobs.map((job, id) => (
                   <a
                     key={id}
+                    target="blank"
                     href={`https://${job.website}`}
                     className="bg-blue-500 hover:bg-blue-600 rounded-2xl p-2 w-full flex items-center justify-center text-white font-medium"
                   >
@@ -293,6 +277,7 @@ const JobDescription = () => {
               )}
             </div>
 
+            {/* Share Job */}
             <div
               id="share"
               className="bg-white border border-gray-100 rounded-lg md:h-42 md:w-64 p-2 gap-3 flex flex-col"
@@ -324,9 +309,7 @@ const JobDescription = () => {
 
         {/* related Jobs */}
         <section className="max-w-6xl m-auto flex flex-col gap-2 mb-3">
-          <p className="font-bold text-xl md:text-3xl text-black">
-            Related Jobs
-          </p>
+          <p className="font-bold text-xl md:text-2xl">Related Jobs</p>
           <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2">
             {loading ? (
               <Loading />

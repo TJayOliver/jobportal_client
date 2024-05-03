@@ -6,6 +6,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Loading from "../../Loading/Loading";
 import { modules, formats } from "../../reactquillmodules";
+import { BASE_URL } from "../../../pages/request";
+import moment from "moment";
 
 const ScholarshipEditForm = ({ id }) => {
   const [description, setDescription] = useState("");
@@ -70,7 +72,7 @@ const ScholarshipEditForm = ({ id }) => {
         newFormData.append(key, sForm[key]);
       }
       const response = await axios.put(
-        `http://localhost:4040/scholarship/update/${id}`,
+        `${BASE_URL}/scholarship/update/${id}`,
         newFormData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -87,14 +89,15 @@ const ScholarshipEditForm = ({ id }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4040/scholarship/edit/${id}`
+        const response = await axios.get(`${BASE_URL}/scholarship/edit/${id}`);
+        const retrievedData = response.data.data;
+        const formattedDeadline = moment(retrievedData.deadline).format(
+          "YYYY-MM-DD"
         );
-        const retrievedData = response.data.data[0];
         setSForm({
           image: retrievedData.image,
           scholarshipname: retrievedData.scholarshipname,
-          deadline: retrievedData.deadline,
+          deadline: formattedDeadline,
           scholarshiptype: retrievedData.scholarshiptype,
           featured: retrievedData.featured,
           programs: retrievedData.programs,

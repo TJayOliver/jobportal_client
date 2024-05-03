@@ -33,7 +33,7 @@ const Subscribe = ({ SubscribeState, SetSubscribeState }) => {
     <aside
       className={
         SubscribeState
-          ? " backdrop-blur-sm z-50 fixed h-screen w-full top-0 p-3"
+          ? " backdrop-blur-sm z-[9999] fixed h-screen w-full top-0 p-3"
           : "hidden"
       }
     >
@@ -46,7 +46,7 @@ const Subscribe = ({ SubscribeState, SetSubscribeState }) => {
       >
         {checkSubscribeResponse ? (
           <div className="p-4 flex justify-between">
-            <p className="text-2xl">{subscribeResponse}</p>
+            <small>{subscribeResponse}</small>
             <HiX
               className=" text-5xl md:text-3xl cursor-pointer"
               onClick={() => SetSubscribeState(false)}

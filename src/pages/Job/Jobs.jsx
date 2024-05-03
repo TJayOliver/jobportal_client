@@ -10,13 +10,13 @@ import Subscribe from "../../components/Subscribe/Subscribe";
 import Platforms from "../../components/Platforms/Platforms";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import { countries } from "../../components/Dashboard/countries";
-import megaphone from "../../assets/megaphone.png";
 import { FaSearch } from "react-icons/fa";
 import parser from "html-react-parser";
 import { LatestBox } from "../Article/article";
 import pic from "../../assets/p3.png";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
 import Cookie from "../../components/Cookie/Cookie";
+import moment from "moment";
 
 export const JobBox = ({
   image,
@@ -30,7 +30,7 @@ export const JobBox = ({
 }) => {
   return (
     <div
-      className={`h-64 w-full md:w-64 p-2 rounded-lg bg-white flex flex-col shrink-0 hover:bg-gradient-to-tr hover:from-blue-500 hover:to-teal-500 group hover:text-gray-100 duration-150 ease-in drop-shadow-md gap-4`}
+      className={`h-64 w-full md:w-[15rem] p-2 rounded-lg bg-white flex flex-col shrink-0 hover:bg-gradient-to-tr hover:from-blue-500 hover:to-teal-500 group hover:text-gray-100 duration-150 ease-in drop-shadow-md gap-5`}
     >
       <div className="flex items-center gap-4">
         <div className=" h-8 w-8 rounded-md shrink-0 flex object-cover ">
@@ -47,16 +47,15 @@ export const JobBox = ({
         </div>
       </div>
 
-      <p className="font-bold text-xl">{position}</p>
+      <p className="font-bold text-md">{position}</p>
       <p>{duration}</p>
-      <small className=" line-clamp-1">{parser(description)}...</small>
 
       <div className="  flex flex-wrap justify-between ">
         <div className="flex items-center">
-          <small className=" font-bold">GHC{salary}</small>
+          <small className=" font-bold">GHC {salary}</small>
           <small>/Month</small>
         </div>
-        <button className="group-hover:bg-white bg-blue-500 font-medium shrink-0 group-hover:text-black text-white p-2 rounded-md">
+        <button className="group-hover:bg-white mt-3 bg-blue-500 font-medium shrink-0 group-hover:text-black text-white p-2 rounded-md">
           <a href={to}> Apply Now </a>
         </button>
       </div>
@@ -171,13 +170,14 @@ const Jobs = () => {
         {/* featured / popular  */}
         <section
           className={
-            searchVerifier ? "hidden" : " flex flex-col justify-center p-2 py-1"
+            searchVerifier ? "hidden" : " flex flex-col justify-center  py-1"
           }
         >
           <div className="flex justify-between mb-2">
-            <p className="font-bold text-2xl md:text-4xl mb-2">
+            <p className="font-bold text-2xl md:text-2xl mb-2">
               Explore Popular Jobs
             </p>
+            {/* for small screens */}
             <div className="text-3xl flex gap-4 md:hidden">
               <BsArrowLeftSquare
                 id="leftbtn"
@@ -212,6 +212,8 @@ const Jobs = () => {
             ))}
           </div>
         </section>
+
+        <SubscribeBlueBox onClick={() => SetSubscribeState(true)} />
 
         {/* Search  */}
         <form
@@ -318,7 +320,7 @@ const Jobs = () => {
 
         {/*  Jobs */}
         <section>
-          <p className="font-bold text-2xl md:text-4xl mb-2">Job Listing</p>
+          <p className="font-bold text-2xl md:text-2xl mb-3">Job Listing</p>
           <div
             className={
               'searchVerifier ? "hidden" : grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 '
@@ -352,9 +354,7 @@ const Jobs = () => {
         </section>
 
         {/* Job Tip */}
-        <p className="font-bold text-xl md:text-3xl text-black mb-2">
-          Quick Job Tip
-        </p>
+        <p className="font-bold text-xl md:text-2xl mb-3">Quick Job Tip</p>
         <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
           {loading ? (
             <Loading />
@@ -364,7 +364,7 @@ const Jobs = () => {
                 key={id}
                 image={post.image}
                 author={post.author}
-                datecreated={post.datecreated}
+                datecreated={moment(post.datecreated).format("DD-MM-YYYY")}
                 title={post.title}
                 brief={post.post}
                 category={post.category}

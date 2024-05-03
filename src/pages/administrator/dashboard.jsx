@@ -87,7 +87,7 @@ const Dashboard = () => {
     const authorization = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/admin/read/${id}`);
-        const data = response.data.admin;
+        const data = response.data.data;
         if (response.data.status === true) {
           setVerified(true);
           setUsername(data.name);
@@ -95,6 +95,7 @@ const Dashboard = () => {
           setUserRole(data.role);
         }
       } catch (error) {
+        console.error(error.message);
         navigate("/administrator");
       }
     };
@@ -806,10 +807,10 @@ const Dashboard = () => {
               {/* Categories Table List */}
               {overviewInfo && (
                 <div>
-                  <div className=" p-3">
+                  <div className=" p-3 flex flex-col">
                     <h1 className="font-bold p-2">All Categories</h1>
                     <div className=" border border-gray-200 rounded-md">
-                      <table className=" min-w-full divide-y divide-gray-200">
+                      <table className=" min-w-full divide-y divide-gray-200 ">
                         <thead className=" bg-gray-50">
                           <tr>
                             <th className="px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
@@ -863,9 +864,8 @@ const Dashboard = () => {
                         </tbody>
                       </table>
                     </div>
-
                     <Pagination
-                      totalPosts={retrievedCategoriesData.length}
+                      totalPost={retrievedCategoriesData.length}
                       postPerPage={postPerPage}
                       setCurrentPage={setCurrentPage}
                     />
@@ -1025,7 +1025,7 @@ const Dashboard = () => {
                   </div>
 
                   <Pagination
-                    totalPosts={retrievedArticlesData.length}
+                    totalPost={retrievedArticlesData.length}
                     postPerPage={postPerPage}
                     setCurrentPage={setCurrentPage}
                   />
@@ -1101,7 +1101,7 @@ const Dashboard = () => {
                   </div>
 
                   <Pagination
-                    totalPosts={retrievedJobsData.length}
+                    totalPost={retrievedJobsData.length}
                     postPerPage={postPerPage}
                     setCurrentPage={setCurrentPage}
                   />
@@ -1176,7 +1176,7 @@ const Dashboard = () => {
                     </table>
                   </div>
                   <Pagination
-                    totalPosts={retrievedscholarshipData.length}
+                    totalPost={retrievedscholarshipData.length}
                     postPerPage={postPerPage}
                     setCurrentPage={setCurrentPage}
                   />
@@ -1251,7 +1251,7 @@ const Dashboard = () => {
                     </table>
                   </div>
                   <Pagination
-                    totalPosts={currentTestimonialPost.length}
+                    totalPost={currentTestimonialPost.length}
                     postPerPage={postPerPage}
                     setCurrentPage={setCurrentPage}
                   />

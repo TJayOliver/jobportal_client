@@ -11,6 +11,7 @@ import parser from "html-react-parser";
 import Loading from "../../components/Loading/Loading";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
 import Cookie from "../../components/Cookie/Cookie";
+import moment from "moment";
 
 export const LatestBox = ({
   image,
@@ -33,7 +34,7 @@ export const LatestBox = ({
           <small>{datecreated}</small>
         </div>
         <h1 className="font-bold text-lg">
-          <a className="hover:underline" href={to}>
+          <a className="hover:underline line-clamp-2" href={to}>
             {title}
           </a>
         </h1>
@@ -86,6 +87,7 @@ const Article = () => {
 
   const [SubscribeState, SetSubscribeState] = useState(false);
   const [platformsState, setPlatformsState] = useState(false);
+
   return (
     <>
       <Header />
@@ -107,7 +109,7 @@ const Article = () => {
                 }}
                 className="rounded-lg h-96  object-cover bg-center flex flex-col justify-end relative"
               >
-                <div className=" bg-gradient-to-tr from-black to-blue-600 h-full rounded-lg opacity-70"></div>
+                <div className=" bg-gradient-to-tr from-black to-black/60 h-full rounded-lg opacity-70"></div>
                 <div className="absolute z-50 text-white p-2 flex flex-col gap-3">
                   <small>{post.author}</small>
                   <h1 className="text-2xl font-bold">
@@ -118,7 +120,10 @@ const Article = () => {
                   <small className="text-justify line-clamp-2">
                     {parser(post.post)}
                   </small>
-                  <small>{post.datecreated}</small>
+                  <small>
+                    {" "}
+                    {moment(post.datecreated).format("DD-MM-YYYY")}
+                  </small>
                 </div>
               </div>
             ))
@@ -127,9 +132,7 @@ const Article = () => {
           <SubscribeBlueBox onClick={() => SetSubscribeState(true)} />
 
           {/* featured article */}
-          <p className="font-bold text-xl md:text-3xl text-white">
-            Featured Article
-          </p>
+          <p className="font-bold text-xl md:text-2xl ">Featured Article</p>
           <div className="flex gap-3">
             {loading ? (
               <Loading />
@@ -147,16 +150,16 @@ const Article = () => {
                     <small>{post.author}</small>
                     <div className="text-xl md:text-2xl font-bold">
                       <a
-                        className="hover:underline"
+                        className="hover:underline line-clamp-4"
                         href={`/article/${post.id}`}
                       >
                         {post.title}
                       </a>
                     </div>
-                    <small className="text-justify line-clamp-1">
-                      {parser(post.post)}
+                    <small>
+                      {" "}
+                      {moment(post.datecreated).format("DD-MM-YYYY")}
                     </small>
-                    <small>{post.datecreated}</small>
                   </div>
                 </div>
               ))
@@ -164,9 +167,7 @@ const Article = () => {
           </div>
 
           {/* all articles */}
-          <p className="font-bold text-xl md:text-3xl text-white">
-            Latest Article
-          </p>
+          <p className="font-bold text-xl md:text-2xl ">Latest Article</p>
           <div>
             <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
               {loading ? (
@@ -177,7 +178,7 @@ const Article = () => {
                     key={id}
                     image={post.image}
                     author={post.author}
-                    datecreated={post.datecreated}
+                    datecreated={moment(post.datecreated).format("DD-MM-YYYY")}
                     title={post.title}
                     brief={post.post}
                     category={post.category}
@@ -195,6 +196,7 @@ const Article = () => {
           </div>
         </section>
       </main>
+
       <Platforms
         platformsState={platformsState}
         setPlatformsState={setPlatformsState}

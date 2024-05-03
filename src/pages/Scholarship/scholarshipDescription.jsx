@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
@@ -14,6 +15,7 @@ import megaphone from "../../assets/megaphone.png";
 import image from "../../assets/student1.jpg";
 import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
+import moment from "moment";
 
 const RelatedBox = ({
   image,
@@ -45,7 +47,7 @@ const RelatedBox = ({
         </div>
         <div className="flex items-center gap-1">
           <BsCalendar2 />
-          <p>Apply Before {deadline}</p>
+          <p>Apply Before {moment(deadline).format("YYYY-MM-DD")}</p>
         </div>
         <div className="flex items-center gap-1">
           <BiSolidCategory />
@@ -190,9 +192,9 @@ const ScholarshipDescription = () => {
               <Loading />
             ) : (
               scholarship.map((list, id) => (
-                <p key={id} className="text-justify">
+                <div key={id} className="text-justify">
                   {parser(list.description)}
-                </p>
+                </div>
               ))
             )}
           </section>
@@ -220,7 +222,9 @@ const ScholarshipDescription = () => {
               {loading ? (
                 <Loading />
               ) : (
-                scholarship.map((list, id) => <p key={id}>{list.deadline}</p>)
+                scholarship.map((list, id) => (
+                  <p key={id}>{moment(list.deadline).format("YYYY-MM-DD")}</p>
+                ))
               )}
             </div>
             <div className="p-2">
@@ -260,7 +264,7 @@ const ScholarshipDescription = () => {
               scholarship.map((list, id) => (
                 <div key={id} id="" className="flex flex-col gap-2">
                   <p className="font-bold text-2xl">Eligibility</p>
-                  <div>{parser(list.eligibility)}</div>
+                  <div>{parser(`${list.eligibility}`)}</div>
                 </div>
               ))
             )}
