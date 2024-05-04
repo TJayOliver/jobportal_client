@@ -16,6 +16,7 @@ import ScholarshipCategory from "./pages/Scholarship/scholarshipCategory.jsx";
 import Unsubscribe from "./pages/unSubscribe.jsx";
 
 const router = createBrowserRouter([
+  basename: '/',
   {
     path: "/",
     element: <Home />,
