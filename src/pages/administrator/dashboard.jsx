@@ -24,7 +24,7 @@ import ArticleEditForm from "../../components/Dashboard/EditForms/ArticleEditFor
 import JobEditForm from "../../components/Dashboard/EditForms/JobEditForm";
 import ScholarshipEditForm from "../../components/Dashboard/EditForms/ScholarshipEditForm";
 import CategoryEditForm from "../../components/Dashboard/EditForms/CategoryEditForm";
-import CreateAdminForm from "../../components/Dashboard/PostForms/createAdminForm";
+import CreateAdminForm from "../../components/Dashboard/PostForms/CreateAdminForm";
 import TestimonialForm from "../../components/Dashboard/PostForms/TestimonialForm";
 import TestimonialEditForm from "../../components/Dashboard/EditForms/TestimonialEditForm";
 import axios from "axios";
