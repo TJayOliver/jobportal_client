@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Home from "./pages/home.jsx";
 import Jobs from "./pages/Job/Jobs.jsx";
-import Scholarship from "./pages/Scholarship/Scholarship.jsx";
+import Scholarship from "./pages/Scholarship/scholarship.jsx";
 
 import Article from "./pages/Article/article.jsx";
 import Administrator from "./pages/administrator/administrator.jsx";
