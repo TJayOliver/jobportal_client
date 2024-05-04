@@ -38,7 +38,7 @@ export const LatestBox = ({
             {title}
           </a>
         </h1>
-        <small className=" line-clamp-5">{parser(brief)}</small>
+        <small className=" line-clamp-10 md:line-clamp-5">{parser(brief)}</small>
         <small>{category}</small>
       </div>
     </div>
