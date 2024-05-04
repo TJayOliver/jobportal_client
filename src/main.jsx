@@ -15,9 +15,7 @@ import ScholarshipDescription from "./pages/Scholarship/scholarshipDescription.j
 import ScholarshipCategory from "./pages/Scholarship/scholarshipCategory.jsx";
 import Unsubscribe from "./pages/unSubscribe.jsx";
 
-const router = createBrowserRouter({
-  basename: '/',
-  routes:[
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
@@ -73,7 +71,7 @@ const router = createBrowserRouter({
     element: <Unsubscribe />,
     errorElement: <Error />,
   }
-]});
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
