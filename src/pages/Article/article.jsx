@@ -118,7 +118,7 @@ const Article = () => {
                     </a>
                   </h1>
                   <small className="text-justify line-clamp-2">
-                    {parser(post.post.slice(0,50)}
+                    {parser(post.post.slice(0,50))}
                   </small>
                   <small>
                     {" "}
