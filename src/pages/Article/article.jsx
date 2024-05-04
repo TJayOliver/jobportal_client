@@ -118,7 +118,7 @@ const Article = () => {
                     </a>
                   </h1>
                   <small className="text-justify line-clamp-2">
-                    {parser(post.post.slice(0,50))}
+                    {parser(post.post.slice(0,100))}
                   </small>
                   <small>
                     {" "}
@@ -180,7 +180,7 @@ const Article = () => {
                     author={post.author}
                     datecreated={moment(post.datecreated).format("DD-MM-YYYY")}
                     title={post.title}
-                    brief={post.post}
+                    brief={post.post.slice(0,100)}
                     category={post.category}
                     to={`/article/${post.id}`}
                   />
