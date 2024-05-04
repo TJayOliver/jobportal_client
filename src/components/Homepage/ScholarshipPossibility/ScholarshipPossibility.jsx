@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import image from "../../../assets/Cyril.jpg";
+import image from "../../../assets/cyril.jpg";
 
 const ScholarshipPossibility = () => {
   return (
