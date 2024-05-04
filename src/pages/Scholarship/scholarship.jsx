@@ -320,7 +320,7 @@ const Scholarship = () => {
                           scholarshiptype={list.scholarshiptype}
                           country={list.country}
                           scholarshipname={list.scholarshipname}
-                          description={list.description}
+                          description={list.description.slice(0,100)}
                           to={`/scholarship/${list.id}`}
                         />
                       ))
