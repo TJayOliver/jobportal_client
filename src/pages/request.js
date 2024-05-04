@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "http://localhost:4040";
+export const BASE_URL = "https://futureforteserver.onrender.com";
 
 export const fetch = async (
   link,
