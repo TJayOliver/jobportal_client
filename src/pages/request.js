@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "https://futureforte.vercel.app";
+export const BASE_URL = "https://futurebackend.netlify.app";
 
 export const fetch = async (
   link,
