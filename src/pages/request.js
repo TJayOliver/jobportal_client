@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "https://futurebackend.netlify.app";
+export const BASE_URL = "https://server-i86s.onrender.com";
 
 export const fetch = async (
   link,
