@@ -10,7 +10,7 @@ import Dashboard from "./pages/administrator/dashboard.jsx";
 import ArticleDescription from "./pages/Article/articleDescription.jsx";
 import JobDescription from "./pages/Job/JobDescription.jsx";
 import Jobs from "./pages/Job/Jobs.jsx";
-import Scholarship from "./pages/Scholarship/Scholarship.jsx";
+import Scholarship from "./pages/Scholarship/scholarship.jsx";
 import ScholarshipDescription from "./pages/Scholarship/scholarshipDescription.jsx";
 import ScholarshipCategory from "./pages/Scholarship/scholarshipCategory.jsx";
 import Unsubscribe from "./pages/unSubscribe.jsx";
