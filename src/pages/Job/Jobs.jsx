@@ -366,7 +366,7 @@ const Jobs = () => {
                 author={post.author}
                 datecreated={moment(post.datecreated).format("DD-MM-YYYY")}
                 title={post.title}
-                brief={post.post}
+                brief={post.post.slice(0,100)}
                 category={post.category}
                 to={`/article/${post.id}`}
               />
