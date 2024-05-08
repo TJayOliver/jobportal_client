@@ -1,6 +1,9 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 
 export const BASE_URL = "https://server-i86s.onrender.com";
+//export const BASE_URL = "http://localhost:4040";
+export const CLIENT_URL = "https://futureforte.netlify.app";
 
 export const fetch = async (
   link,

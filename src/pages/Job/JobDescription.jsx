@@ -4,7 +4,7 @@ import Loading from "../../components/Loading/Loading";
 import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
 import Footer from "../../components/Footer/Footer";
 import { useParams } from "react-router-dom";
-import { fetch, fetchByID, BASE_URL } from "../request";
+import { fetch, fetchByID, BASE_URL, CLIENT_URL } from "../request";
 import parser from "html-react-parser";
 import { BsCalendar, BsClock, BsPersonAdd } from "react-icons/bs";
 import megaphone from "../../assets/megaphone.png";
@@ -46,7 +46,7 @@ const JobDescription = () => {
   }, []);
 
   const [copied, setCopied] = useState(false);
-  const ShareLink = `${BASE_URL}/job/${id}`;
+  const ShareLink = `${CLIENT_URL}/job/${id}`;
   const ShareJob = () => {
     navigator.clipboard?.writeText && navigator.clipboard.writeText(ShareLink);
     setCopied(true);

@@ -127,8 +127,7 @@ const FeaturedJobs = () => {
                   key={id}
                   image={scholarship.image}
                   location={scholarship.scholarshiptype}
-                  company={scholarship.scholarshipname}
-                  position={scholarship.country}
+                  company={scholarship.scholarshipname.slice(0, 35)}
                   category={scholarship.scholarshiptype}
                   description={scholarship.description}
                   to={`/scholarship/${scholarship.id}`}

@@ -12,8 +12,8 @@ const FeaturedBox = ({
 }) => {
   return (
     <div className=" h-24 shrink-0 text-md">
-      <div className=" flex flex-col p-2 shrink-0 grow-0 justify-between gap-4">
-        <div className=" flex justify-between h-[3.5rem] mb-3 ">
+      <div className=" flex flex-col p-2 shrink-0 grow-0 justify-between gap-1">
+        <div className=" flex justify-between h-[3.5rem] mb-2 ">
           {/* Company Logo and Location */}
           <div className=" flex gap-1">
             <div className=" rounded-full h-12 w-12 border-[1px] bg-white drop-shadow-sm flex shrink-0">

@@ -354,7 +354,7 @@ const Jobs = () => {
         </section>
 
         {/* Job Tip */}
-        <p className="font-bold text-xl md:text-2xl mb-3">Quick Job Tip</p>
+        <p className="font-bold text-2xl md:text-2xl mb-3">Quick Job Tip</p>
         <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
           {loading ? (
             <Loading />
@@ -366,7 +366,7 @@ const Jobs = () => {
                 author={post.author}
                 datecreated={moment(post.datecreated).format("DD-MM-YYYY")}
                 title={post.title}
-                brief={post.post.slice(0,100)}
+                brief={post.post.slice(0, 100)}
                 category={post.category}
                 to={`/article/${post.id}`}
               />

@@ -5,7 +5,7 @@ import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
 import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import { useState, useEffect } from "react";
-import { fetch, fetchByID, BASE_URL } from "../request";
+import { fetch, fetchByID, BASE_URL, CLIENT_URL } from "../request";
 import parser from "html-react-parser";
 import Platforms from "../../components/Platforms/Platforms";
 import Subscribe from "../../components/Subscribe/Subscribe";
@@ -16,6 +16,7 @@ import image from "../../assets/student1.jpg";
 import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
+import { MdDone } from "react-icons/md";
 
 const RelatedBox = ({
   image,
@@ -125,11 +126,14 @@ const ScholarshipDescription = () => {
 
   const [SubscribeState, SetSubscribeState] = useState(false);
   const [platformsState, setPlatformsState] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const ShareLink = `${BASE_URL}/scholarship/${id}`;
+  const ShareLink = `${CLIENT_URL}/scholarship/${id}`;
 
   const ShareJob = () => {
+    setCopied(true);
     navigator.clipboard?.writeText && navigator.clipboard.writeText(ShareLink);
+    setTimeout(() => setCopied(false), 1000);
   };
 
   return (
@@ -152,7 +156,7 @@ const ScholarshipDescription = () => {
       <main className="relative flex p-2 justify-between">
         {/* Descriptions */}
         <section className="flex flex-col -translate-y-24 gap-3 w-full md:basis-[70%]">
-          {/* name */}
+          {/* name and share */}
           <section
             id="description"
             className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 border border-gray-100"
@@ -170,12 +174,13 @@ const ScholarshipDescription = () => {
                   />
                 ))
               )}
+              {/* share */}
               <div
                 role="button"
-                onClick={ShareJob}
+                onClick={() => ShareJob()}
                 className="border border-gray-100 hover:bg-gray-100 rounded-3xl w-20 flex items-center justify-center p-2"
               >
-                <BsShare />
+                {copied ? <MdDone color="red" /> : <BsShare />}
               </div>
             </div>
             {loading ? (
@@ -193,7 +198,7 @@ const ScholarshipDescription = () => {
             ) : (
               scholarship.map((list, id) => (
                 <div key={id} className="text-justify">
-                  {parser(list.description)}
+                  {parser(`${list.description}`)}
                 </div>
               ))
             )}
@@ -275,7 +280,7 @@ const ScholarshipDescription = () => {
               scholarship.map((list, id) => (
                 <div key={id} id="" className="flex flex-col gap-2">
                   <p className="font-bold text-2xl">Benefits</p>
-                  <div>{parser(list.benefits)}</div>
+                  <div>{parser(`${list.benefits}`)}</div>
                 </div>
               ))
             )}
@@ -286,7 +291,7 @@ const ScholarshipDescription = () => {
               scholarship.map((list, id) => (
                 <div key={id} id="" className="flex flex-col gap-2">
                   <p className="font-bold text-2xl">Documents Required</p>
-                  <div>{parser(list.documentsrequired)}</div>
+                  <div>{parser(`${list.documentsrequired}`)}</div>
                 </div>
               ))
             )}
@@ -297,7 +302,7 @@ const ScholarshipDescription = () => {
               scholarship.map((list, id) => (
                 <div key={id} id="" className="flex flex-col gap-2">
                   <p className="font-bold text-2xl">Programs Offered</p>
-                  <div>{parser(list.programsoffered)}</div>
+                  <div>{parser(`${list.programsoffered}`)}</div>
                 </div>
               ))
             )}
@@ -308,7 +313,7 @@ const ScholarshipDescription = () => {
               scholarship.map((list, id) => (
                 <div key={id} id="" className="flex flex-col gap-2">
                   <p className="font-bold text-2xl">How to Apply</p>
-                  <div>{parser(list.applicationinformation)}</div>
+                  <div>{parser(`${list.applicationinformation}`)}</div>
                 </div>
               ))
             )}

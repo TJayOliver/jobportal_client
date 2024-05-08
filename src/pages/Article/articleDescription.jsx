@@ -220,7 +220,7 @@ const ArticlePost = () => {
                 author={post.author}
                 datecreated={moment(post.datecreated).format("YYYY-MM-DD")}
                 title={post.title}
-                brief={post.post}
+                brief={post.post.slice(0, 100)}
                 category={post.category}
                 to={`/article/${post.id}`}
               />

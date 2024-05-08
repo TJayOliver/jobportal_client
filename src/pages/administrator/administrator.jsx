@@ -46,7 +46,7 @@ const Administrator = () => {
 
   return (
     <main className="flex from-blue-600 to-green-500 bg-gradient-to-tr h-screen justify-center">
-      <div className=" md:w-2/4 bg-white px-8 flex flex-col">
+      <div className=" w-full md:w-2/4 bg-white px-8 flex flex-col">
         <div className="m-auto w-2/3">
           <div className=" md:flex md:flex-row flex flex-col justify-between mb-8 items-center">
             <p className=" font-AliandoRocky text-3xl whitespace-nowrap">
