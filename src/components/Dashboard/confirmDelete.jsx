@@ -3,6 +3,7 @@ import { FaCheckDouble } from "react-icons/fa";
 import { CgClose } from "react-icons/cg";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { BASE_URL } from "../../pages/request";
 
 const ConfirmDelete = ({ id, route, title }) => {
   const [message, setMessage] = useState("");
@@ -10,9 +11,7 @@ const ConfirmDelete = ({ id, route, title }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `http://localhost:4040/${route}/delete/${id}`
-      );
+      const response = await axios.delete(`${BASE_URL}/${route}/delete/${id}`);
       setDone(true);
       setMessage(response.data.message);
       setTimeout(() => {
