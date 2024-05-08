@@ -9,6 +9,8 @@ const ConfirmDelete = ({ id, route, title }) => {
   const [message, setMessage] = useState("");
   const [done, setDone] = useState(false);
 
+  axios.defaults.withCredentials = true;
+
   const handleDelete = async () => {
     try {
       const response = await axios.delete(`${BASE_URL}/${route}/delete/${id}`);
