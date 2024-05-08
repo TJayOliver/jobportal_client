@@ -154,7 +154,6 @@ const Scholarship = () => {
   };
 
   const [SubscribeState, SetSubscribeState] = useState(false);
-  const [platformsState, setPlatformsState] = useState(false);
 
   const lastPageIndex = currentPage * postPerPage;
   const firstPageIndex = lastPageIndex - postPerPage;
@@ -275,7 +274,7 @@ const Scholarship = () => {
                               date={list.datecreated}
                               location={list.country}
                               scholarshipname={list.scholarshipname}
-                              description={list.description.slice(0,100)}
+                              description={list.description.slice(0, 100)}
                               to={`/scholarship/${list.scholarshipname}/${list.id}`}
                             />
                           ))}
@@ -303,7 +302,7 @@ const Scholarship = () => {
                           scholarshiptype={list.scholarshiptype}
                           country={list.country}
                           scholarshipname={list.scholarshipname}
-                          description={list.description.slice(0,100)}
+                          description={list.description.slice(0, 100)}
                           to={`/scholarship/${list.id}`}
                         />
                       ))}
@@ -326,7 +325,7 @@ const Scholarship = () => {
                           scholarshiptype={list.scholarshiptype}
                           country={list.country}
                           scholarshipname={list.scholarshipname}
-                          description={list.description.slice(0,100)}
+                          description={list.description.slice(0, 100)}
                           to={`/scholarship/${list.id}`}
                         />
                       ))}
@@ -349,7 +348,7 @@ const Scholarship = () => {
                           scholarshiptype={list.scholarshiptype}
                           country={list.country}
                           scholarshipname={list.scholarshipname}
-                          description={list.description.slice(0,100)}
+                          description={list.description.slice(0, 100)}
                           to={`/scholarship/${list.id}`}
                         />
                       ))}
@@ -372,7 +371,7 @@ const Scholarship = () => {
                           scholarshiptype={list.scholarshiptype}
                           country={list.country}
                           scholarshipname={list.scholarshipname}
-                          description={list.description.slice(0,100)}
+                          description={list.description.slice(0, 100)}
                           to={`/scholarship/${list.id}`}
                         />
                       ))}
@@ -395,7 +394,7 @@ const Scholarship = () => {
                           scholarshiptype={list.scholarshiptype}
                           country={list.country}
                           scholarshipname={list.scholarshipname}
-                          description={list.description.slice(0,100)}
+                          description={list.description.slice(0, 100)}
                           to={`/scholarship/${list.id}`}
                         />
                       ))}
@@ -418,7 +417,7 @@ const Scholarship = () => {
                           scholarshiptype={list.scholarshiptype}
                           country={list.country}
                           scholarshipname={list.scholarshipname}
-                          description={list.description.slice(0,100)}
+                          description={list.description.slice(0, 100)}
                           to={`/scholarship/${list.id}`}
                         />
                       ))}
@@ -509,7 +508,7 @@ const Scholarship = () => {
                   author={post.author}
                   datecreated={moment(post.datecreated).format("YYYY-MM-DD")}
                   title={post.title}
-                  brief={post.post.slice(0,100)}
+                  brief={post.post.slice(0, 100)}
                   category={post.category}
                   to={`/article/${post.id}`}
                 />
@@ -520,10 +519,7 @@ const Scholarship = () => {
       </main>
 
       {/* whatsapp barcode */}
-      <Platforms
-        platformsState={platformsState}
-        setPlatformsState={setPlatformsState}
-      />
+      <Platforms />
 
       <SocialMedia />
       {cookieTracker ? <Cookie /> : null}

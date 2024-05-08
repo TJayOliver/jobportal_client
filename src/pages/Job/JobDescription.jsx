@@ -77,7 +77,6 @@ const JobDescription = () => {
   };
 
   const [SubscribeState, SetSubscribeState] = useState(false);
-  const [platformsState, setPlatformsState] = useState(false);
 
   return (
     <>
@@ -363,10 +362,7 @@ const JobDescription = () => {
         </section>
       </main>
 
-      <Platforms
-        platformsState={platformsState}
-        setPlatformsState={setPlatformsState}
-      />
+      <Platforms />
       <SocialMedia />
       {cookieTracker ? <Cookie /> : null}
       <Footer onClick={() => SetSubscribeState(true)} />

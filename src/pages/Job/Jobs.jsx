@@ -95,7 +95,6 @@ const Jobs = () => {
   const post = jobs.slice(firstPageIndex, lastPageIndex);
 
   const [SubscribeState, SetSubscribeState] = useState(false);
-  const [platformsState, setPlatformsState] = useState(false);
 
   const container = document.getElementById("container");
 
@@ -375,10 +374,7 @@ const Jobs = () => {
         </div>
       </main>
 
-      <Platforms
-        platformsState={platformsState}
-        setPlatformsState={setPlatformsState}
-      />
+      <Platforms />
       <SocialMedia />
       {cookieTracker ? <Cookie /> : null}
       <Footer onClick={() => SetSubscribeState(true)} />

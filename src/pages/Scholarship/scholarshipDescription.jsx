@@ -125,7 +125,6 @@ const ScholarshipDescription = () => {
   }, [scholarship, loading]);
 
   const [SubscribeState, SetSubscribeState] = useState(false);
-  const [platformsState, setPlatformsState] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const ShareLink = `${CLIENT_URL}/scholarship/${id}`;
@@ -371,10 +370,7 @@ const ScholarshipDescription = () => {
         </div>
       </aside>
 
-      <Platforms
-        platformsState={platformsState}
-        setPlatformsState={setPlatformsState}
-      />
+      <Platforms />
       <SocialMedia />
       {cookieTracker ? <Cookie /> : null}
       <Footer onClick={() => SetSubscribeState(true)} />

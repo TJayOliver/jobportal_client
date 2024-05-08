@@ -1,18 +1,11 @@
 import whatsAppImage from "../../assets/whatsApp.png";
-import barcodeImage from "../../assets/Wbarcode.jpg";
 
-const Platforms = ({ platformsState, setPlatformsState }) => {
+const Platforms = () => {
   return (
-    <aside
-      onClick={() => {
-        setPlatformsState((prev) => !prev);
-      }}
-      className={platformsState ? "barcodeUp bg-white p-2" : "barcodeDown"}
-    >
-      <img
-        src={platformsState ? barcodeImage : whatsAppImage}
-        className="w-full h-full object-cover"
-      />
+    <aside className="bottom-48 left-3 rounded-lg h-24 w-24 fixed drop-shadow-md">
+      <a href="bit.ly/4dxzY0S">
+        <img src={whatsAppImage} className="w-full h-full object-cover" />
+      </a>
     </aside>
   );
 };

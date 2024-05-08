@@ -86,7 +86,6 @@ const Article = () => {
   const allpost = articles.slice(firstPageIndex, lastPageIndex);
 
   const [SubscribeState, SetSubscribeState] = useState(false);
-  const [platformsState, setPlatformsState] = useState(false);
 
   return (
     <>
@@ -118,7 +117,7 @@ const Article = () => {
                     </a>
                   </h1>
                   <small className="text-justify line-clamp-2">
-                    {parser(post.post.slice(0,100))}
+                    {parser(post.post.slice(0, 100))}
                   </small>
                   <small>
                     {" "}
@@ -180,7 +179,7 @@ const Article = () => {
                     author={post.author}
                     datecreated={moment(post.datecreated).format("DD-MM-YYYY")}
                     title={post.title}
-                    brief={post.post.slice(0,100)}
+                    brief={post.post.slice(0, 100)}
                     category={post.category}
                     to={`/article/${post.id}`}
                   />
@@ -197,10 +196,7 @@ const Article = () => {
         </section>
       </main>
 
-      <Platforms
-        platformsState={platformsState}
-        setPlatformsState={setPlatformsState}
-      />
+      <Platforms />
       <SocialMedia />
       {cookieTracker ? <Cookie /> : null}
       <Footer onClick={() => SetSubscribeState(true)} />

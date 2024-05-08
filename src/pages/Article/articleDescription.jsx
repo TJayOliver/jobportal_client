@@ -83,7 +83,6 @@ const ArticlePost = () => {
   }, [articles, loading]);
 
   const [SubscribeState, SetSubscribeState] = useState(false);
-  const [platformsState, setPlatformsState] = useState(false);
 
   return (
     <>
@@ -229,10 +228,7 @@ const ArticlePost = () => {
         </section>
       </main>
 
-      <Platforms
-        platformsState={platformsState}
-        setPlatformsState={setPlatformsState}
-      />
+      <Platforms />
       <SocialMedia />
       {cookieTracker ? <Cookie /> : null}
       <Footer onClick={() => SetSubscribeState(true)} />
