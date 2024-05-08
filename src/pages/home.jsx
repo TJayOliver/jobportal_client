@@ -8,6 +8,7 @@ import Featured from "../components/Homepage/Featured/Featured.jsx";
 import Testimonials from "../components/Homepage/Testimonials/Testimonials.jsx";
 import { useState } from "react";
 import Subscribe from "../components/Subscribe/Subscribe.jsx";
+import Platforms from "../components/Platforms/Platforms.jsx";
 
 export default function Home() {
   const [SubscribeState, SetSubscribeState] = useState(false);
@@ -24,6 +25,7 @@ export default function Home() {
       <Offer />
       <Testimonials />
       <SocialMedia />
+      <Platforms />
       <Footer onClick={() => SetSubscribeState(true)} />
     </>
   );

@@ -29,13 +29,6 @@ body {
   @apply hidden;
 }
 
-.barcodeUp {
-  animation: barup forwards 0.3s ease-in;
-}
-.barcodeDown {
-  animation: bardown forwards 0.3s ease-in;
-}
-
 .mobileMenu {
   position: absolute;
   width: 100%;
@@ -65,24 +58,5 @@ body {
   to {
     height: 0px;
     line-height: 0px;
-  }
-}
-
-/* platforms barcode */
-@keyframes barup {
-  0% {
-    @apply rounded-full bg-white left-3 h-20 w-20 fixed bottom-14 drop-shadow-md;
-  }
-  100% {
-    @apply bottom-48 left-3 rounded-lg h-24 w-24 fixed drop-shadow-md z-50;
-  }
-}
-
-@keyframes bardown {
-  0% {
-    @apply bottom-48 left-3 rounded-lg h-24 w-24 fixed drop-shadow-md;
-  }
-  100% {
-    @apply rounded-full left-3 h-16 w-16 fixed bottom-14 drop-shadow-md z-50;
   }
 }

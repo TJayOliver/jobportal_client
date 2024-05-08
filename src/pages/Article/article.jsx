@@ -198,7 +198,7 @@ const Article = () => {
 
       <Platforms />
       <SocialMedia />
-      {cookieTracker ? <Cookie /> : null}
+      {/* {cookieTracker ? <Cookie /> : null} */}
       <Footer onClick={() => SetSubscribeState(true)} />
     </>
   );

@@ -368,7 +368,7 @@ const Scholarship = () => {
       {/* whatsapp barcode */}
       <Platforms />
       <SocialMedia />
-      {cookieTracker ? <Cookie /> : null}
+      {/* {cookieTracker ? <Cookie /> : null} */}
       <Footer onClick={() => SetSubscribeState(true)} />
     </>
   );
