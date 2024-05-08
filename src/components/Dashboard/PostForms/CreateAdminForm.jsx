@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import FormInputs from "../formInputs";
+import { BASE_URL } from "../../../pages/request";
 
 const CreateAdminForm = () => {
   const [adminCredentials, setAdminCredentials] = useState({
@@ -33,7 +34,7 @@ const CreateAdminForm = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:4040/admin/create",
+        `${BASE_URL}/admin/create`,
         adminCredentials,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
