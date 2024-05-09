@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import logo from "../../assets/logo.png";
 
 const Header = () => {
   const [mobileAnimation, setMobileAnimation] = useState(false);
@@ -19,7 +20,8 @@ const Header = () => {
   return (
     <header className=" bg-white sticky top-0 z-50 px-4 py-4 border-b-gray-100 border-b-2">
       <nav className=" flex m-auto max-w-7xl justify-between">
-        <div className="font-AliandoRocky  text-3xl whitespace-nowrap">
+        <div className="font-AliandoRocky  text-3xl whitespace-nowrap ">
+          <img src={logo} className="object-cover" />
           <Link to="/">FutureForte</Link>
         </div>
 
