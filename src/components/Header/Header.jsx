@@ -21,7 +21,7 @@ const Header = () => {
     <header className=" bg-white sticky top-0 z-50 px-4 py-4 border-b-gray-100 border-b-2">
       <nav className=" flex m-auto max-w-7xl justify-between">
         <div className="font-AliandoRocky  text-3xl whitespace-nowrap ">
-          <img src={logo} className="object-cover" />
+          <img src={logo} className="object-cover h-10" />
           <Link to="/">FutureForte</Link>
         </div>
 
