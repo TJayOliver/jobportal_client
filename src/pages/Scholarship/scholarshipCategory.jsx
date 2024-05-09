@@ -160,7 +160,6 @@ const Scholarship = () => {
 
   const allScholars = scholarships.slice(firstPageIndex, lastPageIndex);
   const gov = governmentScholarship.slice(firstPageIndex, lastPageIndex);
-  console.log(gov);
   const org = organizationalScholarship.slice(firstPageIndex, lastPageIndex);
   const priv = privateScholarship.slice(firstPageIndex, lastPageIndex);
   const res = researchScholarship.slice(firstPageIndex, lastPageIndex);
