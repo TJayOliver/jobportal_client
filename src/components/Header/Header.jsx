@@ -20,8 +20,8 @@ const Header = () => {
   return (
     <header className=" bg-white sticky top-0 z-50 px-4 py-4 border-b-gray-100 border-b-2">
       <nav className=" flex m-auto max-w-7xl justify-between">
-        <div className="font-AliandoRocky text-3xl whitespace-nowrap flex gap-1">
-          <img src={logo} className="object-cover h-10" />
+        <div className="font-AliandoRocky text-3xl whitespace-nowrap flex items-center gap-1">
+          <img src={logo} className="object-cover h-8" />
           <Link to="/">FutureForte</Link>
         </div>
 
