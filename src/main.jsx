@@ -14,6 +14,7 @@ import Scholarship from "./pages/Scholarship/scholarship.jsx";
 import ScholarshipDescription from "./pages/Scholarship/scholarshipDescription.jsx";
 import ScholarshipCategory from "./pages/Scholarship/scholarshipCategory.jsx";
 import Unsubscribe from "./pages/unSubscribe.jsx";
+import Privacy from "./pages/privacy.jsx";
 
 const router = createBrowserRouter([
   {
@@ -70,7 +71,12 @@ const router = createBrowserRouter([
     path: "/unsubscribe",
     element: <Unsubscribe />,
     errorElement: <Error />,
-  }
+  },
+  {
+    path: "/privacy",
+    element: <Privacy />,
+    errorElement: <Error />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
