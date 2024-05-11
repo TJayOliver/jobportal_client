@@ -12,19 +12,19 @@ import {
 const Share = ({ image, url, title }) => {
   return (
     <section className="gap-1 flex">
-      <WhatsappShareButton url={url} title={`${title} ${image}`}>
+      <WhatsappShareButton url={url} title={title}>
         <WhatsappIcon size={40} round={true} />
       </WhatsappShareButton>
 
-      <FacebookShareButton url={url} quote={`${title} ${image}`}>
+      <FacebookShareButton url={url} quote={title}>
         <FacebookIcon size={40} round={true} />
       </FacebookShareButton>
 
-      <TwitterShareButton url={url} title={`${title} ${image}`}>
+      <TwitterShareButton url={url} title={title}>
         <XIcon size={40} round={true} />
       </TwitterShareButton>
 
-      <LinkedinShareButton url={url} title={`${title} ${image}`}>
+      <LinkedinShareButton url={url} title={title}>
         <LinkedinIcon size={40} round={true} />
       </LinkedinShareButton>
     </section>
