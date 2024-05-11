@@ -50,30 +50,45 @@ const JobDescription = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     const title = jobs.map((job) => job.title);
     const description = jobs.map((job) => job.description);
+    const image = jobs.map((job) => job.image);
     setTitle(title);
     setDescription(description);
+    setImage(image);
   }, [jobs]);
 
   const ShareJob = async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: title,
-          text: description,
-          url: `${CLIENT_URL}/job/${id}`,
-        });
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1000);
-      } else {
-        setCopied(false);
-      }
-    } catch (error) {
-      setCopied(false);
-    }
+    // try {
+    //   if (navigator.share) {
+    //     await navigator.share({
+    //       title: title,
+    //       text: description,
+    //       url: `${CLIENT_URL}/job/${id}`,
+    //     });
+    //     setCopied(true);
+    //     setTimeout(() => setCopied(false), 1000);
+    //   } else {
+    //     setCopied(false);
+    //   }
+    // } catch (error) {
+    //   setCopied(false);
+    // }
+
+    // Base URL for WhatsApp share
+    const baseUrl = "whatsapp://send";
+
+    const imageUrl = `${BASE_URL}/upload/${image}`;
+    const descrip = description;
+
+    const shareUrl = `${baseUrl}?text=${encodeURIComponent(
+      descrip
+    )}&amp;${imageUrl}`;
+
+    window.open(shareUrl);
   };
 
   // const ShareJob = () => {
