@@ -49,7 +49,7 @@ const JobDescription = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [imagee, setImage] = useState("");
 
   useEffect(() => {
     if (jobs.length > 0) {
