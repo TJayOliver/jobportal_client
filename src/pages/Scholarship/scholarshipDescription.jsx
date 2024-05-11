@@ -144,6 +144,25 @@ const ScholarshipDescription = () => {
 
   return (
     <>
+      <HelmetProvider>
+        <Helmet>
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={url} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta
+            property="og:image"
+            itemProp="image"
+            content={`${BASE_URL}/upload/${imagee}`}
+          />
+          {/* twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={title} />
+          <meta name="twitter:description" content={description} />
+          <meta name="twitter:image" content={`${BASE_URL}/upload/${imagee}`} />
+        </Helmet>
+      </HelmetProvider>
+
       <Header />
       <Subscribe
         SubscribeState={SubscribeState}
@@ -180,28 +199,6 @@ const ScholarshipDescription = () => {
               )}
               {/* share */}
               <div className="flex gap-1 items-center">
-                <HelmetProvider>
-                  <Helmet>
-                    <meta property="og:type" content="website" />
-                    <meta property="og:url" content={url} />
-                    <meta property="og:title" content={title} />
-                    <meta property="og:description" content={description} />
-                    <meta
-                      property="og:image"
-                      itemProp="image"
-                      content={`${BASE_URL}/upload/${imagee}`}
-                    />
-                    {/* twitter */}
-                    <meta name="twitter:card" content="summary_large_image" />
-                    <meta name="twitter:title" content={title} />
-                    <meta name="twitter:description" content={description} />
-                    <meta
-                      name="twitter:image"
-                      content={`${BASE_URL}/upload/${imagee}`}
-                    />
-                  </Helmet>
-                </HelmetProvider>
-
                 <Share
                   url={url}
                   title={title}
