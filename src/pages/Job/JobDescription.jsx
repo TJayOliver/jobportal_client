@@ -15,7 +15,7 @@ import { BiSolidLocationPlus } from "react-icons/bi";
 import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
-import Share from "../../components/Share/share";
+import Share from "../../components/Share/Share";
 
 const JobDescription = () => {
   const params = useParams();
