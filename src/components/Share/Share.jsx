@@ -3,25 +3,25 @@ import {
   TwitterShareButton,
   LinkedinShareButton,
   FacebookShareButton,
+  WhatsappIcon,
   FacebookIcon,
   XIcon,
-  WhatsappIcon,
   LinkedinIcon,
 } from "react-share";
 
-const Share = ({ image, url, title, description }) => {
+const Share = ({ url, title, description }) => {
   return (
     <section className="gap-1 flex">
       <WhatsappShareButton url={url} title={title}>
-        <WhatsappIcon size={40} round={true} />
+        <WhatsappIcon size={40} round />
       </WhatsappShareButton>
 
       <FacebookShareButton url={url} quote={title}>
-        <FacebookIcon size={40} round={true} />
+        <FacebookIcon size={40} round />
       </FacebookShareButton>
 
       <TwitterShareButton url={url} title={title}>
-        <XIcon size={40} round={true} />
+        <XIcon size={40} round />
       </TwitterShareButton>
 
       <LinkedinShareButton
@@ -30,10 +30,9 @@ const Share = ({ image, url, title, description }) => {
         source={url}
         summary={description}
       >
-        <LinkedinIcon size={40} round={true} />
+        <LinkedinIcon size={40} round />
       </LinkedinShareButton>
     </section>
   );
 };
-
 export default Share;

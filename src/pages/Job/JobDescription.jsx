@@ -16,8 +16,7 @@ import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
 import Share from "../../components/Share/Share";
-import { Helmet } from "react-helmet-async";
-
+import { Helmet, HelmetProvider } from "react-helmet-async";
 const JobDescription = () => {
   const params = useParams();
   const id = params.id;
@@ -52,12 +51,12 @@ const JobDescription = () => {
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    const title = jobs.map((job) => job.title);
-    const description = jobs.map((job) => job.description);
-    const image = jobs.map((job) => job.image);
-    setTitle(title);
-    setDescription(description);
-    setImage(`${BASE_URL}/upload/${image}`);
+    if (jobs.length > 0) {
+      const job = jobs[0];
+      setTitle(job.title);
+      setDescription(job.description);
+      setImage(`${BASE_URL}/upload/${job.image}`);
+    }
   }, [jobs]);
 
   const url = `${CLIENT_URL}/job/${id}`;
@@ -72,6 +71,20 @@ const JobDescription = () => {
         SubscribeState={SubscribeState}
         SetSubscribeState={SetSubscribeState}
       />
+      <HelmetProvider>
+        <Helmet>
+          <title>{title}</title>
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={image} />
+          <meta property="og:url" content={url} />
+        </Helmet>
+
+        <div>
+          <h1>{title}</h1>
+          <p>{description}</p>
+        </div>
+      </HelmetProvider>
 
       <main className="p-2 ">
         <section className="mb-3">
@@ -266,13 +279,7 @@ const JobDescription = () => {
                 <h1 className="font-bold">Share This Job</h1>
                 <small>Let People Know!</small>
               </div>
-              <Helmet>
-                <title>{title}</title>
-                <meta property="og:title" content={title} />
-                <meta property="og:description" content={description} />
-                <meta property="og:image" content={image} />
-                <meta property="og:url" content={url} />
-              </Helmet>
+
               <div className="flex flex-col gap-2 items-center">
                 <Share
                   url={url}
