@@ -16,7 +16,8 @@ import image from "../../assets/student1.jpg";
 import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
-import { MdDone } from "react-icons/md";
+import Share from "../../components/Share/Share";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const RelatedBox = ({
   image,
@@ -82,6 +83,19 @@ const ScholarshipDescription = () => {
 
   axios.defaults.withCredentials = true;
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [imagee, setImage] = useState("");
+
+  useEffect(() => {
+    if (scholarship.length > 0) {
+      const scholarship = scholarship[0];
+      setTitle(scholarship.title);
+      setDescription(scholarship.description);
+      setImage(`${BASE_URL}/upload/${scholarship.image}`);
+    }
+  }, [scholarship]);
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -125,15 +139,8 @@ const ScholarshipDescription = () => {
   }, [scholarship, loading]);
 
   const [SubscribeState, SetSubscribeState] = useState(false);
-  const [copied, setCopied] = useState(false);
 
-  const ShareLink = `${CLIENT_URL}/scholarship/${id}`;
-
-  const ShareJob = () => {
-    setCopied(true);
-    navigator.clipboard?.writeText && navigator.clipboard.writeText(ShareLink);
-    setTimeout(() => setCopied(false), 1000);
-  };
+  const url = `${CLIENT_URL}/scholarship/${id}`;
 
   return (
     <>
@@ -174,12 +181,27 @@ const ScholarshipDescription = () => {
                 ))
               )}
               {/* share */}
-              <div
-                role="button"
-                onClick={() => ShareJob()}
-                className="border border-gray-100 hover:bg-gray-100 rounded-3xl w-20 flex items-center justify-center p-2"
-              >
-                {copied ? <MdDone color="red" /> : <BsShare />}
+              <div className="flex flex-col gap-2 items-center">
+                <HelmetProvider>
+                  <Helmet>
+                    <title>{title}</title>
+                    <meta property="og:title" content={title} />
+                    <meta property="og:description" content={description} />
+                    <meta property="og:image" content={imagee} />
+                    <meta property="og:url" content={url} />
+                  </Helmet>
+
+                  <div>
+                    <h1>{title}</h1>
+                    <p>{description}</p>
+                  </div>
+                </HelmetProvider>
+                <Share
+                  url={url}
+                  title={title}
+                  image={imagee}
+                  description={description}
+                />
               </div>
             </div>
             {loading ? (

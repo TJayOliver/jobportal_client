@@ -17,6 +17,7 @@ import axios from "axios";
 import moment from "moment";
 import Share from "../../components/Share/Share";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+
 const JobDescription = () => {
   const params = useParams();
   const id = params.id;
