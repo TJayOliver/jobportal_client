@@ -47,13 +47,24 @@ const JobDescription = () => {
 
   const [copied, setCopied] = useState(false);
   const ShareLink = `${CLIENT_URL}/job/${id}`;
-  const ShareJob = async (title, description, url) => {
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    const title = jobs.map((job) => job.title);
+    const description = jobs.map((job) => job.description);
+    setTitle(title);
+    setDescription(description);
+  }, [jobs]);
+
+  const ShareJob = async () => {
     try {
       if (navigator.share) {
         await navigator.share({
           title: title,
           text: description,
-          url: `${CLIENT_URL}/${url}`,
+          url: `${CLIENT_URL}/job/${id}`,
         });
         setCopied(true);
         setTimeout(() => setCopied(false), 1000);
@@ -64,34 +75,12 @@ const JobDescription = () => {
       setCopied(false);
     }
   };
+
   // const ShareJob = () => {
   //   navigator.clipboard?.writeText && navigator.clipboard.writeText(ShareLink);
   //   setCopied(true);
   //   setTimeout(() => setCopied(false), 1000);
   // };
-
-  const [subscribeResponse, setSubscribeResponse] = useState("");
-  const [subcribeEmail, setSubscribeEmail] = useState({ email: "" });
-  const [checkSubscribeResponse, setCheckSubscribeResponse] = useState(false);
-
-  const handleSubscribe = (e) => {
-    const { name, value } = e.target;
-    setSubscribeEmail((prev) => ({ ...prev, [name]: value }));
-  };
-  const submitSubscribe = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${BASE_URL}/subscribe`, subcribeEmail);
-      const data = response.data.message;
-      setSubscribeResponse(data);
-      setCheckSubscribeResponse(true);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    } catch (error) {
-      setSubscribeResponse(error.message);
-    }
-  };
 
   const [SubscribeState, SetSubscribeState] = useState(false);
 
@@ -102,11 +91,6 @@ const JobDescription = () => {
       <Subscribe
         SubscribeState={SubscribeState}
         SetSubscribeState={SetSubscribeState}
-        onChange={handleSubscribe}
-        value={subcribeEmail.email}
-        onClick={submitSubscribe}
-        checkSubscribeResponse={checkSubscribeResponse}
-        subscribeResponse={subscribeResponse}
       />
 
       <main className="p-2 ">
