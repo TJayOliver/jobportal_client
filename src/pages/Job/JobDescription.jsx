@@ -47,11 +47,28 @@ const JobDescription = () => {
 
   const [copied, setCopied] = useState(false);
   const ShareLink = `${CLIENT_URL}/job/${id}`;
-  const ShareJob = () => {
-    navigator.clipboard?.writeText && navigator.clipboard.writeText(ShareLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1000);
+  const ShareJob = async (title, description, url) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: title,
+          text: description,
+          url: `${CLIENT_URL}/${url}`,
+        });
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1000);
+      } else {
+        setCopied(false);
+      }
+    } catch (error) {
+      setCopied(false);
+    }
   };
+  // const ShareJob = () => {
+  //   navigator.clipboard?.writeText && navigator.clipboard.writeText(ShareLink);
+  //   setCopied(true);
+  //   setTimeout(() => setCopied(false), 1000);
+  // };
 
   const [subscribeResponse, setSubscribeResponse] = useState("");
   const [subcribeEmail, setSubscribeEmail] = useState({ email: "" });
@@ -291,7 +308,7 @@ const JobDescription = () => {
                   <small className=" line-clamp-2">{ShareLink}</small>
                 </div>
                 <div
-                  onClick={ShareJob}
+                  onClick={() => ShareJob()}
                   role="button"
                   className={
                     copied

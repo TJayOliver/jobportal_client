@@ -5,6 +5,7 @@ import { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats } from "../../reactquillmodules";
+import { BASE_URL } from "../../../pages/request";
 
 const ScholarshipForm = ({ username }) => {
   const [description, setDescription] = useState("");
@@ -69,7 +70,7 @@ const ScholarshipForm = ({ username }) => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:4040/scholarship/create",
+        `${BASE_URL}/scholarship/create`,
         newFormData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
