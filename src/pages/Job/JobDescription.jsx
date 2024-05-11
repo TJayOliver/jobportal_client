@@ -16,6 +16,7 @@ import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
 import Share from "../../components/Share/Share";
+import { Helmet } from "react-helmet-async";
 
 const JobDescription = () => {
   const params = useParams();
@@ -265,9 +266,20 @@ const JobDescription = () => {
                 <h1 className="font-bold">Share This Job</h1>
                 <small>Let People Know!</small>
               </div>
-
+              <Helmet>
+                <title>{title}</title>
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description} />
+                <meta property="og:image" content={image} />
+                <meta property="og:url" content={url} />
+              </Helmet>
               <div className="flex flex-col gap-2 items-center">
-                <Share url={url} title={title} image={image} />
+                <Share
+                  url={url}
+                  title={title}
+                  image={image}
+                  description={description}
+                />
               </div>
             </div>
           </section>

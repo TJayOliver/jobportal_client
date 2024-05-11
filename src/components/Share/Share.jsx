@@ -9,7 +9,7 @@ import {
   LinkedinIcon,
 } from "react-share";
 
-const Share = ({ image, url, title }) => {
+const Share = ({ image, url, title, description }) => {
   return (
     <section className="gap-1 flex">
       <WhatsappShareButton url={url} title={title}>
@@ -24,7 +24,12 @@ const Share = ({ image, url, title }) => {
         <XIcon size={40} round={true} />
       </TwitterShareButton>
 
-      <LinkedinShareButton url={url} title={title}>
+      <LinkedinShareButton
+        url={url}
+        title={title}
+        source={url}
+        summary={description}
+      >
         <LinkedinIcon size={40} round={true} />
       </LinkedinShareButton>
     </section>
