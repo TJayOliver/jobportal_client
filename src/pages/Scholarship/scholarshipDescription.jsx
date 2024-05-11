@@ -9,7 +9,7 @@ import { fetch, fetchByID, BASE_URL, CLIENT_URL } from "../request";
 import parser from "html-react-parser";
 import Platforms from "../../components/Platforms/Platforms";
 import Subscribe from "../../components/Subscribe/Subscribe";
-import { BsCalendar2, BsPeople, BsShare } from "react-icons/bs";
+import { BsCalendar2, BsPeople } from "react-icons/bs";
 import { BiSolidCategory, BiSolidSchool } from "react-icons/bi";
 import megaphone from "../../assets/megaphone.png";
 import image from "../../assets/student1.jpg";
@@ -89,10 +89,10 @@ const ScholarshipDescription = () => {
 
   useEffect(() => {
     if (scholarship.length > 0) {
-      const scholarship = scholarship[0];
-      setTitle(scholarship.title);
-      setDescription(scholarship.description);
-      setImage(`${BASE_URL}/upload/${scholarship.image}`);
+      const scholarships = scholarship[0];
+      setTitle(scholarships.title);
+      setDescription(scholarships.description);
+      setImage(`${BASE_URL}/upload/${scholarships.image}`);
     }
   }, [scholarship]);
 
@@ -181,7 +181,7 @@ const ScholarshipDescription = () => {
                 ))
               )}
               {/* share */}
-              <div className="flex flex-col gap-2 items-center">
+              <div className="flex gap-1 items-center">
                 <HelmetProvider>
                   <Helmet>
                     <title>{title}</title>
@@ -190,11 +190,6 @@ const ScholarshipDescription = () => {
                     <meta property="og:image" content={imagee} />
                     <meta property="og:url" content={url} />
                   </Helmet>
-
-                  <div>
-                    <h1>{title}</h1>
-                    <p>{description}</p>
-                  </div>
                 </HelmetProvider>
                 <Share
                   url={url}

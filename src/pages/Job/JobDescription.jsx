@@ -80,11 +80,6 @@ const JobDescription = () => {
           <meta property="og:image" content={image} />
           <meta property="og:url" content={url} />
         </Helmet>
-
-        <div>
-          <h1>{title}</h1>
-          <p>{description}</p>
-        </div>
       </HelmetProvider>
 
       <main className="p-2 ">
