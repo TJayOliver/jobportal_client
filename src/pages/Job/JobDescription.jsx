@@ -15,6 +15,7 @@ import { BiSolidLocationPlus } from "react-icons/bi";
 import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
+import Share from "../../components/Share/share";
 
 const JobDescription = () => {
   const params = useParams();
@@ -45,9 +46,6 @@ const JobDescription = () => {
     return () => controller.abort();
   }, []);
 
-  const [copied, setCopied] = useState(false);
-  const ShareLink = `${CLIENT_URL}/job/${id}`;
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
@@ -58,44 +56,10 @@ const JobDescription = () => {
     const image = jobs.map((job) => job.image);
     setTitle(title);
     setDescription(description);
-    setImage(image);
+    setImage(`${BASE_URL}/upload/${image}`);
   }, [jobs]);
 
-  const ShareJob = async () => {
-    // try {
-    //   if (navigator.share) {
-    //     await navigator.share({
-    //       title: title,
-    //       text: description,
-    //       url: `${CLIENT_URL}/job/${id}`,
-    //     });
-    //     setCopied(true);
-    //     setTimeout(() => setCopied(false), 1000);
-    //   } else {
-    //     setCopied(false);
-    //   }
-    // } catch (error) {
-    //   setCopied(false);
-    // }
-
-    // Base URL for WhatsApp share
-    const baseUrl = "whatsapp://send";
-
-    const imageUrl = `${BASE_URL}/upload/${image}`;
-    const descrip = description;
-
-    const shareUrl = `${baseUrl}?text=${encodeURIComponent(
-      descrip
-    )}&amp;${imageUrl}`;
-
-    window.open(shareUrl);
-  };
-
-  // const ShareJob = () => {
-  //   navigator.clipboard?.writeText && navigator.clipboard.writeText(ShareLink);
-  //   setCopied(true);
-  //   setTimeout(() => setCopied(false), 1000);
-  // };
+  const url = `${CLIENT_URL}/job/${id}`;
 
   const [SubscribeState, SetSubscribeState] = useState(false);
 
@@ -303,20 +267,7 @@ const JobDescription = () => {
               </div>
 
               <div className="flex flex-col gap-2 items-center">
-                <div className="bg-gray-50 p-4 w-full">
-                  <small className=" line-clamp-2">{ShareLink}</small>
-                </div>
-                <div
-                  onClick={() => ShareJob()}
-                  role="button"
-                  className={
-                    copied
-                      ? "bg-red-500 rounded-2xl p-2 w-full flex items-center justify-center text-white font-medium duration-100 ease-in"
-                      : "bg-blue-500 hover:bg-blue-600 rounded-2xl p-2 w-full flex items-center justify-center text-white font-medium duration-100 ease-in"
-                  }
-                >
-                  {copied ? <p>Copied</p> : <p>Copy Link</p>}
-                </div>
+                <Share url={url} title={title} image={image} />
               </div>
             </div>
           </section>
