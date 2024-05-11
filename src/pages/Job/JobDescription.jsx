@@ -289,7 +289,7 @@ const JobDescription = () => {
                 <Share
                   url={url}
                   title={title}
-                  image={image}
+                  image={imagee}
                   description={description}
                 />
               </div>

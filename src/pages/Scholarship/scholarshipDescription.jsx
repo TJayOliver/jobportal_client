@@ -36,7 +36,7 @@ const RelatedBox = ({
           <img
             src={`${BASE_URL}/upload/${image}`}
             loading="lazy"
-            className="rounded-full bg-black w-14 h-14"
+            className="rounded-full w-14 h-14"
           />
           <div>
             <p className="font-bold">{scholarshipname}</p>
