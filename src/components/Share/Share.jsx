@@ -12,7 +12,7 @@ import {
 const Share = ({ url, title, description }) => {
   return (
     <section className="gap-1 flex">
-      <WhatsappShareButton url={url} title={title}>
+      <WhatsappShareButton url={url} title={`${title} ${description}`}>
         <WhatsappIcon size={40} round />
       </WhatsappShareButton>
 
