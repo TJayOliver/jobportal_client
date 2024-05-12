@@ -17,7 +17,7 @@ import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
 import Share from "../../components/Share/Share";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const RelatedBox = ({
   image,
@@ -85,16 +85,20 @@ const ScholarshipDescription = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [imagee, setImage] = useState("");
+  const [headImage, setHeadImage] = useState("");
 
   useEffect(() => {
     if (scholarship.length > 0) {
       const scholarships = scholarship[0];
-      setTitle(scholarships.title);
+      setTitle(scholarships.scholarshipname);
       setDescription(scholarships.description);
-      setImage(`${BASE_URL}/upload/${scholarships.image}`);
+      setHeadImage(`${BASE_URL}/upload/${scholarships.image}`);
     }
   }, [scholarship]);
+
+  const stripHtmlTags = (htmlString) => {
+    return htmlString.replace(/(<([^>]+)>)/gi, "");
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -144,24 +148,22 @@ const ScholarshipDescription = () => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={url} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-          <meta
-            property="og:image"
-            itemProp="image"
-            content={`${BASE_URL}/upload/${imagee}`}
-          />
-          {/* twitter */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={description} />
-          <meta name="twitter:image" content={`${BASE_URL}/upload/${imagee}`} />
-        </Helmet>
-      </HelmetProvider>
+      <Helmet>
+        <title>{title}</title>
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={title} />
+        <meta
+          property="og:description"
+          content={stripHtmlTags(description).slice(0, 100)}
+        />
+        <meta property="og:image" itemProp="image" content={headImage} />
+        {/* twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={headImage} />
+      </Helmet>
 
       <Header />
       <Subscribe
@@ -199,12 +201,7 @@ const ScholarshipDescription = () => {
               )}
               {/* share */}
               <div className="flex gap-1 items-center">
-                <Share
-                  url={url}
-                  title={title}
-                  image={imagee}
-                  description={description}
-                />
+                <Share url={url} title={title} description={description} />
               </div>
             </div>
             {loading ? (

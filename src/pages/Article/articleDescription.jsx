@@ -3,7 +3,7 @@ import Header from "../../components/Header/Header";
 import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { fetch, fetchByID, BASE_URL } from "../request";
+import { fetch, fetchByID, BASE_URL, CLIENT_URL } from "../request";
 import { useState } from "react";
 import Loading from "../../components/Loading/Loading";
 import Platforms from "../../components/Platforms/Platforms";
@@ -15,6 +15,8 @@ import { BsFacebook, BsLinkedin, BsTwitterX } from "react-icons/bs";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
 import Cookie from "../../components/Cookie/Cookie";
 import moment from "moment";
+import { Helmet } from "react-helmet";
+import Share from "../../components/Share/Share";
 
 const ArticlePost = () => {
   const params = useParams();
@@ -84,14 +86,51 @@ const ArticlePost = () => {
 
   const [SubscribeState, SetSubscribeState] = useState(false);
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [headImage, setHeadImage] = useState("");
+
+  useEffect(() => {
+    if (articles.length > 0) {
+      const article = articles[0];
+      setTitle(article.title);
+      setDescription(article.post);
+      setHeadImage(`${BASE_URL}/upload/${article.image}`);
+    }
+  }, [articles]);
+
+  const stripHtmlTags = (htmlString) => {
+    return htmlString.replace(/(<([^>]+)>)/gi, "");
+  };
+  const url = `${CLIENT_URL}/job/${id}`;
+
   return (
     <>
+      <Helmet>
+        <title>{title}</title>
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={title} />
+        <meta
+          property="og:description"
+          content={stripHtmlTags(description).slice(0, 100)}
+        />
+        <meta property="og:image" itemProp="image" content={headImage} />
+        {/* twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta
+          name="twitter:description"
+          content={stripHtmlTags(description).slice(0, 100)}
+        />
+        <meta name="twitter:image" content={headImage} />
+      </Helmet>
+
       <Header />
       <Subscribe
         SubscribeState={SubscribeState}
         SetSubscribeState={SetSubscribeState}
       />
-
       <main className="w-full max-w-5xl flex flex-col justify-center m-auto p-2">
         {/* heading */}
         <section className="flex flex-col gap-5">
@@ -125,7 +164,31 @@ const ArticlePost = () => {
               ) : (
                 articles.map((post, id) => (
                   <div key={id} className="flex flex-col gap-1">
-                    <small className="font-bold">{post.author}</small>
+                    <div className="flex items-center gap-2">
+                      <small className="font-bold">{post.author}</small>
+                      {authorDetails.map((author, id) => (
+                        <div key={id} className="flex gap-2 text-xl">
+                          <a
+                            target="blank"
+                            href={`https://facebook.com/${author.facebook}`}
+                          >
+                            <BsFacebook />
+                          </a>
+                          <a
+                            target="blank"
+                            href={`https://twitter.com/${author.twitter}`}
+                          >
+                            <BsTwitterX />
+                          </a>
+                          <a
+                            target="blank"
+                            href={`https://linkedin.com/${author.linkedin}`}
+                          >
+                            <BsLinkedin />
+                          </a>
+                        </div>
+                      ))}
+                    </div>
                     <small>
                       {" "}
                       {moment(post.datecreated).format("YYYY-MM-DD")}
@@ -134,33 +197,9 @@ const ArticlePost = () => {
                 ))
               )}
             </div>
-            {/* author handles */}
-            {loading ? (
-              <Loading />
-            ) : (
-              authorDetails.map((author, id) => (
-                <div key={id} className="flex gap-2 text-2xl">
-                  <a
-                    target="blank"
-                    href={`https://facebook.com/${author.facebook}`}
-                  >
-                    <BsFacebook />
-                  </a>
-                  <a
-                    target="blank"
-                    href={`https://twitter.com/${author.twitter}`}
-                  >
-                    <BsTwitterX />
-                  </a>
-                  <a
-                    target="blank"
-                    href={`https://linkedin.com/${author.linkedin}`}
-                  >
-                    <BsLinkedin />
-                  </a>
-                </div>
-              ))
-            )}
+            <div>
+              <Share url={url} title={title} description={description} />
+            </div>
           </div>
           {/* article image */}
           <div className="h-[30rem] ">
@@ -178,7 +217,7 @@ const ArticlePost = () => {
         {/* post and featured */}
         <section className="flex justify-between text-justify p-4 gap-2">
           {/* related articles */}
-          <div className="hidden md:block basis-[15%] border-gray-200 border-[1px] rounded-lg">
+          <div className="hidden md:block basis-[15%] border-gray-200 border-[1px] rounded-lg h-full">
             <p className="font-medium text-xl p-2">Other Articles</p>
             <div className=" border-black text-md text-left">
               {featured.map((list, id) => (
@@ -227,7 +266,6 @@ const ArticlePost = () => {
           )}
         </section>
       </main>
-
       <Platforms />
       <SocialMedia />
       {/* {cookieTracker ? <Cookie /> : null} */}

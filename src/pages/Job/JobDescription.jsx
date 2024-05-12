@@ -16,7 +16,7 @@ import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
 import Share from "../../components/Share/Share";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const JobDescription = () => {
   const params = useParams();
@@ -47,50 +47,47 @@ const JobDescription = () => {
     return () => controller.abort();
   }, []);
 
+  const [SubscribeState, SetSubscribeState] = useState(false);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [imagee, setImage] = useState("");
+  const [headImage, setHeadImage] = useState("");
 
   useEffect(() => {
     if (jobs.length > 0) {
       const job = jobs[0];
-      setTitle(job.title);
-      setDescription(job.description);
-      setImage(`${BASE_URL}/upload/${job.image}`);
+      setTitle(job.position);
+      setDescription(job.overview);
+      setHeadImage(`${BASE_URL}/upload/${job.image}`);
     }
   }, [jobs]);
 
+  const stripHtmlTags = (htmlString) => {
+    return htmlString.replace(/(<([^>]+)>)/gi, "");
+  };
   const url = `${CLIENT_URL}/job/${id}`;
-
-  const [SubscribeState, SetSubscribeState] = useState(false);
 
   return (
     <>
-      <Header />
+      <Helmet>
+        <title>{title}</title>
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={stripHtmlTags(description)} />
+        <meta property="og:image" itemProp="image" content={headImage} />
+        {/* twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={stripHtmlTags(description)} />
+        <meta name="twitter:image" content={headImage} />
+      </Helmet>
 
+      <Header />
       <Subscribe
         SubscribeState={SubscribeState}
         SetSubscribeState={SetSubscribeState}
       />
-      <HelmetProvider>
-        <Helmet>
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content={url} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-          <meta
-            property="og:image"
-            itemProp="image"
-            content={`${BASE_URL}/upload/${imagee}`}
-          />
-          {/* twitter */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={description} />
-          <meta name="twitter:image" content={`${BASE_URL}/upload/${imagee}`} />
-        </Helmet>
-      </HelmetProvider>
-
       <main className="p-2 ">
         <section className="mb-3">
           <section className=" bg-gradient-to-tr from-rose-500 to-blue-600 max-w-6xl flex m-auto  h-72 object-cover bg-center rounded-lg relative mb-14">
@@ -286,12 +283,7 @@ const JobDescription = () => {
               </div>
 
               <div className="flex flex-col gap-2 items-center">
-                <Share
-                  url={url}
-                  title={title}
-                  image={imagee}
-                  description={description}
-                />
+                <Share url={url} title={title} description={description} />
               </div>
             </div>
           </section>
@@ -352,7 +344,6 @@ const JobDescription = () => {
           </div>
         </section>
       </main>
-
       <Platforms />
       <SocialMedia />
       {/* {cookieTracker ? <Cookie /> : null} */}
