@@ -76,6 +76,9 @@ const JobDescription = () => {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={stripHtmlTags(description)} />
         <meta property="og:image" itemProp="image" content={headImage} />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
         {/* twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
