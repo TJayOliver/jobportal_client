@@ -11,8 +11,8 @@ const FeaturedBox = ({
   to,
 }) => {
   return (
-    <div className=" h-24 shrink-0 text-md">
-      <div className=" flex flex-col p-2 shrink-0 grow-0 justify-between gap-1">
+    <div className=" h-24 shrink-0 text-md p-1">
+      <div className=" flex flex-col p-2 shrink-0 grow-0 justify-between gap-2">
         <div className=" flex justify-between h-[3.5rem] mb-2 ">
           {/* Company Logo and Location */}
           <div className=" flex gap-1">
@@ -31,7 +31,7 @@ const FeaturedBox = ({
         </div>
 
         {/* Job Title and Description */}
-        <p className=" font-medium whitespace-nowrap">{position}</p>
+        <p className=" font-medium ">{position}</p>
 
         {/* Apply Button */}
         <div
