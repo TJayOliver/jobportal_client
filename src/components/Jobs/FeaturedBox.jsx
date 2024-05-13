@@ -32,7 +32,6 @@ const FeaturedBox = ({
 
         {/* Job Title and Description */}
         <p className=" font-medium whitespace-nowrap">{position}</p>
-        <small className="line-clamp-2">{parser(description)}</small>
 
         {/* Apply Button */}
         <div

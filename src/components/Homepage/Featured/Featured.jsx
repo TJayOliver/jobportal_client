@@ -107,7 +107,6 @@ const FeaturedJobs = () => {
                     position={job.position}
                     category={job.categoryname}
                     salary={job.salary}
-                    description={job.responsibility}
                     to={`/job/${job.id}`}
                   />
                 ))
@@ -129,7 +128,6 @@ const FeaturedJobs = () => {
                   location={scholarship.scholarshiptype}
                   company={scholarship.scholarshipname.slice(0, 30)}
                   category={scholarship.scholarshiptype}
-                  description={scholarship.description}
                   to={`/scholarship/${scholarship.id}`}
                 />
               ))}
