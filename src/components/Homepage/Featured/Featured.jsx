@@ -46,7 +46,7 @@ const FeaturedJobs = () => {
   }, []);
 
   return (
-    <section className=" flex justify-center gap-4 p-2">
+    <section className=" flex justify-center gap-4 p-2 h-full">
       {/* Latest Jobs and scholarships */}
       <div className="bg-[#FEFAF6] h-[27rem] w-[58rem] rounded-2xl p-2 relative overflow-hidden">
         {/* Heading */}

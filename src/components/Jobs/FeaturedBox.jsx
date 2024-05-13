@@ -14,7 +14,7 @@ const FeaturedBox = ({
     <div className=" h-24 shrink-0 text-md p-1">
       <div className=" flex flex-col p-2 shrink-0 grow-0 justify-between gap-2">
         <div className=" flex justify-between h-[3.5rem] mb-2 ">
-          {/* Company Logo and Location */}
+          {/* Company and Logo*/}
           <div className=" flex gap-1">
             <div className=" rounded-full h-12 w-12 border-[1px] bg-white drop-shadow-sm flex shrink-0">
               <img
@@ -30,7 +30,7 @@ const FeaturedBox = ({
           </div>
         </div>
 
-        {/* Job Title and Description */}
+        {/* Job Title*/}
         <p className=" font-medium ">{position}</p>
 
         {/* Apply Button */}
