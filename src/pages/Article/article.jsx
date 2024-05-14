@@ -12,7 +12,6 @@ import Loading from "../../components/Loading/Loading";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
 import Cookie from "../../components/Cookie/Cookie";
 import moment from "moment";
-import { Helmet } from "react-helmet";
 
 export const LatestBox = ({
   image,
@@ -90,25 +89,6 @@ const Article = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{title}</title>
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={url} />
-        <meta property="og:title" content={title} />
-        <meta
-          property="og:description"
-          content={stripHtmlTags(description).slice(0, 100)}
-        />
-        <meta property="og:image" itemProp="image" content={headImage} />
-        {/* twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta
-          name="twitter:description"
-          content={stripHtmlTags(description).slice(0, 100)}
-        />
-        <meta name="twitter:image" content={headImage} />
-      </Helmet>
       <Header />
       <Subscribe
         SubscribeState={SubscribeState}
