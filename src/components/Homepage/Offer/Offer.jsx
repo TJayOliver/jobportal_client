@@ -9,7 +9,7 @@ const Offer = () => {
         <p className=" text-3xl font-bold justify-center flex">What We Offer</p>
       </div>
 
-      <div className="flex flex-wrap gap-4 relative justify-center">
+      <div className="flex gap-4 relative justify-center">
         {/* Career Guidance */}
         <div className="w-72 flex flex-col gap-2">
           <div className="h-52 w-[22rem]rounded-lg">
