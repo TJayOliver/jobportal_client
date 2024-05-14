@@ -3,7 +3,7 @@ import image from "../../../assets/cyril.jpg";
 
 const ScholarshipPossibility = () => {
   return (
-    <section className="md:h-[28rem] p-2 flex mt-2 flex-wrap-reverse justify-center gap-5 items-center ">
+    <section className="md:h-[28rem] p-2 flex flex-wrap-reverse justify-center gap-5 items-center ">
       <div>
         <p className=" text-4xl font-bold mb-1">
           A Step <br></br>
