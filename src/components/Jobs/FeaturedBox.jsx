@@ -1,12 +1,8 @@
 import { Link } from "react-router-dom";
-import parser from "html-react-parser";
-import { BASE_URL } from "../../pages/request";
 
 const FeaturedBox = ({
   image,
   description,
-  location,
-  company,
   position,
   to,
 }) => {
@@ -18,8 +14,8 @@ const FeaturedBox = ({
           <div className=" flex gap-1">
             <div className=" rounded-full h-12 w-12 border-[1px] bg-white drop-shadow-sm flex shrink-0">
               <img
-                src={`${BASE_URL}/upload/${image}`}
-                loading="lazy"
+                src={`${image}`}
+                loading="lazy
                 className="h-full w-full object-cover rounded-full"
               />
             </div>
