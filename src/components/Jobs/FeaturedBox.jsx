@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 
-const FeaturedBox = ({
-  image,
-  description,
-  position,
-  to,
-}) => {
+const FeaturedBox = ({ image, company, position, to }) => {
   return (
     <div className=" h-24 shrink-0 text-md p-1">
       <div className=" flex flex-col p-2 shrink-0 grow-0 justify-between gap-2">
@@ -15,7 +10,7 @@ const FeaturedBox = ({
             <div className=" rounded-full h-12 w-12 border-[1px] bg-white drop-shadow-sm flex shrink-0">
               <img
                 src={`${image}`}
-                loading="lazy
+                loading="lazy"
                 className="h-full w-full object-cover rounded-full"
               />
             </div>
