@@ -35,7 +35,7 @@ export const ScholarshipBox = ({
   return (
     <div className="h-[26rem] w-full md:w-[15rem] rounded-lg flex flex-col shrink-0">
       <img
-        src={`${BASE_URL}/upload/${image}`}
+        src={`${image}`}
         className=" h-44 rounded-t-lg object-cover w-full"
       />
       <div className="p-2 flex flex-col gap-2">

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import parser from "html-react-parser";
-import { BASE_URL } from "../../pages/request";
 
 const ScholarshipBox = ({
   image,
@@ -21,7 +20,7 @@ const ScholarshipBox = ({
       <div className="flex justify-between">
         <div className="flex gap-3">
           <img
-            src={`${BASE_URL}/upload/${image}`}
+            src={`${image}`}
             className="h-10 w-10 object-cover rounded-sm bg-gray-100"
           ></img>
           <div>

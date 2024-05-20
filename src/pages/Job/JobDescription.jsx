@@ -4,7 +4,7 @@ import Loading from "../../components/Loading/Loading";
 import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
 import Footer from "../../components/Footer/Footer";
 import { useParams } from "react-router-dom";
-import { fetch, fetchByID, BASE_URL, CLIENT_URL } from "../request";
+import { fetch, fetchByID, CLIENT_URL } from "../request";
 import parser from "html-react-parser";
 import { BsCalendar, BsClock, BsPersonAdd } from "react-icons/bs";
 import megaphone from "../../assets/megaphone.png";
@@ -58,7 +58,7 @@ const JobDescription = () => {
       const job = jobs[0];
       setTitle(job.position);
       setDescription(job.overview);
-      setHeadImage(`${BASE_URL}/upload/${job.image}`);
+      setHeadImage(`${job.image}`);
     }
   }, [jobs]);
 
@@ -97,7 +97,7 @@ const JobDescription = () => {
               {jobs.map((job, id) => (
                 <div key={id} className=" h-14 w-14 rounded-full object-cover">
                   <img
-                    src={`${BASE_URL}/upload/${job.image}`}
+                    src={`${job.image}`}
                     className="h-full w-full rounded-full"
                   />
                 </div>

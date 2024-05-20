@@ -5,7 +5,7 @@ import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
 import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import { useState, useEffect } from "react";
-import { fetch, fetchByID, BASE_URL, CLIENT_URL } from "../request";
+import { fetch, fetchByID, CLIENT_URL } from "../request";
 import parser from "html-react-parser";
 import Platforms from "../../components/Platforms/Platforms";
 import Subscribe from "../../components/Subscribe/Subscribe";
@@ -34,7 +34,7 @@ const RelatedBox = ({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-1">
           <img
-            src={`${BASE_URL}/upload/${image}`}
+            src={`${image}`}
             loading="lazy"
             className="rounded-full w-14 h-14"
           />
@@ -92,7 +92,7 @@ const ScholarshipDescription = () => {
       const scholarships = scholarship[0];
       setTitle(scholarships.scholarshipname);
       setDescription(scholarships.description);
-      setHeadImage(`${BASE_URL}/upload/${scholarships.image}`);
+      setHeadImage(`${scholarships.image}`);
     }
   }, [scholarship]);
 
@@ -194,7 +194,7 @@ const ScholarshipDescription = () => {
                   <img
                     key={id}
                     loading="lazy"
-                    src={`${BASE_URL}/upload/${list.image}`}
+                    src={`${list.image}`}
                     className="rounded-full h-24 w-24 object-cover"
                   />
                 ))

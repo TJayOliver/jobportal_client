@@ -6,7 +6,7 @@ import Platforms from "../../components/Platforms/Platforms";
 import Header from "../../components/Header/Header";
 import Pagination from "../../components/Pagination/Pagination";
 import axios from "axios";
-import { fetch, BASE_URL } from "../request.js";
+import { fetch } from "../request.js";
 import parser from "html-react-parser";
 import Loading from "../../components/Loading/Loading";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
@@ -25,7 +25,8 @@ export const LatestBox = ({
   return (
     <div className="h-[26rem] w-full md:w-[15rem] rounded-lg bg-white flex flex-col shrink-0">
       <img
-        src={`${BASE_URL}/upload/${image}`}
+        src={`${image}`}
+        loading="lazy"
         className=" h-44 rounded-t-lg object-cover w-full"
       />
       <div className="p-2 flex flex-col gap-2">
@@ -104,7 +105,7 @@ const Article = () => {
               <div
                 key={id}
                 style={{
-                  backgroundImage: `url('${BASE_URL}/upload/${post.image}')`,
+                  backgroundImage: `url(${post.image})`,
                 }}
                 className="rounded-lg h-96  object-cover bg-center flex flex-col justify-end relative"
               >
@@ -140,7 +141,7 @@ const Article = () => {
                 <div
                   key={id}
                   style={{
-                    backgroundImage: `url('${BASE_URL}/upload/${post.image}')`,
+                    backgroundImage: `url(${post.image})`,
                   }}
                   className="h-[26rem] w-64 md:w-full rounded-lg bg-center object-cover relative flex flex-col"
                 >

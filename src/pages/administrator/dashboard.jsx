@@ -645,7 +645,7 @@ const Dashboard = () => {
                 <div className=" h-12 w-12 rounded-full bg-red-600">
                   <img
                     loading="lazy"
-                    src={`${BASE_URL}/upload/${userimage}`}
+                    src={`${userimage}`}
                     className="h-full w-full object-cover rounded-full"
                   />
                 </div>

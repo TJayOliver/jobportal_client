@@ -95,7 +95,7 @@ const ArticlePost = () => {
       const article = articles[0];
       setTitle(article.title);
       setDescription(article.post);
-      setHeadImage(`${BASE_URL}/upload/${article.image}`);
+      setHeadImage(`${article.image}`);
     }
   }, [articles]);
 
@@ -153,7 +153,7 @@ const ArticlePost = () => {
                 authorDetails.map((author, id) => (
                   <img
                     key={id}
-                    src={`${BASE_URL}/upload/${author.image}`}
+                    src={`${author.image}`}
                     className="object-cover rounded-full h-14 w-14"
                   />
                 ))
@@ -207,7 +207,7 @@ const ArticlePost = () => {
               <img
                 key={id}
                 loading="lazy"
-                src={`${BASE_URL}/upload/${post.image}`}
+                src={`${post.image}`}
                 className="h-full w-full object-cover"
               />
             ))}

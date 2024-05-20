@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Header from "../../components/Header/Header";
 import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
 import Footer from "../../components/Footer/Footer";
@@ -11,7 +12,6 @@ import Platforms from "../../components/Platforms/Platforms";
 import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
 import { countries } from "../../components/Dashboard/countries";
 import { FaSearch } from "react-icons/fa";
-import parser from "html-react-parser";
 import { LatestBox } from "../Article/article";
 import pic from "../../assets/p3.png";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
@@ -20,7 +20,6 @@ import moment from "moment";
 
 export const JobBox = ({
   image,
-  description,
   location,
   company,
   duration,
@@ -35,7 +34,7 @@ export const JobBox = ({
       <div className="flex items-center gap-4">
         <div className=" h-8 w-8 rounded-md shrink-0 flex object-cover ">
           <img
-            src={`${BASE_URL}/upload/${image}`}
+            src={`${image}`}
             className="object-cover h-full w-full rounded-md"
           />
         </div>

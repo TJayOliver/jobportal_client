@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const ScholarshipCategoryBox = ({ image, category, text, to, color }) => {
   return (
     <div className="rounded-2xl group hover:bg-gray-50 h-[17rem] md:h-[22rem] md:w-[23%] shrink-0 p-4 flex flex-col justify-around duration-150 ease-out hover:drop-shadow-md relative">
