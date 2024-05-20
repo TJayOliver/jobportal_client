@@ -102,28 +102,27 @@ const ArticlePost = () => {
   const stripHtmlTags = (htmlString) => {
     return htmlString.replace(/(<([^>]+)>)/gi, "");
   };
+  const desc = stripHtmlTags(description);
   const url = `${CLIENT_URL}/job/${id}`;
 
   return (
     <>
       <Helmet>
-        <title>{title}</title>
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={url} />
+        <meta property="og:site_name" content="Future Forte" />
         <meta property="og:title" content={title} />
-        <meta
-          property="og:description"
-          content={stripHtmlTags(description).slice(0, 100)}
-        />
-        <meta property="og:image" itemProp="image" content={headImage} />
-        {/* twitter */}
+        <meta property="og:description" content={desc} />
+        <meta property="og:url" content={url} />
+        <meta property="og:type" content="article" />
+        <meta property="article:publisher" content={url} />
+        <meta property="og:image" content={headImage} />
+        <meta property="og:image:secure_url" content={headImage} />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="640" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
-        <meta
-          name="twitter:description"
-          content={stripHtmlTags(description).slice(0, 100)}
-        />
+        <meta name="twitter:description" content={desc} />
         <meta name="twitter:image" content={headImage} />
+        <meta name="twitter:url" content={url} />
       </Helmet>
 
       <Header />
