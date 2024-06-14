@@ -111,13 +111,49 @@ const JobEditForm = ({ id }) => {
         <Loading />
       ) : (
         <form className=" p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
-          <FormInputs label="Name of Company" htmlFor="company" type="text" id="company" name="company" value={gform.company} onChange={formValues} placeholder="e.g. Kwaata Industries Ltd" />
+          <FormInputs
+            label="Name of Company"
+            htmlFor="company"
+            type="text"
+            id="company"
+            name="company"
+            value={gform.company}
+            onChange={formValues}
+            placeholder="e.g. Kwaata Industries Ltd"
+          />
 
-          <FormInputs label="Salary" htmlFor="salary" type="text" id="salary" name="salary" value={gform.salary} onChange={formValues} placeholder="e.g. 500 or Confidential" />
+          <FormInputs
+            label="Salary"
+            htmlFor="salary"
+            type="text"
+            id="salary"
+            name="salary"
+            value={gform.salary}
+            onChange={formValues}
+            placeholder="e.g. 500 or Confidential"
+          />
 
-          <FormInputs label="Position" htmlFor="position" type="text" id="position" name="position" value={gform.position} onChange={formValues} placeholder="e.g. General Manager" />
+          <FormInputs
+            label="Position"
+            htmlFor="position"
+            type="text"
+            id="position"
+            name="position"
+            value={gform.position}
+            onChange={formValues}
+            placeholder="e.g. General Manager"
+          />
 
-          <FormInputs label="Company Website" htmlFor="website" type="text" id="website" name="website" value={gform.website} onChange={formValues} placeholder="e.g. www.cocacola.com" />
+          <FormInputs
+            label="Company Website"
+            htmlFor="website"
+            type="text"
+            id="website"
+            name="website"
+            value={gform.website}
+            onChange={formValues}
+            placeholder="e.g. www.cocacola.com"
+          />
 
           <div className=" flex flex-col gap-1">
             <label htmlFor="featured">Featured</label>
@@ -199,22 +235,46 @@ const JobEditForm = ({ id }) => {
 
           <div>
             <p>Overview</p>
-            <ReactQuill className=" border-black border-[1px] rounded-lg" theme="snow" modules={modules} formats={formats} value={overview} onChange={setOverview} />
+            <ReactQuill
+              className=" border-black border-[1px] rounded-lg"
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              value={overview}
+              onChange={setOverview}
+            />
           </div>
 
           <div>
             <p>Responsibility</p>
-            <ReactQuill className=" border-black border-[1px] rounded-lg" theme="snow" modules={modules} formats={formats} value={responsibility} onChange={setResponsibility} />
+            <ReactQuill
+              className=" border-black border-[1px] rounded-lg"
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              value={responsibility}
+              onChange={setResponsibility}
+            />
           </div>
 
           <div>
             <p>Requirements</p>
-            <ReactQuill className=" border-black border-[1px] rounded-lg" theme="snow" modules={modules} formats={formats} value={requirements} onChange={setRequirements} />
+            <ReactQuill
+              className=" border-black border-[1px] rounded-lg"
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              value={requirements}
+              onChange={setRequirements}
+            />
           </div>
 
           <FormInputs label="Upload Job Flyer" htmlFor="image" type="file" id="image" name="image" onChange={formFiles} accept="image/*" />
 
-          <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500"> {loading ? <ThreeDots color="white" height="8px" /> : <p className="font-medium">Update</p>}</button>
+          <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500">
+            {" "}
+            {loading ? <ThreeDots color="white" height="8px" /> : <p className="font-medium">Update</p>}
+          </button>
         </form>
       )}
     </section>

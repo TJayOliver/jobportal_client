@@ -27,7 +27,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const MenuBox = ({ title, icon, onClick }) => {
   return (
-    <div onClick={onClick} role="button" className={" md:p-3 md:text-md font-medium flex items-center gap-2 hover:bg-gray-50 hover:rounded-md hover:duration-75 hover:ease-out"}>
+    <div
+      onClick={onClick}
+      role="button"
+      className={" md:p-3 md:text-md font-medium flex items-center gap-2 hover:bg-gray-50 hover:rounded-md hover:duration-75 hover:ease-out"}
+    >
       {icon}
       <p>{title}</p>
     </div>
@@ -370,7 +374,6 @@ const Dashboard = () => {
   const currentTestimonialPost = retrievedTestimonialData.slice(firstPostIndex, lastPostIndex);
 
   const [confirmEdit, setConfirmEdit] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleConfirmEdit = (id, title, route) => {
     setConfirmEdit((prev) => !prev);
@@ -380,17 +383,30 @@ const Dashboard = () => {
   };
 
   const handleConfirmDelete = (id, title, route) => {
-    setConfirmDelete((prev) => !prev);
-    setDeleteId(id);
-    setTitle(title);
-    setDeleteRoute(route);
+    const confirm = window.confirm(`Are you sure you want to delete ${title}`);
+    if (confirm) {
+      const handleDelete = async () => {
+        try {
+          const response = await axios.delete(`${BASE_URL}/${route}/delete/${id}`);
+          window.alert(response.data.message);
+          setMessage(response.data.message);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } catch (error) {
+          window.alert(error.response.data.message);
+          //console.error(error.message);
+        }
+      };
+      handleDelete();
+    } else {
+      alert("Delete cancelled");
+    }
   };
 
   const [editid, setEditId] = useState("");
-  const [deleteid, setDeleteId] = useState("");
   const [title, setTitle] = useState("");
   const [editRoute, setEditRoute] = useState("");
-  const [deleteRoute, setDeleteRoute] = useState("");
 
   const [articleEditForm, setArticleEditForm] = useState(false);
   const [categoryEditForm, setCategoryEditForm] = useState(false);
@@ -522,7 +538,6 @@ const Dashboard = () => {
   return (
     <>
       {confirmEdit && <ConfirmEdit id={editid} title={title} checker={handlechecker} route={editRoute} />}
-      {confirmDelete && <ConfirmDelete id={deleteid} title={title} route={deleteRoute} />}
       {verified && (
         <main className=" relative h-screen flex flex-col md:flex md:flex-row justify- gap-3 p-2 from-blue-600 to-green-500 bg-gradient-to-tr">
           {/* left panel */}
@@ -610,9 +625,21 @@ const Dashboard = () => {
             <div className="mt-2">
               {overviewInfo && (
                 <div className=" p-3 flex flex-wrap gap-3 duration-100 ease-out">
-                  <OverviewBox logo={<BiBookReader className=" text-4xl" />} title={retrievedArticlesData.length > 1 ? "Articles Posted" : "Article Posted"} count={retrievedCountArticle} />
-                  <OverviewBox logo={<BsPeople className=" text-4xl" />} title={retrievedJobsData.length > 1 ? "Graduate Jobs Posted" : "Graduate Jobs Posted"} count={retrievedCountJobs} />
-                  <OverviewBox logo={<BiTrophy className=" text-4xl" />} title={retrievedscholarshipData.length > 1 ? "Scholarships Posted" : "Scholarship Posted"} count={retrievedCountScholarship} />
+                  <OverviewBox
+                    logo={<BiBookReader className=" text-4xl" />}
+                    title={retrievedArticlesData.length > 1 ? "Articles Posted" : "Article Posted"}
+                    count={retrievedCountArticle}
+                  />
+                  <OverviewBox
+                    logo={<BsPeople className=" text-4xl" />}
+                    title={retrievedJobsData.length > 1 ? "Graduate Jobs Posted" : "Graduate Jobs Posted"}
+                    count={retrievedCountJobs}
+                  />
+                  <OverviewBox
+                    logo={<BiTrophy className=" text-4xl" />}
+                    title={retrievedscholarshipData.length > 1 ? "Scholarships Posted" : "Scholarship Posted"}
+                    count={retrievedCountScholarship}
+                  />
                 </div>
               )}
 
@@ -641,10 +668,16 @@ const Dashboard = () => {
                               <tr key={data.id} className=" hover:bg-gray-50">
                                 <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.categoryname}</td>
                                 <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                  <div onClick={() => handleConfirmEdit(data.id, data.categoryname, "category")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                  <div
+                                    onClick={() => handleConfirmEdit(data.id, data.categoryname, "category")}
+                                    className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                  >
                                     <HiMiniPencil />
                                   </div>
-                                  <div onClick={() => handleConfirmDelete(data.id, data.categoryname, "category")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                  <div
+                                    onClick={() => handleConfirmDelete(data.id, data.categoryname, "category")}
+                                    className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                  >
                                     <HiMiniTrash />
                                   </div>
                                 </td>
@@ -691,7 +724,10 @@ const Dashboard = () => {
                                   <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">{data.linkedin}</td>
                                   <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.role}</td>
                                   <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                    <div onClick={() => handleConfirmDelete(data.id, data.username, "admin")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                    <div
+                                      onClick={() => handleConfirmDelete(data.id, data.username, "admin")}
+                                      className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                    >
                                       <HiMiniTrash />
                                     </div>
                                   </td>
@@ -732,10 +768,16 @@ const Dashboard = () => {
                               <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
                               <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.author || "oliver"}</td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                <div onClick={() => handleConfirmEdit(data.id, data.title, "article")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                <div
+                                  onClick={() => handleConfirmEdit(data.id, data.title, "article")}
+                                  className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                >
                                   <HiMiniPencil />
                                 </div>
-                                <div onClick={() => handleConfirmDelete(data.id, data.title, "article")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                <div
+                                  onClick={() => handleConfirmDelete(data.id, data.title, "article")}
+                                  className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                >
                                   <HiMiniTrash />
                                 </div>
                               </td>
@@ -776,10 +818,16 @@ const Dashboard = () => {
                               <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.company}</td>
                               <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                <div onClick={() => handleConfirmEdit(data.id, data.position, "job")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                <div
+                                  onClick={() => handleConfirmEdit(data.id, data.position, "job")}
+                                  className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                >
                                   <HiMiniPencil />
                                 </div>
-                                <div onClick={() => handleConfirmDelete(data.id, data.position, "job")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                <div
+                                  onClick={() => handleConfirmDelete(data.id, data.position, "job")}
+                                  className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                >
                                   <HiMiniTrash />
                                 </div>
                               </td>
@@ -820,10 +868,16 @@ const Dashboard = () => {
                               <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.country}</td>
                               <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                <div onClick={() => handleConfirmEdit(data.id, data.scholarshipname, "scholarship")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                <div
+                                  onClick={() => handleConfirmEdit(data.id, data.scholarshipname, "scholarship")}
+                                  className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                >
                                   <HiMiniPencil />
                                 </div>
-                                <div onClick={() => handleConfirmEdit(data.id, data.scholarshipname, "scholarship")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                <div
+                                  onClick={() => handleConfirmEdit(data.id, data.scholarshipname, "scholarship")}
+                                  className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                >
                                   <HiMiniTrash />
                                 </div>
                               </td>
@@ -863,10 +917,16 @@ const Dashboard = () => {
                               <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.quote}</td>
                               <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.position}</td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                <div onClick={() => handleConfirmEdit(data.id, data.name, "testimonial")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                <div
+                                  onClick={() => handleConfirmEdit(data.id, data.name, "testimonial")}
+                                  className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                >
                                   <HiMiniPencil />
                                 </div>
-                                <div onClick={() => handleConfirmDelete(data.id, data.name, "testimonial")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
+                                <div
+                                  onClick={() => handleConfirmDelete(data.id, data.name, "testimonial")}
+                                  className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
+                                >
                                   <HiMiniTrash />
                                 </div>
                               </td>

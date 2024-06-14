@@ -6,6 +6,8 @@ import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats } from "../../reactquillmodules";
+import Loading from "../../Loading/Loading";
+import { ThreeDots } from "react-loader-spinner";
 
 const JobForm = ({ username }) => {
   const [category, setCategory] = useState([]);
@@ -57,6 +59,7 @@ const JobForm = ({ username }) => {
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const newFormData = new FormData();
     for (const key in gform) {
       newFormData.append(key, gform[key]);
@@ -71,186 +74,183 @@ const JobForm = ({ username }) => {
       window.alert(data);
       window.location.reload();
     } catch (error) {
+      setLoading(false);
       window.alert(error.response.data.message);
-      console.error(error.message);
+      //console.error(error.message);
     }
   };
 
   return (
     <section>
-      <form className=" p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
-        <FormInputs
-          label="Name of Company"
-          htmlFor="company"
-          type="text"
-          id="company"
-          name="company"
-          value={gform.company}
-          onChange={formValues}
-          placeholder="e.g. Kwaata Industries Ltd"
-        />
-
-        <FormInputs
-          label="Salary"
-          htmlFor="salary"
-          type="text"
-          id="salary"
-          name="salary"
-          value={gform.salary}
-          onChange={formValues}
-          placeholder="e.g. 500 or Confidential"
-        />
-
-        <FormInputs
-          label="Position"
-          htmlFor="position"
-          type="text"
-          id="position"
-          name="position"
-          value={gform.position}
-          onChange={formValues}
-          placeholder="e.g. General Manager"
-        />
-
-        <FormInputs
-          label="Company Website"
-          htmlFor="website"
-          type="text"
-          id="website"
-          name="website"
-          value={gform.website}
-          onChange={formValues}
-          placeholder="e.g. www.cocacola.com"
-        />
-
-        <div className=" flex flex-col gap-1">
-          <label htmlFor="featured">Featured</label>
-          <select
-            id="featured"
-            name="featured"
-            value={gform.featured}
+      {loading ? (
+        <Loading />
+      ) : (
+        <form className=" p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
+          <FormInputs
+            label="Name of Company"
+            htmlFor="company"
+            type="text"
+            id="company"
+            name="company"
+            value={gform.company}
             onChange={formValues}
-            className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
-            required
-          >
-            <option value="" disabled>
-              -- Select Featured --{" "}
-            </option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
-        </div>
+            placeholder="e.g. Kwaata Industries Ltd"
+          />
 
-        <div className=" flex flex-col gap-1">
-          <label htmlFor="duration">Contract Type</label>
-          <select
-            id="duration"
-            name="duration"
-            value={gform.duration}
+          <FormInputs
+            label="Salary"
+            htmlFor="salary"
+            type="text"
+            id="salary"
+            name="salary"
+            value={gform.salary}
             onChange={formValues}
-            className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
-            required
-          >
-            <option value="" disabled>
-              -- Select Job Contract Type --{" "}
-            </option>
-            <option value="Full Time">Full Time</option>
-            <option value="Part Time">Part Time</option>
-          </select>
-        </div>
+            placeholder="e.g. 500 or Confidential"
+          />
 
-        <div className=" flex flex-col gap-1">
-          <label htmlFor="location">Select Location</label>
-          <select
-            id="location"
-            name="location"
-            value={gform.location}
+          <FormInputs
+            label="Position"
+            htmlFor="position"
+            type="text"
+            id="position"
+            name="position"
+            value={gform.position}
             onChange={formValues}
-            className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
-            required
-          >
-            <option value="" disabled>
-              -- Select Country --{" "}
-            </option>
-            {countries.map((country, id) => (
-              <option value={country} key={id}>
-                {country}
+            placeholder="e.g. General Manager"
+          />
+
+          <FormInputs
+            label="Company Website"
+            htmlFor="website"
+            type="text"
+            id="website"
+            name="website"
+            value={gform.website}
+            onChange={formValues}
+            placeholder="e.g. www.cocacola.com"
+          />
+
+          <div className=" flex flex-col gap-1">
+            <label htmlFor="featured">Featured</label>
+            <select
+              id="featured"
+              name="featured"
+              value={gform.featured}
+              onChange={formValues}
+              className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+              required
+            >
+              <option value="" disabled>
+                -- Select Featured --{" "}
               </option>
-            ))}
-          </select>
-        </div>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
 
-        <div className=" flex flex-col gap-1">
-          <label htmlFor="jobcategory">Select Job Category</label>
-          <select
-            id="jobcategory"
-            name="jobcategory"
-            value={gform.jobcategory}
-            onChange={formValues}
-            className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
-            required
-          >
-            <option value="" disabled>
-              -- Select Job Category --{" "}
-            </option>
-            {category.map((cat, id) => (
-              <option key={id} value={cat.categoryname}>
-                {cat.categoryname}
+          <div className=" flex flex-col gap-1">
+            <label htmlFor="duration">Contract Type</label>
+            <select
+              id="duration"
+              name="duration"
+              value={gform.duration}
+              onChange={formValues}
+              className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+              required
+            >
+              <option value="" disabled>
+                -- Select Job Contract Type --{" "}
               </option>
-            ))}
-          </select>
-        </div>
+              <option value="Full Time">Full Time</option>
+              <option value="Part Time">Part Time</option>
+            </select>
+          </div>
 
-        <div>
-          <p>Overview</p>
-          <ReactQuill
-            className=" border-black border-[1px] rounded-lg"
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            value={overview}
-            onChange={setOverview}
-          />
-        </div>
+          <div className=" flex flex-col gap-1">
+            <label htmlFor="location">Select Location</label>
+            <select
+              id="location"
+              name="location"
+              value={gform.location}
+              onChange={formValues}
+              className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+              required
+            >
+              <option value="" disabled>
+                -- Select Country --{" "}
+              </option>
+              {countries.map((country, id) => (
+                <option value={country} key={id}>
+                  {country}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <p>Responsibility</p>
-          <ReactQuill
-            className=" border-black border-[1px] rounded-lg"
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            value={responsibility}
-            onChange={setResponsibility}
-          />
-        </div>
+          <div className=" flex flex-col gap-1">
+            <label htmlFor="jobcategory">Select Job Category</label>
+            <select
+              id="jobcategory"
+              name="jobcategory"
+              value={gform.jobcategory}
+              onChange={formValues}
+              className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+              required
+            >
+              <option value="" disabled>
+                -- Select Job Category --{" "}
+              </option>
+              {category.map((cat, id) => (
+                <option key={id} value={cat.categoryname}>
+                  {cat.categoryname}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <p>Requirements</p>
-          <ReactQuill
-            className=" border-black border-[1px] rounded-lg"
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            value={requirements}
-            onChange={setRequirements}
-          />
-        </div>
+          <div>
+            <p>Overview</p>
+            <ReactQuill
+              className=" border-black border-[1px] rounded-lg"
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              value={overview}
+              onChange={setOverview}
+            />
+          </div>
 
-        <FormInputs
-          label="Upload Job Flyer"
-          htmlFor="image"
-          type="file"
-          id="image"
-          name="image"
-          onChange={formFiles}
-          accept="image/*"
-        />
+          <div>
+            <p>Responsibility</p>
+            <ReactQuill
+              className=" border-black border-[1px] rounded-lg"
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              value={responsibility}
+              onChange={setResponsibility}
+            />
+          </div>
 
-        <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500">
-          POST
-        </button>
-      </form>
+          <div>
+            <p>Requirements</p>
+            <ReactQuill
+              className=" border-black border-[1px] rounded-lg"
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              value={requirements}
+              onChange={setRequirements}
+            />
+          </div>
+
+          <FormInputs label="Upload Job Flyer" htmlFor="image" type="file" id="image" name="image" onChange={formFiles} accept="image/*" />
+
+          <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500">
+            {loading ? <ThreeDots color="white" height="8px" /> : <p className="font-medium">Post</p>}
+          </button>
+        </form>
+      )}
     </section>
   );
 };
