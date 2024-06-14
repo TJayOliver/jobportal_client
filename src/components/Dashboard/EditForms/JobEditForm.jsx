@@ -7,6 +7,7 @@ import { fetch, BASE_URL } from "../../../pages/request";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats } from "../../reactquillmodules";
+import { ThreeDots } from "react-loader-spinner";
 
 const JobEditForm = ({ id }) => {
   const [category, setCategory] = useState([]);
@@ -29,7 +30,7 @@ const JobEditForm = ({ id }) => {
     jobcategory: "",
   });
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(true);
 
   const formValues = (e) => {
@@ -83,10 +84,9 @@ const JobEditForm = ({ id }) => {
     return () => controller.abort();
   }, []);
 
-  axios.defaults.withCredentials = true;
-
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const newFormData = new FormData();
       for (const key in gform) {
@@ -99,8 +99,9 @@ const JobEditForm = ({ id }) => {
       window.alert(data);
       window.location.reload();
     } catch (error) {
+      setLoading(false);
       window.alert(error.response.data.message);
-      console.error(error.message);
+      //console.error(error.message);
     }
   };
 
@@ -213,7 +214,7 @@ const JobEditForm = ({ id }) => {
 
           <FormInputs label="Upload Job Flyer" htmlFor="image" type="file" id="image" name="image" onChange={formFiles} accept="image/*" />
 
-          <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500">UPDATE</button>
+          <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500"> {loading ? <ThreeDots color="white" height="8px" /> : <p className="font-medium">Update</p>}</button>
         </form>
       )}
     </section>
