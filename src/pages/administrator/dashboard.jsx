@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 import { FiArrowLeftCircle, FiBarChart2 } from "react-icons/fi";
-import {
-  BiTrophy,
-  BiCategory,
-  BiBookReader,
-  BiSolidUserCircle,
-} from "react-icons/bi";
+import { BiTrophy, BiCategory, BiBookReader, BiSolidUserCircle } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
 import { CiCircleQuestion, CiMail } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -32,13 +27,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const MenuBox = ({ title, icon, onClick }) => {
   return (
-    <div
-      onClick={onClick}
-      role="button"
-      className={
-        " md:p-3 md:text-md font-medium flex items-center gap-2 hover:bg-gray-50 hover:rounded-md hover:duration-75 hover:ease-out"
-      }
-    >
+    <div onClick={onClick} role="button" className={" md:p-3 md:text-md font-medium flex items-center gap-2 hover:bg-gray-50 hover:rounded-md hover:duration-75 hover:ease-out"}>
       {icon}
       <p>{title}</p>
     </div>
@@ -47,11 +36,7 @@ const MenuBox = ({ title, icon, onClick }) => {
 
 const MenuInfos = ({ title, onClick, active }) => {
   return (
-    <div
-      role="button"
-      onClick={onClick}
-      className="flex gap-1 cursor-pointer relative items-center text-sm"
-    >
+    <div role="button" onClick={onClick} className="flex gap-1 cursor-pointer relative items-center text-sm">
       <FiBarChart2 />
       <p className={active}>{title}</p>
     </div>
@@ -361,37 +346,13 @@ const Dashboard = () => {
     const signal = controller.signal;
 
     fetch("article", setRetrievedArticlesData, setLoading, signal, setMessage);
-    fetch(
-      "testimonial",
-      setRetrievedTestimonialData,
-      setLoading,
-      signal,
-      setMessage
-    );
-    fetch(
-      "category",
-      setRetrievedCategoriesData,
-      setLoading,
-      signal,
-      setMessage
-    );
+    fetch("testimonial", setRetrievedTestimonialData, setLoading, signal, setMessage);
+    fetch("category", setRetrievedCategoriesData, setLoading, signal, setMessage);
     fetch("job", setRetrievedJobsData, setLoading, signal, setMessage);
-    fetch(
-      "scholarship",
-      setRetrievedScholarshipData,
-      setLoading,
-      signal,
-      setMessage
-    );
+    fetch("scholarship", setRetrievedScholarshipData, setLoading, signal, setMessage);
     fetch("article/count", setCountArticle, setLoading, signal, setMessage);
     fetch("job/count", setCountJobs, setLoading, signal, setMessage);
-    fetch(
-      "scholarship/count",
-      setCountScholarship,
-      setLoading,
-      signal,
-      setMessage
-    );
+    fetch("scholarship/count", setCountScholarship, setLoading, signal, setMessage);
     fetch("admin", setAllAdmin, setLoading, signal, setMessage);
 
     return () => controller.abort();
@@ -402,23 +363,11 @@ const Dashboard = () => {
 
   const lastPostIndex = currentPage * postPerPage;
   const firstPostIndex = lastPostIndex - postPerPage;
-  const currentArticlePost = retrievedArticlesData.slice(
-    firstPostIndex,
-    lastPostIndex
-  );
-  const currentCategoryPost = retrievedCategoriesData.slice(
-    firstPostIndex,
-    lastPostIndex
-  );
+  const currentArticlePost = retrievedArticlesData.slice(firstPostIndex, lastPostIndex);
+  const currentCategoryPost = retrievedCategoriesData.slice(firstPostIndex, lastPostIndex);
   const currentJobPost = retrievedJobsData.slice(firstPostIndex, lastPostIndex);
-  const currentScholarshipPost = retrievedscholarshipData.slice(
-    firstPostIndex,
-    lastPostIndex
-  );
-  const currentTestimonialPost = retrievedTestimonialData.slice(
-    firstPostIndex,
-    lastPostIndex
-  );
+  const currentScholarshipPost = retrievedscholarshipData.slice(firstPostIndex, lastPostIndex);
+  const currentTestimonialPost = retrievedTestimonialData.slice(firstPostIndex, lastPostIndex);
 
   const [confirmEdit, setConfirmEdit] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -572,17 +521,8 @@ const Dashboard = () => {
 
   return (
     <>
-      {confirmEdit && (
-        <ConfirmEdit
-          id={editid}
-          title={title}
-          checker={handlechecker}
-          route={editRoute}
-        />
-      )}
-      {confirmDelete && (
-        <ConfirmDelete id={deleteid} title={title} route={deleteRoute} />
-      )}
+      {confirmEdit && <ConfirmEdit id={editid} title={title} checker={handlechecker} route={editRoute} />}
+      {confirmDelete && <ConfirmDelete id={deleteid} title={title} route={deleteRoute} />}
       {verified && (
         <main className=" relative h-screen flex flex-col md:flex md:flex-row justify- gap-3 p-2 from-blue-600 to-green-500 bg-gradient-to-tr">
           {/* left panel */}
@@ -591,7 +531,9 @@ const Dashboard = () => {
             <div className="p-2 flex justify-between items-center">
               <h1 className=" text-2xl p-3 font-bold ">Dashboard</h1>
               <div className="flex md:hidden items-center gap-1">
-                <div className=" h-6 w-6 rounded-full bg-red-600"></div>
+                <div className=" h-6 w-6 rounded-full bg-red-600">
+                  <img loading="lazy" src={`${userimage}`} className="h-full w-full object-cover rounded-full" />
+                </div>
                 <p className="text-sm font-bold">{username}</p>
               </div>
             </div>
@@ -600,54 +542,20 @@ const Dashboard = () => {
 
             {/* Menus */}
             <div className="grid grid-cols-3 md:flex md:flex-col p-2 gap-2 md:gap-0 whitespace-nowrap">
-              <MenuBox
-                title="Article"
-                icon={<BiBookReader />}
-                onClick={handleArticleForm}
-              />
-              <MenuBox
-                title="Category"
-                icon={<BiCategory />}
-                onClick={handleCategoryForm}
-              />
-              <MenuBox
-                title="Job"
-                icon={<BsPeople />}
-                onClick={handleJobForm}
-              />
-              <MenuBox
-                title="Scholarship"
-                icon={<BiTrophy />}
-                onClick={handleScholarshipForm}
-              />
-              <MenuBox
-                title="Subscribers"
-                icon={<CiMail />}
-                onClick={handleSubscribers}
-              />
-              <MenuBox
-                title="Testimonial"
-                icon={<CiCircleQuestion />}
-                onClick={handleTestimonialForm}
-              />
-              {userRole === "super" && (
-                <MenuBox
-                  title="Create Admin"
-                  icon={<BiSolidUserCircle />}
-                  onClick={handleCreateAdmin}
-                />
-              )}
+              <MenuBox title="Article" icon={<BiBookReader />} onClick={handleArticleForm} />
+              <MenuBox title="Category" icon={<BiCategory />} onClick={handleCategoryForm} />
+              <MenuBox title="Job" icon={<BsPeople />} onClick={handleJobForm} />
+              <MenuBox title="Scholarship" icon={<BiTrophy />} onClick={handleScholarshipForm} />
+              <MenuBox title="Subscribers" icon={<CiMail />} onClick={handleSubscribers} />
+              <MenuBox title="Testimonial" icon={<CiCircleQuestion />} onClick={handleTestimonialForm} />
+              {userRole === "super" && <MenuBox title="Create Admin" icon={<BiSolidUserCircle />} onClick={handleCreateAdmin} />}
             </div>
 
             {/* Admininistrator's Picture and Name */}
             <div className=" hidden md:flex absolute bottom-0 border-t border-gray-200  justify-between items-center px-2 py-1 w-full">
               <div className=" flex gap-2 items-center">
                 <div className=" h-12 w-12 rounded-full bg-red-600">
-                  <img
-                    loading="lazy"
-                    src={`${userimage}`}
-                    className="h-full w-full object-cover rounded-full"
-                  />
+                  <img loading="lazy" src={`${userimage}`} className="h-full w-full object-cover rounded-full" />
                 </div>
                 <div className=" flex flex-col text-sm">
                   <p className="font-bold">{username}</p>
@@ -661,79 +569,26 @@ const Dashboard = () => {
           <section className=" bg-white w-full rounded-lg flex flex-col relative overflow-y-scroll scrollbar p-2">
             {/* Header */}
             <div className="p-3 flex justify-between items-center mb-2 sticky -top-2 bg-white duration-100 ease-in z-20">
-              {overviewInfo && (
-                <p className="font-bold text-2xl md:text-3xl">Overview</p>
-              )}
-              {articleInfo && (
-                <p className="font-bold text-2xl md:text-3xl">
-                  Article Statistics
-                </p>
-              )}
-              {jobInfo && (
-                <p className="font-bold text-2xl md:text-3xl">Job Statistics</p>
-              )}
-              {scholarshipInfo && (
-                <p className="font-bold text-2xl md:text-3xl">
-                  Scholarship Statistics
-                </p>
-              )}
-              {testimonialInfo && (
-                <p className="font-bold text-2xl md:text-3xl">
-                  Testimonial Statistics
-                </p>
-              )}
-              {articleForm && (
-                <p className="font-bold text-2xl md:text-3xl">Add Article</p>
-              )}
-              {categoryForm && (
-                <p className="font-bold text-2xl md:text-3xl">Add Category</p>
-              )}
-              {jobForm && (
-                <p className="font-bold text-2xl md:text-3xl">Add Job</p>
-              )}
-              {scholarshipForm && (
-                <p className="font-bold text-2xl md:text-3xl">
-                  Add Scholarship
-                </p>
-              )}
-              {createAdminForm && (
-                <p className="font-bold text-2xl md:text-3xl">
-                  Create Administrator
-                </p>
-              )}
-              {testimonialForm && (
-                <p className="font-bold text-2xl md:text-3xl">
-                  Add Testimonial
-                </p>
-              )}
-              {subscribersList && (
-                <p className="font-bold text-2xl md:text-3xl">Subscribers</p>
-              )}
-              {articleEditForm && (
-                <p className="font-bold text-2xl md:text-3xl">Edit Article</p>
-              )}
-              {categoryEditForm && (
-                <p className="font-bold text-2xl md:text-3xl">Edit Category</p>
-              )}
-              {jobEditForm && (
-                <p className="font-bold text-2xl md:text-3xl">Edit Job</p>
-              )}
-              {scholarshipEditForm && (
-                <p className="font-bold text-2xl md:text-3xl">
-                  Edit Scholarship
-                </p>
-              )}
-              {testimonialEditForm && (
-                <p className="font-bold text-2xl md:text-3xl">
-                  Edit Testimonial
-                </p>
-              )}
+              {overviewInfo && <p className="font-bold text-2xl md:text-3xl">Overview</p>}
+              {articleInfo && <p className="font-bold text-2xl md:text-3xl">Article Statistics</p>}
+              {jobInfo && <p className="font-bold text-2xl md:text-3xl">Job Statistics</p>}
+              {scholarshipInfo && <p className="font-bold text-2xl md:text-3xl">Scholarship Statistics</p>}
+              {testimonialInfo && <p className="font-bold text-2xl md:text-3xl">Testimonial Statistics</p>}
+              {articleForm && <p className="font-bold text-2xl md:text-3xl">Add Article</p>}
+              {categoryForm && <p className="font-bold text-2xl md:text-3xl">Add Category</p>}
+              {jobForm && <p className="font-bold text-2xl md:text-3xl">Add Job</p>}
+              {scholarshipForm && <p className="font-bold text-2xl md:text-3xl">Add Scholarship</p>}
+              {createAdminForm && <p className="font-bold text-2xl md:text-3xl">Create Administrator</p>}
+              {testimonialForm && <p className="font-bold text-2xl md:text-3xl">Add Testimonial</p>}
+              {subscribersList && <p className="font-bold text-2xl md:text-3xl">Subscribers</p>}
+              {articleEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Article</p>}
+              {categoryEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Category</p>}
+              {jobEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Job</p>}
+              {scholarshipEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Scholarship</p>}
+              {testimonialEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Testimonial</p>}
               {/* Log Out */}
               <small className=" flex gap-0.5">
-                <Link
-                  to="/administrator"
-                  className=" flex gap-1 hover:text-blue-600"
-                >
+                <Link to="/administrator" className=" flex gap-1 hover:text-blue-600">
                   <FiArrowLeftCircle className="mt-1" />
                   <p role="button" onClick={signOut}>
                     Sign Out
@@ -744,64 +599,20 @@ const Dashboard = () => {
 
             {/* Menu Infos */}
             <div className=" grid grid-cols-2 gap-3 md:flex md:gap-8 sticky top-12 border-b z-20 bg-white">
-              <MenuInfos
-                title="Overview"
-                onClick={handleOverviewInfo}
-                active={overviewInfo ? "font-bold text-red-500" : ""}
-              />
-              <MenuInfos
-                title="Article"
-                onClick={handleArticleInfo}
-                active={articleInfo ? "font-bold text-red-500" : ""}
-              />
-              <MenuInfos
-                title="Job"
-                onClick={handleJobInfo}
-                active={jobInfo ? "font-bold text-red-500" : ""}
-              />
-              <MenuInfos
-                title="Scholarship"
-                onClick={handleScholarshipInfo}
-                active={scholarshipInfo ? "font-bold text-red-500" : ""}
-              />
-              <MenuInfos
-                title="Testimonial"
-                onClick={handleTestimonialInfo}
-                active={testimonialInfo ? "font-bold text-red-500" : ""}
-              />
+              <MenuInfos title="Overview" onClick={handleOverviewInfo} active={overviewInfo ? "font-bold text-red-500" : ""} />
+              <MenuInfos title="Article" onClick={handleArticleInfo} active={articleInfo ? "font-bold text-red-500" : ""} />
+              <MenuInfos title="Job" onClick={handleJobInfo} active={jobInfo ? "font-bold text-red-500" : ""} />
+              <MenuInfos title="Scholarship" onClick={handleScholarshipInfo} active={scholarshipInfo ? "font-bold text-red-500" : ""} />
+              <MenuInfos title="Testimonial" onClick={handleTestimonialInfo} active={testimonialInfo ? "font-bold text-red-500" : ""} />
             </div>
 
             {/* Statistics */}
             <div className="mt-2">
               {overviewInfo && (
                 <div className=" p-3 flex flex-wrap gap-3 duration-100 ease-out">
-                  <OverviewBox
-                    logo={<BiBookReader className=" text-4xl" />}
-                    title={
-                      retrievedArticlesData.length > 1
-                        ? "Articles Posted"
-                        : "Article Posted"
-                    }
-                    count={retrievedCountArticle}
-                  />
-                  <OverviewBox
-                    logo={<BsPeople className=" text-4xl" />}
-                    title={
-                      retrievedJobsData.length > 1
-                        ? "Graduate Jobs Posted"
-                        : "Graduate Jobs Posted"
-                    }
-                    count={retrievedCountJobs}
-                  />
-                  <OverviewBox
-                    logo={<BiTrophy className=" text-4xl" />}
-                    title={
-                      retrievedscholarshipData.length > 1
-                        ? "Scholarships Posted"
-                        : "Scholarship Posted"
-                    }
-                    count={retrievedCountScholarship}
-                  />
+                  <OverviewBox logo={<BiBookReader className=" text-4xl" />} title={retrievedArticlesData.length > 1 ? "Articles Posted" : "Article Posted"} count={retrievedCountArticle} />
+                  <OverviewBox logo={<BsPeople className=" text-4xl" />} title={retrievedJobsData.length > 1 ? "Graduate Jobs Posted" : "Graduate Jobs Posted"} count={retrievedCountJobs} />
+                  <OverviewBox logo={<BiTrophy className=" text-4xl" />} title={retrievedscholarshipData.length > 1 ? "Scholarships Posted" : "Scholarship Posted"} count={retrievedCountScholarship} />
                 </div>
               )}
 
@@ -823,39 +634,17 @@ const Dashboard = () => {
                         <tbody className="divide-y divide-gray-200">
                           {retrievedCategoriesData.length === 0 ? (
                             <tr>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                No Data Available
-                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">No Data Available</td>
                             </tr>
                           ) : (
                             currentCategoryPost.map((data) => (
                               <tr key={data.id} className=" hover:bg-gray-50">
-                                <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                  {data.categoryname}
-                                </td>
+                                <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.categoryname}</td>
                                 <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                  <div
-                                    onClick={() =>
-                                      handleConfirmEdit(
-                                        data.id,
-                                        data.categoryname,
-                                        "category"
-                                      )
-                                    }
-                                    className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                  >
+                                  <div onClick={() => handleConfirmEdit(data.id, data.categoryname, "category")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
                                     <HiMiniPencil />
                                   </div>
-                                  <div
-                                    onClick={() =>
-                                      handleConfirmDelete(
-                                        data.id,
-                                        data.categoryname,
-                                        "category"
-                                      )
-                                    }
-                                    className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                  >
+                                  <div onClick={() => handleConfirmDelete(data.id, data.categoryname, "category")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
                                     <HiMiniTrash />
                                   </div>
                                 </td>
@@ -865,11 +654,7 @@ const Dashboard = () => {
                         </tbody>
                       </table>
                     </div>
-                    <Pagination
-                      totalPost={retrievedCategoriesData.length}
-                      postPerPage={postPerPage}
-                      setCurrentPage={setCurrentPage}
-                    />
+                    <Pagination totalPost={retrievedCategoriesData.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
                   </div>
 
                   {/* all administrators */}
@@ -883,66 +668,30 @@ const Dashboard = () => {
                               <th className=" px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                                 Full Name <CgArrowDown className="mt-1" />
                               </th>
-                              <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                                Username
-                              </th>
-                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">
-                                Twitter
-                              </th>
-                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">
-                                Facebook
-                              </th>
-                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">
-                                LinkedIn
-                              </th>
-                              <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                                Role
-                              </th>
+                              <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Username</th>
+                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">Twitter</th>
+                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">Facebook</th>
+                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">LinkedIn</th>
+                              <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Role</th>
                               <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200">
                             {allAdmin.length === 0 ? (
                               <tr>
-                                <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                  No Data Available
-                                </td>
+                                <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">No Data Available</td>
                               </tr>
                             ) : (
                               allAdmin.map((data) => (
-                                <tr
-                                  key={data.id}
-                                  className=" hover:bg-gray-50  "
-                                >
-                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                    {data.name}
-                                  </td>
-                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                    {data.username}
-                                  </td>
-                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                    {data.twitter}
-                                  </td>
-                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                    {data.facebook}
-                                  </td>
-                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                    {data.linkedin}
-                                  </td>
-                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                    {data.role}
-                                  </td>
+                                <tr key={data.id} className=" hover:bg-gray-50  ">
+                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.name}</td>
+                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.username}</td>
+                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">{data.twitter}</td>
+                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">{data.facebook}</td>
+                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">{data.linkedin}</td>
+                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.role}</td>
                                   <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                    <div
-                                      onClick={() =>
-                                        handleConfirmDelete(
-                                          data.id,
-                                          data.username,
-                                          "admin"
-                                        )
-                                      }
-                                      className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                    >
+                                    <div onClick={() => handleConfirmDelete(data.id, data.username, "admin")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
                                       <HiMiniTrash />
                                     </div>
                                   </td>
@@ -966,12 +715,8 @@ const Dashboard = () => {
                           <th className=" px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                             Article Title <CgArrowDown className="mt-1" />
                           </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                            Date Posted
-                          </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                            Author
-                          </th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Date Posted</th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Author</th>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                         </tr>
                       </thead>
@@ -983,38 +728,14 @@ const Dashboard = () => {
                         ) : (
                           currentArticlePost.map((data) => (
                             <tr key={data.id} className=" hover:bg-gray-50">
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.title}
-                              </td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.datecreated}
-                              </td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.author || "oliver"}
-                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.title}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.author || "oliver"}</td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                <div
-                                  onClick={() =>
-                                    handleConfirmEdit(
-                                      data.id,
-                                      data.title,
-                                      "article"
-                                    )
-                                  }
-                                  className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                >
+                                <div onClick={() => handleConfirmEdit(data.id, data.title, "article")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
                                   <HiMiniPencil />
                                 </div>
-                                <div
-                                  onClick={() =>
-                                    handleConfirmDelete(
-                                      data.id,
-                                      data.title,
-                                      "article"
-                                    )
-                                  }
-                                  className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                >
+                                <div onClick={() => handleConfirmDelete(data.id, data.title, "article")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
                                   <HiMiniTrash />
                                 </div>
                               </td>
@@ -1025,11 +746,7 @@ const Dashboard = () => {
                     </table>
                   </div>
 
-                  <Pagination
-                    totalPost={retrievedArticlesData.length}
-                    postPerPage={postPerPage}
-                    setCurrentPage={setCurrentPage}
-                  />
+                  <Pagination totalPost={retrievedArticlesData.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
                 </div>
               )}
 
@@ -1042,12 +759,8 @@ const Dashboard = () => {
                           <th className=" px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                             Job Title <CgArrowDown className="mt-1" />
                           </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                            Company
-                          </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                            Date Posted
-                          </th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Company</th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Date Posted</th>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                         </tr>
                       </thead>
@@ -1059,38 +772,14 @@ const Dashboard = () => {
                         ) : (
                           currentJobPost.map((data) => (
                             <tr key={data.id} className=" hover:bg-gray-50">
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.position}
-                              </td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.company}
-                              </td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.datecreated}
-                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.position}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.company}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                <div
-                                  onClick={() =>
-                                    handleConfirmEdit(
-                                      data.id,
-                                      data.position,
-                                      "job"
-                                    )
-                                  }
-                                  className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                >
+                                <div onClick={() => handleConfirmEdit(data.id, data.position, "job")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
                                   <HiMiniPencil />
                                 </div>
-                                <div
-                                  onClick={() =>
-                                    handleConfirmDelete(
-                                      data.id,
-                                      data.position,
-                                      "job"
-                                    )
-                                  }
-                                  className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                >
+                                <div onClick={() => handleConfirmDelete(data.id, data.position, "job")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
                                   <HiMiniTrash />
                                 </div>
                               </td>
@@ -1101,11 +790,7 @@ const Dashboard = () => {
                     </table>
                   </div>
 
-                  <Pagination
-                    totalPost={retrievedJobsData.length}
-                    postPerPage={postPerPage}
-                    setCurrentPage={setCurrentPage}
-                  />
+                  <Pagination totalPost={retrievedJobsData.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
                 </div>
               )}
 
@@ -1118,12 +803,8 @@ const Dashboard = () => {
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                             Scholarship Name <CgArrowDown className="mt-1" />
                           </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                            Location
-                          </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                            Date Posted
-                          </th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Location</th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Date Posted</th>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                         </tr>
                       </thead>
@@ -1135,38 +816,14 @@ const Dashboard = () => {
                         ) : (
                           currentScholarshipPost.map((data) => (
                             <tr key={data.id} className=" hover:bg-gray-50">
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.scholarshipname}
-                              </td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.country}
-                              </td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.datecreated}
-                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.scholarshipname}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.country}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                <div
-                                  onClick={() =>
-                                    handleConfirmEdit(
-                                      data.id,
-                                      data.scholarshipname,
-                                      "scholarship"
-                                    )
-                                  }
-                                  className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                >
+                                <div onClick={() => handleConfirmEdit(data.id, data.scholarshipname, "scholarship")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
                                   <HiMiniPencil />
                                 </div>
-                                <div
-                                  onClick={() =>
-                                    handleConfirmEdit(
-                                      data.id,
-                                      data.scholarshipname,
-                                      "scholarship"
-                                    )
-                                  }
-                                  className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                >
+                                <div onClick={() => handleConfirmEdit(data.id, data.scholarshipname, "scholarship")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
                                   <HiMiniTrash />
                                 </div>
                               </td>
@@ -1176,11 +833,7 @@ const Dashboard = () => {
                       </tbody>
                     </table>
                   </div>
-                  <Pagination
-                    totalPost={retrievedscholarshipData.length}
-                    postPerPage={postPerPage}
-                    setCurrentPage={setCurrentPage}
-                  />
+                  <Pagination totalPost={retrievedscholarshipData.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
                 </div>
               )}
 
@@ -1193,12 +846,8 @@ const Dashboard = () => {
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                             Person's Name <CgArrowDown className="mt-1" />
                           </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                            Message
-                          </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
-                            Position
-                          </th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Message</th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Position</th>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                         </tr>
                       </thead>
@@ -1210,38 +859,14 @@ const Dashboard = () => {
                         ) : (
                           currentTestimonialPost.map((data) => (
                             <tr key={data.id} className=" hover:bg-gray-50">
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.name}
-                              </td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.quote}
-                              </td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
-                                {data.position}
-                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.name}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.quote}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.position}</td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
-                                <div
-                                  onClick={() =>
-                                    handleConfirmEdit(
-                                      data.id,
-                                      data.name,
-                                      "testimonial"
-                                    )
-                                  }
-                                  className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                >
+                                <div onClick={() => handleConfirmEdit(data.id, data.name, "testimonial")} className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md">
                                   <HiMiniPencil />
                                 </div>
-                                <div
-                                  onClick={() =>
-                                    handleConfirmDelete(
-                                      data.id,
-                                      data.name,
-                                      "testimonial"
-                                    )
-                                  }
-                                  className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
-                                >
+                                <div onClick={() => handleConfirmDelete(data.id, data.name, "testimonial")} className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md">
                                   <HiMiniTrash />
                                 </div>
                               </td>
@@ -1251,11 +876,7 @@ const Dashboard = () => {
                       </tbody>
                     </table>
                   </div>
-                  <Pagination
-                    totalPost={currentTestimonialPost.length}
-                    postPerPage={postPerPage}
-                    setCurrentPage={setCurrentPage}
-                  />
+                  <Pagination totalPost={currentTestimonialPost.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
                 </div>
               )}
             </div>
