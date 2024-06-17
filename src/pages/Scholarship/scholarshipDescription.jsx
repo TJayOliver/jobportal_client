@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
@@ -10,16 +11,16 @@ import parser from "html-react-parser";
 import Platforms from "../../components/Platforms/Platforms";
 import Subscribe from "../../components/Subscribe/Subscribe";
 import { BsCalendar2, BsPeople } from "react-icons/bs";
-import { BiSolidCategory, BiSolidSchool } from "react-icons/bi";
+import { BiSolidCategory } from "react-icons/bi";
 import megaphone from "../../assets/megaphone.png";
 import image from "../../assets/student1.jpg";
-import Cookie from "../../components/Cookie/Cookie";
+//import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
 import Share from "../../components/Share/Share";
 import { Helmet } from "react-helmet";
 
-const RelatedBox = ({ image, scholarshipname, location, agent, deadline, programs, host, to }) => {
+const RelatedBox = ({ image, scholarshipname, location, agent, deadline, programs, to }) => {
   return (
     <div className=" rounded-lg border border-gray-100 p-4 flex flex-col gap-2 bg-slate-50">
       <div className="flex flex-col gap-2">
@@ -41,10 +42,6 @@ const RelatedBox = ({ image, scholarshipname, location, agent, deadline, program
         <div className="flex items-center gap-1">
           <BiSolidCategory />
           <p>{programs}</p>
-        </div>
-        <div className="flex items-center gap-1">
-          <BiSolidSchool />
-          <p>{host}</p>
         </div>
       </div>
       <a
@@ -101,7 +98,7 @@ const ScholarshipDescription = () => {
       setCookieTracker
     );
     return () => controller.abort();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -205,7 +202,7 @@ const ScholarshipDescription = () => {
           </section>
 
           {/* minimum information */}
-          <section className="h-20 border border-gray-100 flex overflow-x-scroll scrollbar m-auto p-8 rounded-lg py-14 gap-4 divide-x-2 max-w-5xl items-center justify-between w-full text-sm md:text-md">
+          <section className="h-20 border border-gray-100 flex  m-auto p-8 rounded-lg py-14 gap-4 divide-x-2 max-w-5xl items-center justify-between w-full text-sm md:text-md">
             <div>
               <div className="flex items-center gap-1">
                 <BsPeople />
@@ -251,7 +248,7 @@ const ScholarshipDescription = () => {
             {loading ? (
               <Loading />
             ) : (
-              scholarship.map((post, id) => <section key={id}>{post.post}</section>)
+              scholarship.map((post, id) => <section key={id}>{parser(post.post)}</section>)
             )}
           </section>
         </section>
@@ -271,7 +268,6 @@ const ScholarshipDescription = () => {
                 agent={list.agent}
                 deadline={list.deadline}
                 programs={list.programs}
-                host={list.hostuniversity}
                 to={`/scholarship/${list.id}`}
               />
             ))
@@ -285,7 +281,7 @@ const ScholarshipDescription = () => {
           <div className="text-white">
             <p className=" text-xl md:text-3xl font-medium">Job Alert E-mails </p>
             <small>
-              Keep track of positions that you're interested in by signing up for job alert emails
+              Keep track of positions that you are interested in by signing up for job alert emails
             </small>
           </div>
           <div className="rounded-lg bg-gradient-to-r from-white/90 to-white flex flex-col items-center justify-center gap-4 h-48 w-44 p-1">

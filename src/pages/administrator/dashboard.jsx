@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { FiArrowLeftCircle, FiBarChart2 } from "react-icons/fi";
 import { BiTrophy, BiCategory, BiBookReader, BiSolidUserCircle } from "react-icons/bi";
@@ -23,13 +25,16 @@ import TestimonialForm from "../../components/Dashboard/PostForms/TestimonialFor
 import TestimonialEditForm from "../../components/Dashboard/EditForms/TestimonialEditForm";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import moment from "moment";
 
 const MenuBox = ({ title, icon, onClick }) => {
   return (
     <div
       onClick={onClick}
       role="button"
-      className={" md:p-3 md:text-md font-medium flex items-center gap-2 hover:bg-gray-50 hover:rounded-md hover:duration-75 hover:ease-out"}
+      className={
+        " md:p-3 md:text-md font-medium flex items-center gap-2 hover:bg-gray-50 hover:rounded-md hover:duration-75 hover:ease-out"
+      }
     >
       {icon}
       <p>{title}</p>
@@ -39,7 +44,11 @@ const MenuBox = ({ title, icon, onClick }) => {
 
 const MenuInfos = ({ title, onClick, active }) => {
   return (
-    <div role="button" onClick={onClick} className="flex gap-1 cursor-pointer relative items-center text-sm">
+    <div
+      role="button"
+      onClick={onClick}
+      className="flex gap-1 cursor-pointer relative items-center text-sm"
+    >
       <FiBarChart2 />
       <p className={active}>{title}</p>
     </div>
@@ -536,7 +545,9 @@ const Dashboard = () => {
 
   return (
     <>
-      {confirmEdit && <ConfirmEdit id={editid} title={title} checker={handlechecker} route={editRoute} />}
+      {confirmEdit && (
+        <ConfirmEdit id={editid} title={title} checker={handlechecker} route={editRoute} />
+      )}
       {verified && (
         <main className=" relative h-screen flex flex-col md:flex md:flex-row justify- gap-3 p-2 from-blue-600 to-green-500 bg-gradient-to-tr">
           {/* left panel */}
@@ -546,7 +557,11 @@ const Dashboard = () => {
               <h1 className=" text-2xl p-3 font-bold ">Dashboard</h1>
               <div className="flex md:hidden items-center gap-1">
                 <div className=" h-6 w-6 rounded-full bg-red-600">
-                  <img loading="lazy" src={`${userimage}`} className="h-full w-full object-cover rounded-full" />
+                  <img
+                    loading="lazy"
+                    src={`${userimage}`}
+                    className="h-full w-full object-cover rounded-full"
+                  />
                 </div>
                 <p className="text-sm font-bold">{username}</p>
               </div>
@@ -561,15 +576,29 @@ const Dashboard = () => {
               <MenuBox title="Job" icon={<BsPeople />} onClick={handleJobForm} />
               <MenuBox title="Scholarship" icon={<BiTrophy />} onClick={handleScholarshipForm} />
               <MenuBox title="Subscribers" icon={<CiMail />} onClick={handleSubscribers} />
-              <MenuBox title="Testimonial" icon={<CiCircleQuestion />} onClick={handleTestimonialForm} />
-              {userRole === "super" && <MenuBox title="Create Admin" icon={<BiSolidUserCircle />} onClick={handleCreateAdmin} />}
+              <MenuBox
+                title="Testimonial"
+                icon={<CiCircleQuestion />}
+                onClick={handleTestimonialForm}
+              />
+              {userRole === "super" && (
+                <MenuBox
+                  title="Create Admin"
+                  icon={<BiSolidUserCircle />}
+                  onClick={handleCreateAdmin}
+                />
+              )}
             </div>
 
             {/* Admininistrator's Picture and Name */}
             <div className=" hidden md:flex absolute bottom-0 border-t border-gray-200  justify-between items-center px-2 py-1 w-full">
               <div className=" flex gap-2 items-center">
                 <div className=" h-12 w-12 rounded-full bg-red-600">
-                  <img loading="lazy" src={`${userimage}`} className="h-full w-full object-cover rounded-full" />
+                  <img
+                    loading="lazy"
+                    src={`${userimage}`}
+                    className="h-full w-full object-cover rounded-full"
+                  />
                 </div>
                 <div className=" flex flex-col text-sm">
                   <p className="font-bold">{username}</p>
@@ -586,20 +615,30 @@ const Dashboard = () => {
               {overviewInfo && <p className="font-bold text-2xl md:text-3xl">Overview</p>}
               {articleInfo && <p className="font-bold text-2xl md:text-3xl">Article Statistics</p>}
               {jobInfo && <p className="font-bold text-2xl md:text-3xl">Job Statistics</p>}
-              {scholarshipInfo && <p className="font-bold text-2xl md:text-3xl">Scholarship Statistics</p>}
-              {testimonialInfo && <p className="font-bold text-2xl md:text-3xl">Testimonial Statistics</p>}
+              {scholarshipInfo && (
+                <p className="font-bold text-2xl md:text-3xl">Scholarship Statistics</p>
+              )}
+              {testimonialInfo && (
+                <p className="font-bold text-2xl md:text-3xl">Testimonial Statistics</p>
+              )}
               {articleForm && <p className="font-bold text-2xl md:text-3xl">Add Article</p>}
               {categoryForm && <p className="font-bold text-2xl md:text-3xl">Add Category</p>}
               {jobForm && <p className="font-bold text-2xl md:text-3xl">Add Job</p>}
               {scholarshipForm && <p className="font-bold text-2xl md:text-3xl">Add Scholarship</p>}
-              {createAdminForm && <p className="font-bold text-2xl md:text-3xl">Create Administrator</p>}
+              {createAdminForm && (
+                <p className="font-bold text-2xl md:text-3xl">Create Administrator</p>
+              )}
               {testimonialForm && <p className="font-bold text-2xl md:text-3xl">Add Testimonial</p>}
               {subscribersList && <p className="font-bold text-2xl md:text-3xl">Subscribers</p>}
               {articleEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Article</p>}
               {categoryEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Category</p>}
               {jobEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Job</p>}
-              {scholarshipEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Scholarship</p>}
-              {testimonialEditForm && <p className="font-bold text-2xl md:text-3xl">Edit Testimonial</p>}
+              {scholarshipEditForm && (
+                <p className="font-bold text-2xl md:text-3xl">Edit Scholarship</p>
+              )}
+              {testimonialEditForm && (
+                <p className="font-bold text-2xl md:text-3xl">Edit Testimonial</p>
+              )}
               {/* Log Out */}
               <small className=" flex gap-0.5">
                 <Link to="/administrator" className=" flex gap-1 hover:text-blue-600">
@@ -613,11 +652,31 @@ const Dashboard = () => {
 
             {/* Menu Infos */}
             <div className=" grid grid-cols-2 gap-3 md:flex md:gap-8 sticky top-12 border-b z-20 bg-white">
-              <MenuInfos title="Overview" onClick={handleOverviewInfo} active={overviewInfo ? "font-bold text-red-500" : ""} />
-              <MenuInfos title="Article" onClick={handleArticleInfo} active={articleInfo ? "font-bold text-red-500" : ""} />
-              <MenuInfos title="Job" onClick={handleJobInfo} active={jobInfo ? "font-bold text-red-500" : ""} />
-              <MenuInfos title="Scholarship" onClick={handleScholarshipInfo} active={scholarshipInfo ? "font-bold text-red-500" : ""} />
-              <MenuInfos title="Testimonial" onClick={handleTestimonialInfo} active={testimonialInfo ? "font-bold text-red-500" : ""} />
+              <MenuInfos
+                title="Overview"
+                onClick={handleOverviewInfo}
+                active={overviewInfo ? "font-bold text-red-500" : ""}
+              />
+              <MenuInfos
+                title="Article"
+                onClick={handleArticleInfo}
+                active={articleInfo ? "font-bold text-red-500" : ""}
+              />
+              <MenuInfos
+                title="Job"
+                onClick={handleJobInfo}
+                active={jobInfo ? "font-bold text-red-500" : ""}
+              />
+              <MenuInfos
+                title="Scholarship"
+                onClick={handleScholarshipInfo}
+                active={scholarshipInfo ? "font-bold text-red-500" : ""}
+              />
+              <MenuInfos
+                title="Testimonial"
+                onClick={handleTestimonialInfo}
+                active={testimonialInfo ? "font-bold text-red-500" : ""}
+              />
             </div>
 
             {/* Statistics */}
@@ -631,12 +690,18 @@ const Dashboard = () => {
                   />
                   <OverviewBox
                     logo={<BsPeople className=" text-4xl" />}
-                    title={retrievedJobsData.length > 1 ? "Graduate Jobs Posted" : "Graduate Jobs Posted"}
+                    title={
+                      retrievedJobsData.length > 1 ? "Graduate Jobs Posted" : "Graduate Jobs Posted"
+                    }
                     count={retrievedCountJobs}
                   />
                   <OverviewBox
                     logo={<BiTrophy className=" text-4xl" />}
-                    title={retrievedscholarshipData.length > 1 ? "Scholarships Posted" : "Scholarship Posted"}
+                    title={
+                      retrievedscholarshipData.length > 1
+                        ? "Scholarships Posted"
+                        : "Scholarship Posted"
+                    }
                     count={retrievedCountScholarship}
                   />
                 </div>
@@ -660,21 +725,29 @@ const Dashboard = () => {
                         <tbody className="divide-y divide-gray-200">
                           {retrievedCategoriesData.length === 0 ? (
                             <tr>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">No Data Available</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                No Data Available
+                              </td>
                             </tr>
                           ) : (
                             currentCategoryPost.map((data) => (
                               <tr key={data.id} className=" hover:bg-gray-50">
-                                <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.categoryname}</td>
+                                <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                  {data.categoryname}
+                                </td>
                                 <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
                                   <div
-                                    onClick={() => handleConfirmEdit(data.id, data.categoryname, "category")}
+                                    onClick={() =>
+                                      handleConfirmEdit(data.id, data.categoryname, "category")
+                                    }
                                     className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
                                   >
                                     <HiMiniPencil />
                                   </div>
                                   <div
-                                    onClick={() => handleConfirmDelete(data.id, data.categoryname, "category")}
+                                    onClick={() =>
+                                      handleConfirmDelete(data.id, data.categoryname, "category")
+                                    }
                                     className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
                                   >
                                     <HiMiniTrash />
@@ -686,7 +759,11 @@ const Dashboard = () => {
                         </tbody>
                       </table>
                     </div>
-                    <Pagination totalPost={retrievedCategoriesData.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
+                    <Pagination
+                      totalPost={retrievedCategoriesData.length}
+                      postPerPage={postPerPage}
+                      setCurrentPage={setCurrentPage}
+                    />
                   </div>
 
                   {/* all administrators */}
@@ -700,31 +777,57 @@ const Dashboard = () => {
                               <th className=" px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                                 Full Name <CgArrowDown className="mt-1" />
                               </th>
-                              <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Username</th>
-                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">Twitter</th>
-                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">Facebook</th>
-                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">LinkedIn</th>
-                              <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Role</th>
+                              <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                                Username
+                              </th>
+                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">
+                                Twitter
+                              </th>
+                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">
+                                Facebook
+                              </th>
+                              <th className="hidden md:inline-table px-2 md:px-4 py-3 text-left text-sm font-medium">
+                                LinkedIn
+                              </th>
+                              <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                                Role
+                              </th>
                               <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200">
                             {allAdmin.length === 0 ? (
                               <tr>
-                                <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">No Data Available</td>
+                                <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                  No Data Available
+                                </td>
                               </tr>
                             ) : (
                               allAdmin.map((data) => (
                                 <tr key={data.id} className=" hover:bg-gray-50  ">
-                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.name}</td>
-                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.username}</td>
-                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">{data.twitter}</td>
-                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">{data.facebook}</td>
-                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">{data.linkedin}</td>
-                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.role}</td>
+                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                    {data.name}
+                                  </td>
+                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                    {data.username}
+                                  </td>
+                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                    {data.twitter}
+                                  </td>
+                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                    {data.facebook}
+                                  </td>
+                                  <td className="hidden md:inline-table px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                    {data.linkedin}
+                                  </td>
+                                  <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                    {data.role}
+                                  </td>
                                   <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
                                     <div
-                                      onClick={() => handleConfirmDelete(data.id, data.username, "admin")}
+                                      onClick={() =>
+                                        handleConfirmDelete(data.id, data.username, "admin")
+                                      }
                                       className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
                                     >
                                       <HiMiniTrash />
@@ -750,8 +853,12 @@ const Dashboard = () => {
                           <th className=" px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                             Article Title <CgArrowDown className="mt-1" />
                           </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Date Posted</th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Author</th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                            Date Posted
+                          </th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                            Author
+                          </th>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                         </tr>
                       </thead>
@@ -763,9 +870,15 @@ const Dashboard = () => {
                         ) : (
                           currentArticlePost.map((data) => (
                             <tr key={data.id} className=" hover:bg-gray-50">
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.title}</td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.author || "oliver"}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.title}
+                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {moment(data.datecreated).format("DD-MM-YYYY")}
+                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.author}
+                              </td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
                                 <div
                                   onClick={() => handleConfirmEdit(data.id, data.title, "article")}
@@ -774,7 +887,9 @@ const Dashboard = () => {
                                   <HiMiniPencil />
                                 </div>
                                 <div
-                                  onClick={() => handleConfirmDelete(data.id, data.title, "article")}
+                                  onClick={() =>
+                                    handleConfirmDelete(data.id, data.title, "article")
+                                  }
                                   className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
                                 >
                                   <HiMiniTrash />
@@ -787,7 +902,11 @@ const Dashboard = () => {
                     </table>
                   </div>
 
-                  <Pagination totalPost={retrievedArticlesData.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
+                  <Pagination
+                    totalPost={retrievedArticlesData.length}
+                    postPerPage={postPerPage}
+                    setCurrentPage={setCurrentPage}
+                  />
                 </div>
               )}
 
@@ -800,8 +919,12 @@ const Dashboard = () => {
                           <th className=" px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                             Job Title <CgArrowDown className="mt-1" />
                           </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Company</th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Date Posted</th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                            Company
+                          </th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                            Date Posted
+                          </th>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                         </tr>
                       </thead>
@@ -813,9 +936,15 @@ const Dashboard = () => {
                         ) : (
                           currentJobPost.map((data) => (
                             <tr key={data.id} className=" hover:bg-gray-50">
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.position}</td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.company}</td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.position}
+                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.company}
+                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {moment(data.datecreated).format("DD-MM-YYYY")}
+                              </td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
                                 <div
                                   onClick={() => handleConfirmEdit(data.id, data.position, "job")}
@@ -837,7 +966,11 @@ const Dashboard = () => {
                     </table>
                   </div>
 
-                  <Pagination totalPost={retrievedJobsData.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
+                  <Pagination
+                    totalPost={retrievedJobsData.length}
+                    postPerPage={postPerPage}
+                    setCurrentPage={setCurrentPage}
+                  />
                 </div>
               )}
 
@@ -850,8 +983,12 @@ const Dashboard = () => {
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
                             Scholarship Name <CgArrowDown className="mt-1" />
                           </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Location</th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Date Posted</th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                            Location
+                          </th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                            Date Posted
+                          </th>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                         </tr>
                       </thead>
@@ -863,18 +1000,28 @@ const Dashboard = () => {
                         ) : (
                           currentScholarshipPost.map((data) => (
                             <tr key={data.id} className=" hover:bg-gray-50">
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.scholarshipname}</td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.country}</td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.datecreated}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.scholarshipname}
+                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.country}
+                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {moment(data.datecreated).format("DD-MM-YYYY")}
+                              </td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
                                 <div
-                                  onClick={() => handleConfirmEdit(data.id, data.scholarshipname, "scholarship")}
+                                  onClick={() =>
+                                    handleConfirmEdit(data.id, data.scholarshipname, "scholarship")
+                                  }
                                   className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
                                 >
                                   <HiMiniPencil />
                                 </div>
                                 <div
-                                  onClick={() => handleConfirmEdit(data.id, data.scholarshipname, "scholarship")}
+                                  onClick={() =>
+                                    handleConfirmEdit(data.id, data.scholarshipname, "scholarship")
+                                  }
                                   className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
                                 >
                                   <HiMiniTrash />
@@ -886,7 +1033,11 @@ const Dashboard = () => {
                       </tbody>
                     </table>
                   </div>
-                  <Pagination totalPost={retrievedscholarshipData.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
+                  <Pagination
+                    totalPost={retrievedscholarshipData.length}
+                    postPerPage={postPerPage}
+                    setCurrentPage={setCurrentPage}
+                  />
                 </div>
               )}
 
@@ -897,10 +1048,14 @@ const Dashboard = () => {
                       <thead className=" bg-gray-50">
                         <tr>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium flex gap-1">
-                            Person's Name <CgArrowDown className="mt-1" />
+                            Persons Name <CgArrowDown className="mt-1" />
                           </th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Message</th>
-                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">Position</th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                            Message
+                          </th>
+                          <th className="px-2 md:px-4 py-3 text-left text-sm font-medium">
+                            Position
+                          </th>
                           <th className="px-2 md:px-4 py-3 text-left text-sm font-medium"></th>
                         </tr>
                       </thead>
@@ -912,18 +1067,28 @@ const Dashboard = () => {
                         ) : (
                           currentTestimonialPost.map((data) => (
                             <tr key={data.id} className=" hover:bg-gray-50">
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.name}</td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.quote}</td>
-                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">{data.position}</td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.name}
+                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.quote}
+                              </td>
+                              <td className="px-2 md:px-4 py-4 text-left text-xs font-medium">
+                                {data.position}
+                              </td>
                               <td className="flex flex-col md:flex md:flex-row gap-2 py-2 md:py-4 text-left text-md font-medium">
                                 <div
-                                  onClick={() => handleConfirmEdit(data.id, data.name, "testimonial")}
+                                  onClick={() =>
+                                    handleConfirmEdit(data.id, data.name, "testimonial")
+                                  }
                                   className=" hover:bg-blue-300 cursor-pointer p-1 md:p-2 rounded-md"
                                 >
                                   <HiMiniPencil />
                                 </div>
                                 <div
-                                  onClick={() => handleConfirmDelete(data.id, data.name, "testimonial")}
+                                  onClick={() =>
+                                    handleConfirmDelete(data.id, data.name, "testimonial")
+                                  }
                                   className=" hover:bg-red-300 cursor-pointer p-1 md:p-2 rounded-md"
                                 >
                                   <HiMiniTrash />
@@ -935,7 +1100,11 @@ const Dashboard = () => {
                       </tbody>
                     </table>
                   </div>
-                  <Pagination totalPost={currentTestimonialPost.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
+                  <Pagination
+                    totalPost={currentTestimonialPost.length}
+                    postPerPage={postPerPage}
+                    setCurrentPage={setCurrentPage}
+                  />
                 </div>
               )}
             </div>

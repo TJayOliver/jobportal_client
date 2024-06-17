@@ -66,10 +66,8 @@ const JobEditForm = ({ id }) => {
           duration: retrievedData.duration,
           jobcategory: retrievedData.jobcategory,
         });
-        setResponsibility(retrievedData.responsibility);
-        setRequirements(retrievedData.requirements);
+        setPost(retrievedData.post);
         setOverview(retrievedData.overview);
-        setApplicationinfo(retrievedData.applicationinfo);
         setLoading(false);
       } catch (error) {
         setLoading(false);
