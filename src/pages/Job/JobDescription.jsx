@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Header from "../../components/Header/Header";
 import { useState, useEffect } from "react";
 import Loading from "../../components/Loading/Loading";
@@ -217,10 +218,10 @@ const JobDescription = () => {
                   <a
                     key={id}
                     target="blank"
-                    href={`https://${job.website}`}
+                    href={`${job.website}`}
                     className="bg-blue-500 hover:bg-blue-600 rounded-2xl p-2 w-full flex items-center justify-center text-white font-medium"
                   >
-                    Apply for this Job
+                    Companys Website
                   </a>
                 ))
               )}
