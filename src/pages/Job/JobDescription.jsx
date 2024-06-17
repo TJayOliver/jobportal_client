@@ -112,27 +112,15 @@ const JobDescription = () => {
         </section>
 
         <section className="max-w-6xl flex flex-col md:flex-row md:flex m-auto justify-between gap-4 mb-5">
-          {/* job overview */}
-          <section id="job overview" className="flex flex-col md:basis-[50rem] gap-5">
-            {loading ? (
-              <Loading />
-            ) : (
-              jobs.map((job, id) => (
-                <section key={id} className="text-justify">
-                  {parser(job.overview)}
-                </section>
-              ))
-            )}
-          </section>
-
           {/* job information */}
           <section id="job information" className="flex flex-col md:basis-[50rem] gap-5">
             {loading ? (
               <Loading />
             ) : (
               jobs.map((job, id) => (
-                <section key={id} className="text-justify">
-                  {parser(job.post)}
+                <section key={id} className="text-justify flex flex-col gap-4">
+                  <section>{parser(job.overview)}</section>
+                  <section>{parser(job.post)}</section>
                 </section>
               ))
             )}
@@ -273,7 +261,7 @@ const JobDescription = () => {
                   category={job.categoryname}
                   salary={job.salary}
                   description={job.responsibility}
-                  to={`/job/${job.id}/${job.position}`}
+                  to={`/job/${job.id}`}
                 />
               ))
             )}
