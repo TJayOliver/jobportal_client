@@ -5,6 +5,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats } from "../../reactquillmodules";
 import Loading from "../../Loading/Loading";
+import { BASE_URL } from "../../../pages/request";
+import { ThreeDots } from "react-loader-spinner";
 
 const ArticleEditForm = ({ id }) => {
   const [aform, setAform] = useState({
@@ -40,9 +42,7 @@ const ArticleEditForm = ({ id }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4040/article/edit/${id}`
-        );
+        const response = await axios.get(`${BASE_URL}/article/edit/${id}`);
         const retrievedData = response.data.data[0];
         setAform({
           image: retrievedData.image,
@@ -69,11 +69,9 @@ const ArticleEditForm = ({ id }) => {
       newformData.append(key, aform[key]);
     }
     try {
-      const response = await axios.put(
-        `http://localhost:4040/article/update/${id}`,
-        newformData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await axios.put(`${BASE_URL}/article/update/${id}`, newformData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       setMessage(response.data.message);
       setSubmitted(true);
       setLoading(false);
@@ -143,12 +141,7 @@ const ArticleEditForm = ({ id }) => {
               <label htmlFor="mainfeatured" className=" text-lg">
                 Main Featured
               </label>
-              <input
-                type="checkbox"
-                id="mainfeatured"
-                name="mainfeatured"
-                onChange={formValues}
-              />
+              <input type="checkbox" id="mainfeatured" name="mainfeatured" onChange={formValues} />
             </div>
 
             {/* featured */}
@@ -156,12 +149,7 @@ const ArticleEditForm = ({ id }) => {
               <label htmlFor="featured" className=" text-lg">
                 Featured
               </label>
-              <input
-                type="checkbox"
-                id="featured"
-                name="featured"
-                onChange={formValues}
-              />
+              <input type="checkbox" id="featured" name="featured" onChange={formValues} />
             </div>
           </div>
 
@@ -176,7 +164,8 @@ const ArticleEditForm = ({ id }) => {
           />
 
           <button className=" text-xl p-2 bg-[#004242] rounded-md text-white hover:bg-teal-500 w-full">
-            POST
+            {" "}
+            {loading ? <ThreeDots color="white" height="8px" /> : <p className="font-medium">Post</p>}
           </button>
         </form>
       )}

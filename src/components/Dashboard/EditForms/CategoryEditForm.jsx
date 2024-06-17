@@ -20,8 +20,7 @@ const CategoryEditForm = ({ id }) => {
       try {
         const response = await axios.get(`${BASE_URL}/category/edit/${id}`);
         const retrievedData = response.data.data;
-        const categoryName =
-          retrievedData.length > 0 ? retrievedData[0].categoryname : "";
+        const categoryName = retrievedData.length > 0 ? retrievedData[0].categoryname : "";
         setCForm({ categoryname: categoryName });
       } catch (error) {
         console.error(error.message);
@@ -37,10 +36,7 @@ const CategoryEditForm = ({ id }) => {
       return;
     }
     try {
-      const response = await axios.put(
-        `${BASE_URL}/category/update/${id}`,
-        cForm
-      );
+      const response = await axios.put(`${BASE_URL}/category/update/${id}`, cForm);
       const data = response.data.message;
       setSubmitted(true);
       window.alert(data);
@@ -65,9 +61,7 @@ const CategoryEditForm = ({ id }) => {
           placeholder="e.g. Name of Job Category"
         />
 
-        <button className=" text-xl bg-blue-600 p-2 rounded-md text-white hover:bg-blue-500">
-          ADD
-        </button>
+        <button className=" text-xl bg-[#004242] p-2 rounded-md text-white hover:bg-teal-500">Add</button>
       </form>
     </section>
   );

@@ -1,16 +1,7 @@
-const FormInputs = ({
-  label,
-  htmlFor,
-  type,
-  id,
-  name,
-  placeholder,
-  accept,
-  value,
-  onChange,
-}) => {
+/* eslint-disable react/prop-types */
+const FormInputs = ({ label, htmlFor, type, id, name, placeholder, accept, value, onChange }) => {
   return (
-    <div className=" flex flex-col gap-1">
+    <div className=" flex flex-col gap-1 w-full">
       <label htmlFor={htmlFor} className=" text-md">
         {label}
       </label>

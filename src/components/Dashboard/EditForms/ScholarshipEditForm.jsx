@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import FormInputs from "../formInputs";
 import { countries } from "../countries";
 import { useState, useEffect } from "react";
@@ -8,15 +11,11 @@ import Loading from "../../Loading/Loading";
 import { modules, formats } from "../../reactquillmodules";
 import { BASE_URL } from "../../../pages/request";
 import moment from "moment";
+import { ThreeDots } from "react-loader-spinner";
 
 const ScholarshipEditForm = ({ id }) => {
   const [description, setDescription] = useState("");
-  const [eligibility, setEligibility] = useState("");
-  const [duration, setDuration] = useState("");
-  const [programsoffered, setProgramsoffered] = useState("");
-  const [documentsrequired, setDocumentsrequired] = useState("");
-  const [benefits, setBenefits] = useState("");
-  const [applicationinformation, setApplicationinformation] = useState("");
+  const [post, setPost] = useState("");
 
   const [sForm, setSForm] = useState({
     image: null,
@@ -28,14 +27,8 @@ const ScholarshipEditForm = ({ id }) => {
     country: "",
     description: "",
     scholarshipcategory: "",
-    eligibility: "",
-    duration: "",
-    programsoffered: "",
-    documentsrequired: "",
-    benefits: "",
-    applicationinformation: "",
+    post: "",
     agent: "",
-    hostuniversity: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -52,12 +45,7 @@ const ScholarshipEditForm = ({ id }) => {
       ...sForm,
       image: e.target.files[0],
       description: description,
-      eligibility: eligibility,
-      duration: duration,
-      programsoffered: programsoffered,
-      documentsrequired: documentsrequired,
-      benefits: benefits,
-      applicationinformation: applicationinformation,
+      post: post,
     });
   };
 
@@ -71,17 +59,15 @@ const ScholarshipEditForm = ({ id }) => {
       for (const key in sForm) {
         newFormData.append(key, sForm[key]);
       }
-      const response = await axios.put(
-        `${BASE_URL}/scholarship/update/${id}`,
-        newFormData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await axios.put(`${BASE_URL}/scholarship/update/${id}`, newFormData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       const data = response.data.message;
       setSubmitted(true);
       window.alert(data);
       window.location.reload();
     } catch (error) {
-      console.error(error.message);
+      //console.error(error.message);
       window.alert(error.response.data.message);
     }
   };
@@ -91,9 +77,7 @@ const ScholarshipEditForm = ({ id }) => {
       try {
         const response = await axios.get(`${BASE_URL}/scholarship/edit/${id}`);
         const retrievedData = response.data.data;
-        const formattedDeadline = moment(retrievedData.deadline).format(
-          "YYYY-MM-DD"
-        );
+        const formattedDeadline = moment(retrievedData.deadline).format("YYYY-MM-DD");
         setSForm({
           image: retrievedData.image,
           scholarshipname: retrievedData.scholarshipname,
@@ -104,18 +88,12 @@ const ScholarshipEditForm = ({ id }) => {
           country: retrievedData.country,
           scholarshipcategory: retrievedData.scholarshipcategory,
           agent: retrievedData.agent,
-          hostuniversity: retrievedData.hostuniversity,
         });
         setDescription(retrievedData.description);
-        setEligibility(retrievedData.eligibility);
-        setDuration(retrievedData.duration);
-        setProgramsoffered(retrievedData.programsoffered);
-        setDocumentsrequired(retrievedData.documentsrequired);
-        setBenefits(retrievedData.benefits);
-        setApplicationinformation(retrievedData.applicationinformation);
+        setPost(retrievedData.post);
         setLoading(false);
       } catch (error) {
-        console.error(error.message);
+        //console.error(error.message);
       }
     };
     fetch();
@@ -136,17 +114,6 @@ const ScholarshipEditForm = ({ id }) => {
             value={sForm.scholarshipname}
             onChange={FormValues}
             placeholder="e.g. Afghanistan Government Scholarships"
-          />
-
-          <FormInputs
-            label="Host University"
-            htmlFor="hostuniversity"
-            type="text"
-            id="hostuniversity"
-            name="hostuniversity"
-            value={sForm.hostuniversity}
-            onChange={FormValues}
-            placeholder="e.g. University for Development Studies"
           />
 
           <div className="flex flex-col md:flex md:flex-row gap-4">
@@ -242,9 +209,7 @@ const ScholarshipEditForm = ({ id }) => {
                 <option value="Bachelors Degree">Bachelors Degree</option>
                 <option value="Masters Degree">Masters Degree</option>
                 <option value="Doctorate Degree">Doctorate Degree</option>
-                <option value="Post Graduate Diploma">
-                  Post Graduate Diploma
-                </option>
+                <option value="Post Graduate Diploma">Post Graduate Diploma</option>
               </select>
             </div>
 
@@ -285,74 +250,14 @@ const ScholarshipEditForm = ({ id }) => {
           </div>
 
           <div>
-            <p className="text-xl">Eligibility Criteria</p>
+            <p className="text-xl">Scholarship Details</p>
             <ReactQuill
               className="text-xl border-black border-[1px] rounded-lg"
               theme="snow"
               modules={modules}
               formats={formats}
-              value={eligibility}
-              onChange={(value) => setEligibility(value)}
-            />
-          </div>
-
-          <div>
-            <p className="text-xl">Duration</p>
-            <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg"
-              theme="snow"
-              modules={modules}
-              formats={formats}
-              value={duration}
-              onChange={(value) => setDuration(value)}
-            />
-          </div>
-
-          <div>
-            <p className="text-xl">Programs Offered</p>
-            <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg"
-              theme="snow"
-              modules={modules}
-              formats={formats}
-              value={programsoffered}
-              onChange={(value) => setProgramsoffered(value)}
-            />
-          </div>
-
-          <div>
-            <p className="text-xl">Documents Required</p>
-            <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg"
-              theme="snow"
-              modules={modules}
-              formats={formats}
-              value={documentsrequired}
-              onChange={(value) => setDocumentsrequired(value)}
-            />
-          </div>
-
-          <div>
-            <p className="text-xl">Benefits</p>
-            <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg"
-              theme="snow"
-              modules={modules}
-              formats={formats}
-              value={benefits}
-              onChange={(value) => setBenefits(value)}
-            />
-          </div>
-
-          <div>
-            <p className="text-xl">Application Information</p>
-            <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg"
-              theme="snow"
-              modules={modules}
-              formats={formats}
-              value={applicationinformation}
-              onChange={(value) => setApplicationinformation(value)}
+              value={post}
+              onChange={(value) => setPost(value)}
             />
           </div>
 
@@ -361,12 +266,7 @@ const ScholarshipEditForm = ({ id }) => {
             <label htmlFor="featured" className=" text-lg">
               Featured
             </label>
-            <input
-              type="checkbox"
-              id="featured"
-              name="featured"
-              onChange={FormValues}
-            />
+            <input type="checkbox" id="featured" name="featured" onChange={FormValues} />
           </div>
 
           <FormInputs
@@ -380,7 +280,11 @@ const ScholarshipEditForm = ({ id }) => {
           />
 
           <button className=" text-xl bg-teal-500 p-2 rounded-md text-white hover:bg-teal-600">
-            POST
+            {loading ? (
+              <ThreeDots color="white" height="8px" />
+            ) : (
+              <p className="font-medium">Update</p>
+            )}
           </button>
         </form>
       )}

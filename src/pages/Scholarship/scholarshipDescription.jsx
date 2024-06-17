@@ -19,25 +19,12 @@ import moment from "moment";
 import Share from "../../components/Share/Share";
 import { Helmet } from "react-helmet";
 
-const RelatedBox = ({
-  image,
-  scholarshipname,
-  location,
-  agent,
-  deadline,
-  programs,
-  host,
-  to,
-}) => {
+const RelatedBox = ({ image, scholarshipname, location, agent, deadline, programs, host, to }) => {
   return (
     <div className=" rounded-lg border border-gray-100 p-4 flex flex-col gap-2 bg-slate-50">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-1">
-          <img
-            src={`${image}`}
-            loading="lazy"
-            className="rounded-full w-14 h-14"
-          />
+          <img src={`${image}`} loading="lazy" className="rounded-full w-14 h-14" />
           <div>
             <p className="font-bold">{scholarshipname}</p>
             <small>{location}</small>
@@ -124,12 +111,7 @@ const ScholarshipDescription = () => {
       const countryPromises = scholarship.map(async (count) => count.country);
       const [countryname] = await Promise.all(countryPromises);
       try {
-        await fetch(
-          `scholarship/country/${countryname}`,
-          setSimilar,
-          setLoading,
-          signal
-        );
+        await fetch(`scholarship/country/${countryname}`, setSimilar, setLoading, signal);
 
         return () => controller.abort();
       } catch (error) {
@@ -168,16 +150,9 @@ const ScholarshipDescription = () => {
       </Helmet>
 
       <Header />
-      <Subscribe
-        SubscribeState={SubscribeState}
-        SetSubscribeState={SetSubscribeState}
-      />
+      <Subscribe SubscribeState={SubscribeState} SetSubscribeState={SetSubscribeState} />
       <aside className="h-64">
-        <img
-          src={image}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+        <img src={image} loading="lazy" className="h-full w-full object-cover" />
       </aside>
 
       <main className="relative flex p-2 justify-between">
@@ -188,6 +163,7 @@ const ScholarshipDescription = () => {
             id="description"
             className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 border border-gray-100"
           >
+            {/* scholarship image and share button*/}
             <div className="flex justify-between items-center">
               {loading ? (
                 <Loading />
@@ -206,6 +182,7 @@ const ScholarshipDescription = () => {
                 <Share url={url} title={title} description={description} />
               </div>
             </div>
+
             {loading ? (
               <Loading />
             ) : (
@@ -227,7 +204,7 @@ const ScholarshipDescription = () => {
             )}
           </section>
 
-          {/* min information */}
+          {/* minimum information */}
           <section className="h-20 border border-gray-100 flex overflow-x-scroll scrollbar m-auto p-8 rounded-lg py-14 gap-4 divide-x-2 max-w-5xl items-center justify-between w-full text-sm md:text-md">
             <div>
               <div className="flex items-center gap-1">
@@ -237,9 +214,7 @@ const ScholarshipDescription = () => {
               {loading ? (
                 <Loading />
               ) : (
-                scholarship.map((list, id) => (
-                  <p key={id}>{list.agent} Required</p>
-                ))
+                scholarship.map((list, id) => <p key={id}>{list.agent} Required</p>)
               )}
             </div>
             <div className="p-2">
@@ -258,7 +233,7 @@ const ScholarshipDescription = () => {
             <div className="p-2">
               <div className="flex items-center gap-1">
                 <BiSolidCategory />
-                <p className="font-bold">Programs</p>
+                <p className="font-bold">Programs Offered</p>
               </div>
               {loading ? (
                 <Loading />
@@ -266,79 +241,17 @@ const ScholarshipDescription = () => {
                 scholarship.map((list, id) => <p key={id}>{list.programs}</p>)
               )}
             </div>
-            <div className="p-2">
-              <div className="flex items-center gap-1">
-                <BiSolidSchool />
-                <p className="font-bold">Host University</p>
-              </div>
-              {loading ? (
-                <Loading />
-              ) : (
-                scholarship.map((list, id) => (
-                  <p key={id}>{list.hostuniversity}</p>
-                ))
-              )}
-            </div>
           </section>
 
-          {/* information  */}
+          {/* scholarship information  */}
           <section
-            id="information"
+            id="scholarship information"
             className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 text-justify"
           >
             {loading ? (
               <Loading />
             ) : (
-              scholarship.map((list, id) => (
-                <div key={id} id="" className="flex flex-col gap-2">
-                  <p className="font-bold text-2xl">Eligibility</p>
-                  <div>{parser(`${list.eligibility}`)}</div>
-                </div>
-              ))
-            )}
-
-            {loading ? (
-              <Loading />
-            ) : (
-              scholarship.map((list, id) => (
-                <div key={id} id="" className="flex flex-col gap-2">
-                  <p className="font-bold text-2xl">Benefits</p>
-                  <div>{parser(`${list.benefits}`)}</div>
-                </div>
-              ))
-            )}
-
-            {loading ? (
-              <Loading />
-            ) : (
-              scholarship.map((list, id) => (
-                <div key={id} id="" className="flex flex-col gap-2">
-                  <p className="font-bold text-2xl">Documents Required</p>
-                  <div>{parser(`${list.documentsrequired}`)}</div>
-                </div>
-              ))
-            )}
-
-            {loading ? (
-              <Loading />
-            ) : (
-              scholarship.map((list, id) => (
-                <div key={id} id="" className="flex flex-col gap-2">
-                  <p className="font-bold text-2xl">Programs Offered</p>
-                  <div>{parser(`${list.programsoffered}`)}</div>
-                </div>
-              ))
-            )}
-
-            {loading ? (
-              <Loading />
-            ) : (
-              scholarship.map((list, id) => (
-                <div key={id} id="" className="flex flex-col gap-2">
-                  <p className="font-bold text-2xl">How to Apply</p>
-                  <div>{parser(`${list.applicationinformation}`)}</div>
-                </div>
-              ))
+              scholarship.map((post, id) => <section key={id}>{post.post}</section>)
             )}
           </section>
         </section>
@@ -370,20 +283,13 @@ const ScholarshipDescription = () => {
       <aside className="p-3">
         <div className="flex justify-between p-2 bg-gradient-to-tr from-blue-500 to-teal-500 items-center rounded-md mt-1 mb-2 max-w-6xl m-auto">
           <div className="text-white">
-            <p className=" text-xl md:text-3xl font-medium">
-              Job Alert E-mails{" "}
-            </p>
+            <p className=" text-xl md:text-3xl font-medium">Job Alert E-mails </p>
             <small>
-              Keep track of positions that you're interested in by signing up
-              for job alert emails
+              Keep track of positions that you're interested in by signing up for job alert emails
             </small>
           </div>
           <div className="rounded-lg bg-gradient-to-r from-white/90 to-white flex flex-col items-center justify-center gap-4 h-48 w-44 p-1">
-            <img
-              src={megaphone}
-              className=" object-cover h-32"
-              loading="lazy"
-            />
+            <img src={megaphone} className=" object-cover h-32" loading="lazy" />
             <button
               onClick={() => SetSubscribeState(true)}
               className="p-2 bg-gradient-to-tr from-blue-500 to-teal-500 w-full text-sm whitespace-nowrap rounded-md text-white font-medium"

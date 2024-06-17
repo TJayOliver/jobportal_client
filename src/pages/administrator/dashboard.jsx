@@ -8,7 +8,6 @@ import { fetch, BASE_URL } from "../request";
 import { CgArrowDown } from "react-icons/cg";
 import { HiMiniTrash, HiMiniPencil } from "react-icons/hi2";
 import Pagination from "../../components/Pagination/Pagination";
-import ConfirmDelete from "../../components/Dashboard/confirmDelete";
 import ConfirmEdit from "../../components/Dashboard/confirmEdit";
 import ArticleForm from "../../components/Dashboard/PostForms/ArticleForm";
 import CategoryForm from "../../components/Dashboard/PostForms/CategoryForm";
@@ -84,7 +83,7 @@ const Dashboard = () => {
           setUserRole(data.role);
         }
       } catch (error) {
-        console.error(error.message);
+        //console.error(error.message);
         navigate("/administrator");
       }
     };
@@ -395,7 +394,7 @@ const Dashboard = () => {
           }, 2000);
         } catch (error) {
           window.alert(error.response.data.message);
-          //console.error(error.message);
+          console.error(error.message);
         }
       };
       handleDelete();

@@ -35,15 +35,7 @@ const JobDescription = () => {
     const controller = new AbortController();
     const signal = controller.signal;
     fetch("job/featured", setFeaturedJobs, setLoading, signal, setMessage);
-    fetchByID(
-      "job/read",
-      id,
-      setJobs,
-      setLoading,
-      signal,
-      setMessage,
-      setCookieTracker
-    );
+    fetchByID("job/read", id, setJobs, setLoading, signal, setMessage, setCookieTracker);
     return () => controller.abort();
   }, []);
 
@@ -89,20 +81,14 @@ const JobDescription = () => {
       </Helmet>
 
       <Header />
-      <Subscribe
-        SubscribeState={SubscribeState}
-        SetSubscribeState={SetSubscribeState}
-      />
+      <Subscribe SubscribeState={SubscribeState} SetSubscribeState={SetSubscribeState} />
       <main className="p-2 ">
         <section className="mb-3">
           <section className=" bg-gradient-to-tr from-rose-500 to-blue-600 max-w-6xl flex m-auto  h-72 object-cover bg-center rounded-lg relative mb-14">
             <div className="rounded-full h-24 w-24 bg-white absolute -bottom-10 left-10 flex items-center justify-center drop-shadow-sm">
               {jobs.map((job, id) => (
                 <div key={id} className=" h-14 w-14 rounded-full object-cover">
-                  <img
-                    src={`${job.image}`}
-                    className="h-full w-full rounded-full"
-                  />
+                  <img src={`${job.image}`} className="h-full w-full rounded-full" />
                 </div>
               ))}
             </div>
@@ -112,10 +98,7 @@ const JobDescription = () => {
             <Loading />
           ) : (
             jobs.map((job, id) => (
-              <section
-                key={id}
-                className="max-w-6xl flex flex-col m-auto gap-2"
-              >
+              <section key={id} className="max-w-6xl flex flex-col m-auto gap-2">
                 <h1 className="text-4xl font-bold">{job.position}</h1>
                 <small className="text-md">{job.company}</small>
                 <div className="flex gap-3 items-center">
@@ -129,49 +112,17 @@ const JobDescription = () => {
         </section>
 
         <section className="max-w-6xl flex flex-col md:flex-row md:flex m-auto justify-between gap-4 mb-5">
-          {/* main */}
-          <section
-            id="decription"
-            className="flex flex-col md:basis-[50rem] gap-5"
-          >
-            <div id="overview" className="flex flex-col gap-2">
-              <h1 className="font-bold text-2xl">Overview</h1>
-              {loading ? (
-                <Loading />
-              ) : (
-                jobs.map((job, id) => (
-                  <div key={id} className="text-justify">
-                    {parser(job.overview)}
-                  </div>
-                ))
-              )}
-            </div>
-
-            <div id="responsibility" className="flex flex-col gap-2">
-              <h1 className="font-bold text-2xl">Responsibility</h1>
-              {loading ? (
-                <Loading />
-              ) : (
-                jobs.map((job, id) => (
-                  <div key={id} className="text-justify">
-                    {parser(job.responsibility)}
-                  </div>
-                ))
-              )}
-            </div>
-
-            <div id="requirements" className="flex flex-col gap-2">
-              <h1 className="font-bold text-2xl">Requirement</h1>
-              {loading ? (
-                <Loading />
-              ) : (
-                jobs.map((job, id) => (
-                  <div key={id} className="text-justify">
-                    {parser(job.requirements)}
-                  </div>
-                ))
-              )}
-            </div>
+          {/* job information */}
+          <section id="job information" className="flex flex-col md:basis-[50rem] gap-5">
+            {loading ? (
+              <Loading />
+            ) : (
+              jobs.map((job, id) => (
+                <section key={id} className="text-justify">
+                  {parser(job.post)}
+                </section>
+              ))
+            )}
           </section>
 
           <section id="smalldetails" className="flex flex-col gap-4">
@@ -243,10 +194,7 @@ const JobDescription = () => {
                   </div>
                 </div>
 
-                <div
-                  id="dateposted"
-                  className="flex gap-2 items-center shrink-0"
-                >
+                <div id="dateposted" className="flex gap-2 items-center shrink-0">
                   <div className="bg-gray-100 h-10 w-10 rounded-full flex items-center justify-center">
                     <BsCalendar />
                   </div>
@@ -326,20 +274,13 @@ const JobDescription = () => {
           }
         >
           <div className="text-white">
-            <p className=" text-xl md:text-3xl font-medium">
-              Job Alert E-mails{" "}
-            </p>
+            <p className=" text-xl md:text-3xl font-medium">Job Alert E-mails </p>
             <small>
-              Keep track of positions that you're interested in by signing up
-              for job alert emails
+              Keep track of positions that you're interested in by signing up for job alert emails
             </small>
           </div>
           <div className="rounded-lg bg-gradient-to-r from-white/90 to-white flex flex-col items-center justify-center gap-4 h-48 w-44 p-1">
-            <img
-              src={megaphone}
-              className=" object-cover h-32"
-              loading="lazy"
-            />
+            <img src={megaphone} className=" object-cover h-32" loading="lazy" />
             <button
               onClick={() => SetSubscribeState(true)}
               className="p-2 bg-gradient-to-tr from-blue-500 to-teal-500 w-full text-sm whitespace-nowrap rounded-md text-white font-medium"
