@@ -7,7 +7,7 @@ import { fetch, BASE_URL } from "../../../pages/request";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { modules, formats } from "../../reactquillmodules";
+import { modules, formats, editorStyle } from "../../reactquillmodules";
 import Loading from "../../Loading/Loading";
 import { ThreeDots } from "react-loader-spinner";
 
@@ -139,7 +139,7 @@ const JobForm = ({ username }) => {
                 name="featured"
                 value={gform.featured}
                 onChange={formValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -157,7 +157,7 @@ const JobForm = ({ username }) => {
                 name="duration"
                 value={gform.duration}
                 onChange={formValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -175,7 +175,7 @@ const JobForm = ({ username }) => {
                 name="location"
                 value={gform.location}
                 onChange={formValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -196,7 +196,7 @@ const JobForm = ({ username }) => {
                 name="jobcategory"
                 value={gform.jobcategory}
                 onChange={formValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -214,10 +214,10 @@ const JobForm = ({ username }) => {
           <div>
             <p>Overview</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
+              style={editorStyle}
               value={overview}
               onChange={setOverview}
             />
@@ -226,7 +226,6 @@ const JobForm = ({ username }) => {
           <div>
             <p>Job Details</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
@@ -245,7 +244,7 @@ const JobForm = ({ username }) => {
             accept="image/*"
           />
 
-          <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500">
+          <button className="bg-teal-600 p-2  text-white hover:bg-teal-500">
             {loading ? (
               <ThreeDots color="white" height="8px" />
             ) : (

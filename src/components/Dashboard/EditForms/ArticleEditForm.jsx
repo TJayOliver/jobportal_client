@@ -106,7 +106,7 @@ const ArticleEditForm = ({ id }) => {
           <div>
             <p className="text-xl">Content</p>
             <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg text-black p-1"
+              className="text-xl rounded-lg"
               theme="snow"
               modules={modules}
               formats={formats}

@@ -5,8 +5,10 @@ import FormInputs from "../formInputs";
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { modules, formats } from "../../reactquillmodules";
+import { modules, formats, editorStyle } from "../../reactquillmodules";
 import { BASE_URL } from "../../../pages/request";
+import { ThreeDots } from "react-loader-spinner";
+import Loading from "../../Loading/Loading";
 
 const ArticleForm = ({ username }) => {
   const [content, setContent] = useState("");
@@ -22,6 +24,7 @@ const ArticleForm = ({ username }) => {
 
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const formValues = (e) => {
     const { name, value, type, checked } = e.target;
@@ -37,6 +40,7 @@ const ArticleForm = ({ username }) => {
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const newformData = new FormData();
     for (const key in aform) {
       newformData.append(key, aform[key]);
@@ -46,99 +50,109 @@ const ArticleForm = ({ username }) => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const data = response.data.message;
-      setMessage(data);
+      setLoading(false);
       setSubmitted(true);
       window.alert(data);
       window.location.reload();
     } catch (error) {
+      setLoading(false);
       window.alert(error.response.data.message);
-      setMessage(error.response.data.message);
     }
   };
 
   return (
     <section className=" relative">
-      <form className=" w-full p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
-        <FormInputs
-          label="Title"
-          htmlFor="title"
-          type="text"
-          id="title"
-          name="title"
-          value={aform.title}
-          onChange={formValues}
-          placeholder="e.g. How to write a Personal Statement"
-        />
-
-        <div>
-          <p>Content</p>
-          <ReactQuill
-            className="text-xl border-black border-[1px] rounded-lg text-black p-1"
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            value={content}
-            onChange={setContent}
-          />
-        </div>
-
-        <div className=" flex flex-col gap-1">
-          <label htmlFor="category">Category</label>
-          <select
-            id="category"
-            name="category"
-            value={aform.category}
+      {loading ? (
+        <Loading />
+      ) : (
+        <form className=" w-full p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
+          <FormInputs
+            label="Title"
+            htmlFor="title"
+            type="text"
+            id="title"
+            name="title"
+            value={aform.title}
             onChange={formValues}
-            className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
-            required
-          >
-            <option value="" disabled>
-              -- Select Category --{" "}
-            </option>
-            <option value="Job">Job</option>
-            <option value="Scholarship">Scholarship</option>
-          </select>
-        </div>
+            placeholder="e.g. How to write a Personal Statement"
+          />
 
-        {/* checkbox */}
-        <div className=" flex gap-4 items-center">
-          {/* main featured */}
-          <div className="flex items-center gap-1">
-            <label htmlFor="mainfeatured">Main Featured</label>
-            <input
-              className=" accent-teal-600"
-              type="checkbox"
-              id="mainfeatured"
-              name="mainfeatured"
-              onChange={formValues}
+          <div>
+            <p>Content</p>
+            <ReactQuill
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              style={editorStyle}
+              value={content}
+              onChange={setContent}
             />
           </div>
 
-          {/* featured */}
-          <div className="flex items-center gap-1">
-            <label htmlFor="featured">Featured</label>
-            <input
-              className=" accent-teal-600"
-              type="checkbox"
-              id="featured"
-              name="featured"
+          <div className=" flex flex-col gap-1">
+            <label htmlFor="category">Category</label>
+            <select
+              id="category"
+              name="category"
+              value={aform.category}
               onChange={formValues}
-            />
+              className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
+              required
+            >
+              <option value="" disabled>
+                -- Select Category --{" "}
+              </option>
+              <option value="Job">Job</option>
+              <option value="Scholarship">Scholarship</option>
+            </select>
           </div>
-        </div>
 
-        <FormInputs
-          label="Upload Article Flyer"
-          htmlFor="image"
-          type="file"
-          id="image"
-          name="image"
-          onChange={formFiles}
-          accept=".jpg, .jpeg, .png, .JPG"
-        />
+          {/* checkbox */}
+          <div className=" flex gap-4 items-center">
+            {/* main featured */}
+            <div className="flex items-center gap-1">
+              <label htmlFor="mainfeatured">Main Featured</label>
+              <input
+                className=" accent-teal-600"
+                type="checkbox"
+                id="mainfeatured"
+                name="mainfeatured"
+                onChange={formValues}
+              />
+            </div>
 
-        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">POST</button>
-      </form>
+            {/* featured */}
+            <div className="flex items-center gap-1">
+              <label htmlFor="featured">Featured</label>
+              <input
+                className=" accent-teal-600"
+                type="checkbox"
+                id="featured"
+                name="featured"
+                onChange={formValues}
+              />
+            </div>
+          </div>
+
+          <FormInputs
+            label="Upload Article Flyer"
+            htmlFor="image"
+            type="file"
+            id="image"
+            name="image"
+            onChange={formFiles}
+            accept=".jpg, .jpeg, .png, .JPG"
+          />
+
+          <button className=" p-2 bg-teal-600 rounded-md text-white w-full">
+            {loading ? (
+              <ThreeDots color="white" height="8px" />
+            ) : (
+              <p className="font-medium">Post</p>
+            )}
+          </button>
+        </form>
+      )}
     </section>
   );
 };

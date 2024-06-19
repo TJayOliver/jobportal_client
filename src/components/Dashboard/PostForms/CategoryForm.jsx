@@ -35,7 +35,7 @@ const CategoryForm = () => {
 
   return (
     <section className=" relative">
-      <form className=" p-3 flex flex-col gap-4 texy-md" onSubmit={submit}>
+      <form className=" p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
         <FormInputs
           label="Name of Job Category"
           htmlFor="categoryname"
@@ -46,7 +46,7 @@ const CategoryForm = () => {
           onChange={formValues}
           placeholder="e.g. Name of Job Category"
         />
-        <button className=" bg-teal-600 p-2 rounded-md text-white hover:bg-teah-500">ADD</button>
+        <button className=" bg-teal-600 p-2 rounded-md text-white hover:bg-teah-500">Add</button>
       </form>
     </section>
   );

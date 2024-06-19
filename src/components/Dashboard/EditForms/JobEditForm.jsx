@@ -9,7 +9,7 @@ import Loading from "../../Loading/Loading";
 import { fetch, BASE_URL } from "../../../pages/request";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { modules, formats } from "../../reactquillmodules";
+import { modules, formats, editorStyle, editorContainerStyle } from "../../reactquillmodules";
 import { ThreeDots } from "react-loader-spinner";
 
 const JobEditForm = ({ id }) => {
@@ -241,11 +241,12 @@ const JobEditForm = ({ id }) => {
           <div>
             <p>Overview</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg text-black p-1"
+              className=" text-xl rounded-lg min-h-[200px]"
               theme="snow"
               modules={modules}
               formats={formats}
               value={overview}
+              style={editorStyle}
               onChange={setOverview}
             />
           </div>
@@ -253,11 +254,12 @@ const JobEditForm = ({ id }) => {
           <div>
             <p>Job Information</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg text-black p-1"
+              className=" text-xl rounded-lg min-h-[200px]"
               theme="snow"
               modules={modules}
               formats={formats}
               value={post}
+              style={editorStyle}
               onChange={setPost}
             />
           </div>

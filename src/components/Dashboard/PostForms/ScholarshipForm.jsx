@@ -6,7 +6,7 @@ import axios from "axios";
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { modules, formats } from "../../reactquillmodules";
+import { modules, formats, editorStyle } from "../../reactquillmodules";
 import { BASE_URL } from "../../../pages/request";
 import { ThreeDots } from "react-loader-spinner";
 import Loading from "../../Loading/Loading";
@@ -109,7 +109,7 @@ const ScholarshipForm = ({ username }) => {
                 name="scholarshiptype"
                 value={sForm.scholarshiptype}
                 onChange={FormValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -127,7 +127,7 @@ const ScholarshipForm = ({ username }) => {
                 name="agent"
                 value={sForm.agent}
                 onChange={FormValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -147,7 +147,7 @@ const ScholarshipForm = ({ username }) => {
                 name="scholarshipcategory"
                 value={sForm.scholarshipcategory}
                 onChange={FormValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -168,7 +168,7 @@ const ScholarshipForm = ({ username }) => {
                 name="programs"
                 value={sForm.programs}
                 onChange={FormValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -189,7 +189,7 @@ const ScholarshipForm = ({ username }) => {
                 name="country"
                 value={sForm.country}
                 onChange={FormValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
+                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
                 required
               >
                 <option value="" disabled>
@@ -207,10 +207,10 @@ const ScholarshipForm = ({ username }) => {
           <div>
             <p>Description</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
+              style={editorStyle}
               value={description}
               onChange={setDescription}
             />
@@ -219,10 +219,10 @@ const ScholarshipForm = ({ username }) => {
           <div>
             <p>Scholarship Information</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
+              style={editorStyle}
               value={post}
               onChange={setPost}
             />
@@ -250,7 +250,7 @@ const ScholarshipForm = ({ username }) => {
             accept="image/*"
           />
 
-          <button className=" bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500">
+          <button className=" bg-teal-600 p-2  text-white hover:bg-teal-500">
             {" "}
             {loading ? (
               <ThreeDots color="white" height="8px" />
