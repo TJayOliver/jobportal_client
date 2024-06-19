@@ -91,6 +91,9 @@ const ArticlePost = () => {
   return (
     <>
       <Helmet>
+        <meta name="robots" content="index, follow">
+          {" "}
+        </meta>
         <meta property="og:site_name" content="Future Forte" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={desc} />
