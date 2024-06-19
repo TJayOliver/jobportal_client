@@ -98,17 +98,6 @@ const JobForm = ({ username }) => {
             />
 
             <FormInputs
-              label="Salary"
-              htmlFor="salary"
-              type="text"
-              id="salary"
-              name="salary"
-              value={gform.salary}
-              onChange={formValues}
-              placeholder="e.g. 500 or Confidential"
-            />
-
-            <FormInputs
               label="Position"
               htmlFor="position"
               type="text"
@@ -117,6 +106,17 @@ const JobForm = ({ username }) => {
               value={gform.position}
               onChange={formValues}
               placeholder="e.g. General Manager"
+            />
+
+            <FormInputs
+              label="Salary"
+              htmlFor="salary"
+              type="text"
+              id="salary"
+              name="salary"
+              value={gform.salary}
+              onChange={formValues}
+              placeholder="e.g. 500 or Confidential"
             />
 
             <FormInputs
