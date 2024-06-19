@@ -1,7 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import FormInputs from "../formInputs";
 import FormTextarea from "../formTextarea";
 import axios from "axios";
+import { BASE_URL } from "../../../pages/request";
+
 const TestimonialForm = ({ id }) => {
   const [testimonial, setTestimonial] = useState({
     image: null,
@@ -12,6 +16,7 @@ const TestimonialForm = ({ id }) => {
 
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState("");
 
   const formValues = (e) => {
     const { name, value } = e.target;
@@ -28,9 +33,7 @@ const TestimonialForm = ({ id }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4040/testimonial/edit/${id}`
-        );
+        const response = await axios.get(`${BASE_URL}/testimonial/edit/${id}`);
         const retrievedData = response.data.data[0];
 
         setTestimonial({
@@ -55,11 +58,9 @@ const TestimonialForm = ({ id }) => {
       newformData.append(key, testimonial[key]);
     }
     try {
-      const response = await axios.put(
-        `http://localhost:4040/testimonial/update/${id}`,
-        newformData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await axios.put(`${BASE_URL}/testimonial/update/${id}`, newformData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       const data = response.data.message;
       setMessage(data);
       setSubmitted(true);
@@ -72,10 +73,7 @@ const TestimonialForm = ({ id }) => {
   };
   return (
     <section className=" relative">
-      <form
-        className=" w-full p-3 flex flex-col gap-4 text-md"
-        onSubmit={submit}
-      >
+      <form className=" w-full p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
         <FormInputs
           label="Name"
           htmlFor="name"
@@ -118,9 +116,7 @@ const TestimonialForm = ({ id }) => {
           accept=".jpg, .jpeg, .png, .JPG"
         />
 
-        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">
-          POST
-        </button>
+        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">Post</button>
       </form>
     </section>
   );

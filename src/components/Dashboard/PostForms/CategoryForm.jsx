@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import FormInputs from "../formInputs";
@@ -45,9 +46,7 @@ const CategoryForm = () => {
           onChange={formValues}
           placeholder="e.g. Name of Job Category"
         />
-        <button className=" bg-teal-600 p-2 rounded-md text-white hover:bg-teah-500">
-          ADD
-        </button>
+        <button className=" bg-teal-600 p-2 rounded-md text-white hover:bg-teah-500">ADD</button>
       </form>
     </section>
   );

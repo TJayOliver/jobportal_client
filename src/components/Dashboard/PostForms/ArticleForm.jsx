@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import FormInputs from "../formInputs";
 import { useState } from "react";
@@ -40,11 +42,9 @@ const ArticleForm = ({ username }) => {
       newformData.append(key, aform[key]);
     }
     try {
-      const response = await axios.post(
-        `${BASE_URL}/article/create`,
-        newformData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await axios.post(`${BASE_URL}/article/create`, newformData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       const data = response.data.message;
       setMessage(data);
       setSubmitted(true);
@@ -58,10 +58,7 @@ const ArticleForm = ({ username }) => {
 
   return (
     <section className=" relative">
-      <form
-        className=" w-full p-3 flex flex-col gap-4 text-md"
-        onSubmit={submit}
-      >
+      <form className=" w-full p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
         <FormInputs
           label="Title"
           htmlFor="title"
@@ -76,7 +73,7 @@ const ArticleForm = ({ username }) => {
         <div>
           <p>Content</p>
           <ReactQuill
-            className="text-xl border-black border-[1px] rounded-lg"
+            className="text-xl border-black border-[1px] rounded-lg text-black p-1"
             theme="snow"
             modules={modules}
             formats={formats}
@@ -140,9 +137,7 @@ const ArticleForm = ({ username }) => {
           accept=".jpg, .jpeg, .png, .JPG"
         />
 
-        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">
-          POST
-        </button>
+        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">POST</button>
       </form>
     </section>
   );

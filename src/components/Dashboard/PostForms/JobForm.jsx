@@ -214,7 +214,7 @@ const JobForm = ({ username }) => {
           <div>
             <p>Overview</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg"
+              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
@@ -226,7 +226,7 @@ const JobForm = ({ username }) => {
           <div>
             <p>Job Details</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg"
+              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}

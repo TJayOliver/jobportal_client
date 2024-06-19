@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import FormInputs from "../formInputs";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -61,7 +63,9 @@ const CategoryEditForm = ({ id }) => {
           placeholder="e.g. Name of Job Category"
         />
 
-        <button className=" text-xl bg-[#004242] p-2 rounded-md text-white hover:bg-teal-500">Add</button>
+        <button className=" text-xl bg-[#004242] p-2 rounded-md text-white hover:bg-teal-500">
+          Add
+        </button>
       </form>
     </section>
   );

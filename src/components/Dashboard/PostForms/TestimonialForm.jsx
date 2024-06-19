@@ -1,7 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import FormInputs from "../formInputs";
 import FormTextarea from "../formTextarea";
 import axios from "axios";
+import { BASE_URL } from "../../../pages/request";
+
 const TestimonialForm = ({ username }) => {
   const [testimonial, setTestimonial] = useState({
     image: null,
@@ -33,11 +37,9 @@ const TestimonialForm = ({ username }) => {
       newformData.append(key, testimonial[key]);
     }
     try {
-      const response = await axios.post(
-        "http://localhost:4040/testimonial/create",
-        newformData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await axios.post(`${BASE_URL}/testimonial/create`, newformData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       const data = response.data.message;
       setMessage(data);
       setSubmitted(true);
@@ -50,10 +52,7 @@ const TestimonialForm = ({ username }) => {
   };
   return (
     <section className=" relative">
-      <form
-        className=" w-full p-3 flex flex-col gap-4 text-md"
-        onSubmit={submit}
-      >
+      <form className=" w-full p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
         <FormInputs
           label="Name"
           htmlFor="name"
@@ -96,9 +95,7 @@ const TestimonialForm = ({ username }) => {
           accept=".jpg, .jpeg, .png, .JPG"
         />
 
-        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">
-          POST
-        </button>
+        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">POST</button>
       </form>
     </section>
   );

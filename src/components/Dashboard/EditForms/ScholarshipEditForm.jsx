@@ -240,7 +240,7 @@ const ScholarshipEditForm = ({ id }) => {
           <div>
             <p className="text-xl">Description</p>
             <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg"
+              className="text-xl border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
@@ -252,7 +252,7 @@ const ScholarshipEditForm = ({ id }) => {
           <div>
             <p className="text-xl">Scholarship Details</p>
             <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg"
+              className="text-xl border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}

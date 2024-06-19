@@ -87,7 +87,7 @@ const JobDescription = () => {
         <section className="mb-3">
           <section className=" bg-gradient-to-tr from-rose-500 to-blue-600 max-w-6xl flex m-auto  h-72 object-cover bg-center rounded-lg relative mb-14 border-1">
             {jobs.map((job, id) => (
-              <div key={id} className=" h-full w-full object-cover">
+              <div key={id} className=" h-full w-full object-contain">
                 <img src={`${job.image}`} className="h-full w-full " />
               </div>
             ))}

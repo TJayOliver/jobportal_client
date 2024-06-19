@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import axios from "axios";
 import FormInputs from "../formInputs";
@@ -33,11 +34,9 @@ const CreateAdminForm = () => {
       newFormData.append(key, adminCredentials[key]);
     }
     try {
-      const response = await axios.post(
-        `${BASE_URL}/admin/create`,
-        adminCredentials,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const response = await axios.post(`${BASE_URL}/admin/create`, adminCredentials, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       const data = response.data.message;
       setMessage(data);
       setSubmitted(true);
@@ -138,9 +137,7 @@ const CreateAdminForm = () => {
           onChange={formFiles}
           accept=".jpg, .jpeg, .png, .JPG"
         />
-        <button className=" bg-blue-600 p-2 rounded-md text-white hover:bg-blue-500">
-          CREATE
-        </button>
+        <button className=" bg-blue-600 p-2 rounded-md text-white hover:bg-blue-500">CREATE</button>
       </form>
     </section>
   );

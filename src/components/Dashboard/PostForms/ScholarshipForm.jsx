@@ -207,7 +207,7 @@ const ScholarshipForm = ({ username }) => {
           <div>
             <p>Description</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg"
+              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
@@ -219,7 +219,7 @@ const ScholarshipForm = ({ username }) => {
           <div>
             <p>Scholarship Information</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg"
+              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}

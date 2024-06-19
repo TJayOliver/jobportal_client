@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import FormInputs from "../formInputs";
 import { useState, useEffect } from "react";
@@ -104,7 +106,7 @@ const ArticleEditForm = ({ id }) => {
           <div>
             <p className="text-xl">Content</p>
             <ReactQuill
-              className="text-xl border-black border-[1px] rounded-lg"
+              className="text-xl border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
@@ -165,7 +167,11 @@ const ArticleEditForm = ({ id }) => {
 
           <button className=" text-xl p-2 bg-[#004242] rounded-md text-white hover:bg-teal-500 w-full">
             {" "}
-            {loading ? <ThreeDots color="white" height="8px" /> : <p className="font-medium">Post</p>}
+            {loading ? (
+              <ThreeDots color="white" height="8px" />
+            ) : (
+              <p className="font-medium">Post</p>
+            )}
           </button>
         </form>
       )}

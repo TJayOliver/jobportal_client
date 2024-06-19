@@ -125,17 +125,6 @@ const JobEditForm = ({ id }) => {
             />
 
             <FormInputs
-              label="Salary"
-              htmlFor="salary"
-              type="text"
-              id="salary"
-              name="salary"
-              value={gform.salary}
-              onChange={formValues}
-              placeholder="e.g. 500 or Confidential"
-            />
-
-            <FormInputs
               label="Position"
               htmlFor="position"
               type="text"
@@ -144,6 +133,17 @@ const JobEditForm = ({ id }) => {
               value={gform.position}
               onChange={formValues}
               placeholder="e.g. General Manager"
+            />
+
+            <FormInputs
+              label="Salary"
+              htmlFor="salary"
+              type="text"
+              id="salary"
+              name="salary"
+              value={gform.salary}
+              onChange={formValues}
+              placeholder="e.g. 500 or Confidential"
             />
 
             <FormInputs
@@ -241,7 +241,7 @@ const JobEditForm = ({ id }) => {
           <div>
             <p>Overview</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg"
+              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
@@ -253,7 +253,7 @@ const JobEditForm = ({ id }) => {
           <div>
             <p>Job Information</p>
             <ReactQuill
-              className=" border-black border-[1px] rounded-lg"
+              className=" border-black border-[1px] rounded-lg text-black p-1"
               theme="snow"
               modules={modules}
               formats={formats}
