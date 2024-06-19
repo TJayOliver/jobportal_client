@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
@@ -15,8 +16,8 @@ import { BsFacebook, BsLinkedin, BsTwitterX } from "react-icons/bs";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
 import Cookie from "../../components/Cookie/Cookie";
 import moment from "moment";
-import { Helmet } from "react-helmet";
 import Share from "../../components/Share/Share";
+import { Helmet } from "react-helmet-async";
 
 const ArticlePost = () => {
   const params = useParams();
@@ -35,15 +36,7 @@ const ArticlePost = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetchByID(
-      "article/read",
-      id,
-      setArticles,
-      setLoading,
-      signal,
-      setMessage,
-      setCookieTracker
-    );
+    fetchByID("article/read", id, setArticles, setLoading, signal, setMessage, setCookieTracker);
     fetch("article/featured", setFeatured, setLoading, signal, setMessage);
     return () => controller.abort();
   }, [id]);
@@ -60,18 +53,8 @@ const ArticlePost = () => {
       const controller = new AbortController();
       const signal = controller.signal;
       try {
-        fetch(
-          `article/category/${category}`,
-          setRelatedArticle,
-          setLoading,
-          signal,
-          setMessage
-        );
-        const response = await axios.post(
-          `${BASE_URL}/admin/name`,
-          { name },
-          signal
-        );
+        fetch(`article/category/${category}`, setRelatedArticle, setLoading, signal, setMessage);
+        const response = await axios.post(`${BASE_URL}/admin/name`, { name }, signal);
         const author = [response.data.admin];
         setAuthorDetails(author);
         return () => controller.abort();
@@ -126,10 +109,7 @@ const ArticlePost = () => {
       </Helmet>
 
       <Header />
-      <Subscribe
-        SubscribeState={SubscribeState}
-        SetSubscribeState={SetSubscribeState}
-      />
+      <Subscribe SubscribeState={SubscribeState} SetSubscribeState={SetSubscribeState} />
       <main className="w-full max-w-5xl flex flex-col justify-center m-auto p-2">
         {/* heading */}
         <section className="flex flex-col gap-5">
@@ -167,31 +147,19 @@ const ArticlePost = () => {
                       <small className="font-bold">{post.author}</small>
                       {authorDetails.map((author, id) => (
                         <div key={id} className="flex gap-2 text-xl">
-                          <a
-                            target="blank"
-                            href={`https://facebook.com/${author.facebook}`}
-                          >
+                          <a target="blank" href={`https://facebook.com/${author.facebook}`}>
                             <BsFacebook />
                           </a>
-                          <a
-                            target="blank"
-                            href={`https://twitter.com/${author.twitter}`}
-                          >
+                          <a target="blank" href={`https://twitter.com/${author.twitter}`}>
                             <BsTwitterX />
                           </a>
-                          <a
-                            target="blank"
-                            href={`https://linkedin.com/${author.linkedin}`}
-                          >
+                          <a target="blank" href={`https://linkedin.com/${author.linkedin}`}>
                             <BsLinkedin />
                           </a>
                         </div>
                       ))}
                     </div>
-                    <small>
-                      {" "}
-                      {moment(post.datecreated).format("YYYY-MM-DD")}
-                    </small>
+                    <small> {moment(post.datecreated).format("YYYY-MM-DD")}</small>
                   </div>
                 ))
               )}
@@ -235,9 +203,7 @@ const ArticlePost = () => {
             {loading ? (
               <Loading />
             ) : (
-              articles.map((post, id) => (
-                <div key={id}>{parser(post.post)}</div>
-              ))
+              articles.map((post, id) => <div key={id}>{parser(post.post)}</div>)
             )}
           </div>
         </section>

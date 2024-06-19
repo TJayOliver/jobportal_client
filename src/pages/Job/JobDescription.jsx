@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import Header from "../../components/Header/Header";
 import { useState, useEffect } from "react";
@@ -17,7 +18,7 @@ import Cookie from "../../components/Cookie/Cookie";
 import axios from "axios";
 import moment from "moment";
 import Share from "../../components/Share/Share";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const JobDescription = () => {
   const params = useParams();
@@ -283,7 +284,7 @@ const JobDescription = () => {
           <div className="text-white">
             <p className=" text-xl md:text-3xl font-medium">Job Alert E-mails </p>
             <small>
-              Keep track of positions that you're interested in by signing up for job alert emails
+              Keep track of positions that youre interested in by signing up for job alert emails
             </small>
           </div>
           <div className="rounded-lg bg-gradient-to-r from-white/90 to-white flex flex-col items-center justify-center gap-4 h-48 w-44 p-1">

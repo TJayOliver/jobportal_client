@@ -30,9 +30,7 @@ const Scholarship = () => {
   const [article, setArticle] = useState([]);
 
   const [governmentScholarship, setGovernmentScholarships] = useState([]);
-  const [organizationalScholarship, setOrganizationalScholarships] = useState(
-    []
-  );
+  const [organizationalScholarship, setOrganizationalScholarships] = useState([]);
   const [privateScholarship, setPrivateScholarships] = useState([]);
   const [researchScholarship, setResearchScholarships] = useState([]);
   const [internationalScholarship, setInternationalScholarships] = useState([]);
@@ -49,21 +47,8 @@ const Scholarship = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch(
-      "scholarship",
-      setScholarship,
-      setLoading,
-      signal,
-      setMessage,
-      setCookieTracker
-    );
-    fetch(
-      "article/category/Scholarship",
-      setArticle,
-      setLoading,
-      signal,
-      setMessage
-    );
+    fetch("scholarship", setScholarship, setLoading, signal, setMessage, setCookieTracker);
+    fetch("article/category/Scholarship", setArticle, setLoading, signal, setMessage);
     return () => controller.abort();
   }, []);
 
@@ -90,13 +75,7 @@ const Scholarship = () => {
       );
     }
     if (category === "Private") {
-      fetch(
-        "scholarship/category/Private",
-        setPrivateScholarships,
-        setLoading,
-        signal,
-        setMessage
-      );
+      fetch("scholarship/category/Private", setPrivateScholarships, setLoading, signal, setMessage);
     }
     if (category === "International") {
       fetch(
@@ -142,10 +121,7 @@ const Scholarship = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${BASE_URL}/scholarship/search`,
-        searchInput
-      );
+      const response = await axios.post(`${BASE_URL}/scholarship/search`, searchInput);
       setSResultsVerifier(true);
       setSearchResults(response.data.data);
     } catch (error) {
@@ -183,19 +159,14 @@ const Scholarship = () => {
     <>
       <Header />
 
-      <Subscribe
-        SubscribeState={SubscribeState}
-        SetSubscribeState={SetSubscribeState}
-      />
+      <Subscribe SubscribeState={SubscribeState} SetSubscribeState={SetSubscribeState} />
 
       {/* heading */}
       <aside className="w-full h-[20rem] flex relative">
         <div
           className={`w-full flex flex-col justify-center absolute z-10 bottom-0 ${colorChange} max-w-5xl m-auto h-40`}
         >
-          <p className="text-white text-3xl md:text-5xl font-bold p-2">
-            {category} Scholarships
-          </p>
+          <p className="text-white text-3xl md:text-5xl font-bold p-2">{category} Scholarships</p>
           <p className="text-sm font-bold md:text-md p-2 ">
             Browse through thousands of {category} Scholarships
           </p>
@@ -437,9 +408,7 @@ const Scholarship = () => {
         {/* categories and slide buttons */}
         <section>
           <div id="heading-and-buttons" className="flex justify-between p-2">
-            <p className="font-bold text-2xl md:text-4xl">
-              Browse Other Categories
-            </p>
+            <p className="font-bold text-2xl md:text-4xl">Browse Other Categories</p>
             <div className="text-3xl flex gap-4 items-center over">
               <BsArrowLeftSquare id="leftbtn" onClick={handleLeftClick} />
               <BsArrowRightSquare id="rightbtn" onClick={handleRightClick} />
@@ -491,9 +460,7 @@ const Scholarship = () => {
         {/* Quick Scholarship Tip */}
         <section className="flex flex-col justify-center py-2 p-2">
           <div className="p-4">
-            <p className="font-bold text-2xl md:text-4xl mb-2">
-              Quick Scholarship Tip{" "}
-            </p>
+            <p className="font-bold text-2xl md:text-4xl mb-2">Quick Scholarship Tip </p>
           </div>
 
           <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-4  ">

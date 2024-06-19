@@ -18,7 +18,7 @@ import image from "../../assets/student1.jpg";
 import axios from "axios";
 import moment from "moment";
 import Share from "../../components/Share/Share";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const RelatedBox = ({ image, scholarshipname, location, agent, deadline, programs, to }) => {
   return (
