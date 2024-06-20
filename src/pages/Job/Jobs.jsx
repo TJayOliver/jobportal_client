@@ -18,25 +18,14 @@ import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
 import Cookie from "../../components/Cookie/Cookie";
 import moment from "moment";
 
-export const JobBox = ({
-  image,
-  location,
-  company,
-  duration,
-  position,
-  salary,
-  to,
-}) => {
+export const JobBox = ({ image, location, company, duration, position, salary, to }) => {
   return (
     <div
       className={`h-64 w-full md:w-[15rem] p-2 rounded-lg bg-white flex flex-col shrink-0 hover:bg-gradient-to-tr hover:from-blue-500 hover:to-teal-500 group hover:text-gray-100 duration-150 ease-in drop-shadow-md gap-5`}
     >
       <div className="flex items-center gap-4">
         <div className=" h-8 w-8 rounded-md shrink-0 flex object-cover ">
-          <img
-            src={`${image}`}
-            className="object-cover h-full w-full rounded-md"
-          />
+          <img src={`${image}`} className="object-cover h-full w-full rounded-md" />
         </div>
         <div className="flex flex-col">
           <p className="font-bold whitespace-wrap line-clamp-1 md:line-clamp-none text-sm">
@@ -70,7 +59,7 @@ const Jobs = () => {
   const [loading, setLoading] = useState(true);
   const [cookieTracker, setCookieTracker] = useState(null);
 
-  const [postPerPage, setPostPerPage] = useState(18);
+  const [postPerPage, setPostPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [message, setMessage] = useState("");
@@ -138,10 +127,7 @@ const Jobs = () => {
   return (
     <>
       <Header />
-      <Subscribe
-        SubscribeState={SubscribeState}
-        SetSubscribeState={SetSubscribeState}
-      />
+      <Subscribe SubscribeState={SubscribeState} SetSubscribeState={SetSubscribeState} />
 
       <aside className="bg-gray-50 h-96 p-8 flex justify-center">
         <div className="max-w-5xl flex items-center">
@@ -154,8 +140,8 @@ const Jobs = () => {
               Jobs
             </h1>
             <small>
-              Explore thousands of job opportunities with all the information
-              you need. It's your future. Come find it!
+              Explore thousands of job opportunities with all the information you need. It's your
+              future. Come find it!
             </small>
           </div>
           <div className="w-full">
@@ -166,15 +152,9 @@ const Jobs = () => {
 
       <main className="max-w-5xl flex flex-col m-auto justify-center p-2">
         {/* featured / popular  */}
-        <section
-          className={
-            searchVerifier ? "hidden" : " flex flex-col justify-center  py-1"
-          }
-        >
+        <section className={searchVerifier ? "hidden" : " flex flex-col justify-center  py-1"}>
           <div className="flex justify-between mb-2">
-            <p className="font-bold text-2xl md:text-2xl mb-2">
-              Explore Popular Jobs
-            </p>
+            <p className="font-bold text-2xl md:text-2xl mb-2">Explore Popular Jobs</p>
             {/* for small screens */}
             <div className="text-3xl flex gap-4 md:hidden">
               <BsArrowLeftSquare
