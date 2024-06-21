@@ -113,6 +113,7 @@ const ScholarshipEditForm = ({ id }) => {
             name="scholarshipname"
             value={sForm.scholarshipname}
             onChange={FormValues}
+            required={true}
             placeholder="e.g. Afghanistan Government Scholarships"
           />
 
@@ -124,6 +125,7 @@ const ScholarshipEditForm = ({ id }) => {
               id="deadline"
               name="deadline"
               value={sForm.deadline}
+              required={true}
               onChange={FormValues}
             />
 
@@ -276,7 +278,7 @@ const ScholarshipEditForm = ({ id }) => {
             id="image"
             name="image"
             onChange={FormFiles}
-            s
+            required={false}
             accept="jpg, .jpeg, .png, .JPG"
           />
 

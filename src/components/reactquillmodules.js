@@ -11,10 +11,8 @@ export const modules = {
 };
 
 export const editorStyle = {
-  minHeight: "auto",
-  cursor: "text",
-  fontSize: "30px",
-  color: "black",
+  height: "200px",
+  width: "100%",
 };
 
 export const formats = [

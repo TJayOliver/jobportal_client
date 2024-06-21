@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import Header from "../../components/Header/Header";
 import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";

@@ -35,7 +35,6 @@ const TestimonialForm = ({ id }) => {
       try {
         const response = await axios.get(`${BASE_URL}/testimonial/edit/${id}`);
         const retrievedData = response.data.data[0];
-
         setTestimonial({
           image: retrievedData.image,
           quote: retrievedData.quote,
@@ -44,8 +43,7 @@ const TestimonialForm = ({ id }) => {
         });
         setLoading(false);
       } catch (error) {
-        //window.alert(error.response.data.message);
-        //setMessage(error.response.data.message);
+        window.alert(error.response.data.message);
       }
     };
     fetch();
@@ -82,6 +80,7 @@ const TestimonialForm = ({ id }) => {
           name="name"
           value={testimonial.name}
           onChange={formValues}
+          required={true}
           placeholder="Enter The Person's Name"
         />
 
@@ -93,6 +92,7 @@ const TestimonialForm = ({ id }) => {
           name="position"
           value={testimonial.position}
           onChange={formValues}
+          required={true}
           placeholder="Enter Where the Person is Working Now"
         />
 
@@ -103,6 +103,7 @@ const TestimonialForm = ({ id }) => {
           placeholder="Enter message"
           name="quote"
           value={testimonial.quote}
+          required={true}
           onChange={formValues}
         />
 
@@ -113,6 +114,7 @@ const TestimonialForm = ({ id }) => {
           id="image"
           name="image"
           onChange={formFiles}
+          required={false}
           accept=".jpg, .jpeg, .png, .JPG"
         />
 

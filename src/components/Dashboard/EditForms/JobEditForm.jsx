@@ -9,7 +9,7 @@ import Loading from "../../Loading/Loading";
 import { fetch, BASE_URL } from "../../../pages/request";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { modules, formats, editorStyle, editorContainerStyle } from "../../reactquillmodules";
+import { modules, formats, editorStyle } from "../../reactquillmodules";
 import { ThreeDots } from "react-loader-spinner";
 
 const JobEditForm = ({ id }) => {
@@ -121,6 +121,7 @@ const JobEditForm = ({ id }) => {
               name="company"
               value={gform.company}
               onChange={formValues}
+              required={true}
               placeholder="e.g. Kwaata Industries Ltd"
             />
 
@@ -132,6 +133,7 @@ const JobEditForm = ({ id }) => {
               name="position"
               value={gform.position}
               onChange={formValues}
+              required={true}
               placeholder="e.g. General Manager"
             />
 
@@ -143,6 +145,7 @@ const JobEditForm = ({ id }) => {
               name="salary"
               value={gform.salary}
               onChange={formValues}
+              required={true}
               placeholder="e.g. 500 or Confidential"
             />
 
@@ -154,6 +157,7 @@ const JobEditForm = ({ id }) => {
               name="website"
               value={gform.website}
               onChange={formValues}
+              required={true}
               placeholder="e.g. www.cocacola.com"
             />
           </div>
@@ -271,6 +275,7 @@ const JobEditForm = ({ id }) => {
             id="image"
             name="image"
             onChange={formFiles}
+            required={false}
             accept="image/*"
           />
 

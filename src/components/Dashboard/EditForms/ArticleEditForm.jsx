@@ -99,6 +99,7 @@ const ArticleEditForm = ({ id }) => {
             name="title"
             value={aform.title}
             onChange={formValues}
+            required={true}
             placeholder="e.g. How to write a Personal Statement"
           />
 
@@ -162,6 +163,7 @@ const ArticleEditForm = ({ id }) => {
             id="image"
             name="image"
             onChange={formFiles}
+            required={false}
             accept=".jpg, .jpeg, .png, .JPG"
           />
 

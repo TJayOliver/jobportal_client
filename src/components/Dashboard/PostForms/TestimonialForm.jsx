@@ -61,6 +61,7 @@ const TestimonialForm = ({ username }) => {
           name="name"
           value={testimonial.name}
           onChange={formValues}
+          required={true}
           placeholder="Enter The Person's Name"
         />
 
@@ -72,6 +73,7 @@ const TestimonialForm = ({ username }) => {
           name="position"
           value={testimonial.position}
           onChange={formValues}
+          required={true}
           placeholder="Enter the Person's Job Title"
         />
 
@@ -82,6 +84,7 @@ const TestimonialForm = ({ username }) => {
           placeholder="Enter message"
           name="quote"
           value={testimonial.quote}
+          required={true}
           onChange={formValues}
         />
 
@@ -92,10 +95,11 @@ const TestimonialForm = ({ username }) => {
           id="image"
           name="image"
           onChange={formFiles}
+          required={true}
           accept=".jpg, .jpeg, .png, .JPG"
         />
 
-        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">POST</button>
+        <button className=" p-2 bg-teal-600 rounded-md text-white w-full">Post</button>
       </form>
     </section>
   );

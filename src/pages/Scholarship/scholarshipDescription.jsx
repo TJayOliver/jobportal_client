@@ -104,12 +104,10 @@ const ScholarshipDescription = () => {
     const fetchData = async () => {
       const controller = new AbortController();
       const signal = controller.signal;
-
       const countryPromises = scholarship.map(async (count) => count.country);
       const [countryname] = await Promise.all(countryPromises);
       try {
         await fetch(`scholarship/country/${countryname}`, setSimilar, setLoading, signal);
-
         return () => controller.abort();
       } catch (error) {
         console.error(error.message);
@@ -123,9 +121,7 @@ const ScholarshipDescription = () => {
   }, [scholarship, loading]);
 
   const [SubscribeState, SetSubscribeState] = useState(false);
-
   const url = `${CLIENT_URL}/scholarship/${id}`;
-
   return (
     <>
       <Helmet>

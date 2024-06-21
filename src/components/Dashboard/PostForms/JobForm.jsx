@@ -94,6 +94,7 @@ const JobForm = ({ username }) => {
               name="company"
               value={gform.company}
               onChange={formValues}
+              required={true}
               placeholder="e.g. Kwaata Industries Ltd"
             />
 
@@ -105,6 +106,7 @@ const JobForm = ({ username }) => {
               name="position"
               value={gform.position}
               onChange={formValues}
+              required={true}
               placeholder="e.g. General Manager"
             />
 
@@ -116,6 +118,7 @@ const JobForm = ({ username }) => {
               name="salary"
               value={gform.salary}
               onChange={formValues}
+              required={true}
               placeholder="e.g. 500 or Confidential"
             />
 
@@ -127,6 +130,7 @@ const JobForm = ({ username }) => {
               name="website"
               value={gform.website}
               onChange={formValues}
+              required={true}
               placeholder="e.g. www.cocacola.com"
             />
           </div>
@@ -241,6 +245,7 @@ const JobForm = ({ username }) => {
             id="image"
             name="image"
             onChange={formFiles}
+            required={true}
             accept="image/*"
           />
 

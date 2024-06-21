@@ -155,7 +155,6 @@ const Scholarship = () => {
       : category === "Research"
       ? "bg-gradient-to-r from-fuchsia-600 to-purple-600"
       : null;
-
   return (
     <>
       <Header />
@@ -262,7 +261,7 @@ const Scholarship = () => {
             ) : (
               // display all scholarships by category
               <div>
-                {category === "Government" ? (
+                {category === "Government" && (
                   <div>
                     <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
                       {gov.map((list, id) => (
@@ -285,7 +284,9 @@ const Scholarship = () => {
                       currentPage={currentPage}
                     />
                   </div>
-                ) : category === "Organizational" ? (
+                )}
+
+                {category === "Organizational" && (
                   <div>
                     <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
                       {org.map((list, id) => (
@@ -308,7 +309,9 @@ const Scholarship = () => {
                       />
                     </div>
                   </div>
-                ) : category === "Private" ? (
+                )}
+
+                {category === "Private" && (
                   <div>
                     <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
                       {priv.map((list, id) => (
@@ -331,7 +334,9 @@ const Scholarship = () => {
                       currentPage={currentPage}
                     />
                   </div>
-                ) : category === "Research" ? (
+                )}
+
+                {category === "Research" && (
                   <div>
                     <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
                       {res.map((list, id) => (
@@ -354,7 +359,9 @@ const Scholarship = () => {
                       currentPage={currentPage}
                     />
                   </div>
-                ) : category === "International" ? (
+                )}
+
+                {category === "International" && (
                   <div>
                     <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
                       {int.map((list, id) => (
@@ -372,29 +379,6 @@ const Scholarship = () => {
                     </div>
                     <Pagination
                       totalPost={internationalScholarship.length}
-                      postPerPage={postPerPage}
-                      setCurrentPage={setCurrentPage}
-                      currentPage={currentPage}
-                    />
-                  </div>
-                ) : (
-                  <div>
-                    <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
-                      {allScholars.map((list, id) => (
-                        <ScholarshipBox
-                          key={id}
-                          image={list.image}
-                          agent={list.agent}
-                          scholarshiptype={list.scholarshiptype}
-                          country={list.country}
-                          scholarshipname={list.scholarshipname}
-                          description={list.description.slice(0, 100)}
-                          to={`/scholarship/${list.id}`}
-                        />
-                      ))}
-                    </div>
-                    <Pagination
-                      totalPost={scholarships.length}
                       postPerPage={postPerPage}
                       setCurrentPage={setCurrentPage}
                       currentPage={currentPage}
@@ -487,7 +471,6 @@ const Scholarship = () => {
 
       {/* whatsapp barcode */}
       <Platforms />
-
       <SocialMedia />
       {/* {cookieTracker ? <Cookie /> : null} */}
       <Footer onClick={() => SetSubscribeState(true)} />
