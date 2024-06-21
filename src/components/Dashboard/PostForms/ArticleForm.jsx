@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import FormInputs from "../formInputs";
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats, editorStyle } from "../../reactquillmodules";
@@ -17,7 +17,7 @@ const ArticleForm = ({ username }) => {
   const [aform, setAform] = useState({
     image: null,
     title: "",
-    post: content,
+    post: "",
     mainfeatured: false,
     featured: false,
     category: "",
@@ -44,9 +44,48 @@ const ArticleForm = ({ username }) => {
       sizeMD: 700,
       sizeSM: 400,
       toolbarAdaptive: false,
+      toolbarButtonSize: "small",
+      showXPathInStatusbar: false,
     }),
     []
   );
+
+  useEffect(() => {
+    const handleTouchStart = (event) => {
+      // Prevent default behavior
+      event.preventDefault();
+
+      // Example: Add visual feedback
+      const target = event.target;
+      if (target.classList.contains("jodit-toolbar__item")) {
+        target.classList.add("touch-active");
+      }
+    };
+
+    const handleTouchMove = (event) => {
+      event.preventDefault(); // Prevent default scrolling behavior
+    };
+
+    const handleTouchEnd = (event) => {
+      // Example: Remove visual feedback
+      const target = event.target;
+      if (target.classList.contains("jodit-toolbar__item")) {
+        target.classList.remove("touch-active");
+      }
+    };
+
+    // Add event listeners for touch events
+    document.addEventListener("touchstart", handleTouchStart);
+    document.addEventListener("touchmove", handleTouchMove);
+    document.addEventListener("touchend", handleTouchEnd);
+
+    // Clean up event listeners on component unmount
+    return () => {
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, []);
 
   const formValues = (e) => {
     const { name, value, type, checked } = e.target;
@@ -119,7 +158,8 @@ const ArticleForm = ({ username }) => {
               value={content}
               config={config}
               tabIndex={1}
-              onChange={(newContent) => setContent(newContent)}
+              onBlur={(newContent) => setContent(newContent)}
+              onChange={(newContent) => {}}
             />
           </div>
 
