@@ -2,15 +2,16 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import FormInputs from "../formInputs";
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { modules, formats, editorStyle } from "../../reactquillmodules";
+// import "react-quill/dist/quill.snow.css";
+// import { modules, formats, editorStyle } from "../../reactquillmodules";
 import { BASE_URL } from "../../../pages/request";
 import { ThreeDots } from "react-loader-spinner";
 import Loading from "../../Loading/Loading";
-import JoditEditor from "jodit-react";
-import { joditOptions } from "../../../libs/joditEditor";
+// import JoditEditor from "jodit-react";
+// import { joditOptions } from "../../../libs/joditEditor";
+import { TipTap } from "../../../libs/TipTap";
 
 const ArticleForm = ({ username }) => {
   const [content, setContent] = useState("");
@@ -28,64 +29,27 @@ const ArticleForm = ({ username }) => {
   const [loading, setLoading] = useState(false);
 
   const editor = useRef(null);
-  const config = useMemo(
-    () => ({
-      readonly: false,
-      placeholder: "Start Typing Content",
-      defaultActionOnPaste: "insert_as_html",
-      defaultLineHeight: 1.5,
-      enter: "div",
-      buttons: joditOptions,
-      buttonsMD: joditOptions,
-      buttonsSM: joditOptions,
-      buttonsXS: joditOptions,
-      statusbar: false,
-      sizeLG: 900,
-      sizeMD: 700,
-      sizeSM: 400,
-      toolbarAdaptive: false,
-      toolbarButtonSize: "small",
-      showXPathInStatusbar: false,
-    }),
-    []
-  );
-
-  useEffect(() => {
-    const handleTouchStart = (event) => {
-      // Prevent default behavior
-      event.preventDefault();
-
-      // Example: Add visual feedback
-      const target = event.target;
-      if (target.classList.contains("jodit-toolbar__item")) {
-        target.classList.add("touch-active");
-      }
-    };
-
-    const handleTouchMove = (event) => {
-      event.preventDefault(); // Prevent default scrolling behavior
-    };
-
-    const handleTouchEnd = (event) => {
-      // Example: Remove visual feedback
-      const target = event.target;
-      if (target.classList.contains("jodit-toolbar__item")) {
-        target.classList.remove("touch-active");
-      }
-    };
-
-    // Add event listeners for touch events
-    document.addEventListener("touchstart", handleTouchStart);
-    document.addEventListener("touchmove", handleTouchMove);
-    document.addEventListener("touchend", handleTouchEnd);
-
-    // Clean up event listeners on component unmount
-    return () => {
-      document.removeEventListener("touchstart", handleTouchStart);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, []);
+  // const config = useMemo(
+  //   () => ({
+  //     readonly: false,
+  //     placeholder: "Start Typing Content",
+  //     defaultActionOnPaste: "insert_as_html",
+  //     defaultLineHeight: 1.5,
+  //     enter: "div",
+  //     buttons: joditOptions,
+  //     buttonsMD: joditOptions,
+  //     buttonsSM: joditOptions,
+  //     buttonsXS: joditOptions,
+  //     statusbar: false,
+  //     sizeLG: 900,
+  //     sizeMD: 700,
+  //     sizeSM: 400,
+  //     toolbarAdaptive: false,
+  //     toolbarButtonSize: "small",
+  //     showXPathInStatusbar: false,
+  //   }),
+  //   []
+  // );
 
   const formValues = (e) => {
     const { name, value, type, checked } = e.target;
@@ -151,7 +115,7 @@ const ArticleForm = ({ username }) => {
             />
           </div> */}
 
-          <div>
+          {/* <div>
             <p>Content</p>
             <JoditEditor
               ref={editor}
@@ -161,7 +125,9 @@ const ArticleForm = ({ username }) => {
               onBlur={(newContent) => setContent(newContent)}
               onChange={(newContent) => {}}
             />
-          </div>
+          </div> */}
+
+          <TipTap />
 
           <div className=" flex flex-col gap-1">
             <label htmlFor="category">Category</label>
