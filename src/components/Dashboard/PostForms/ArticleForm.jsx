@@ -80,6 +80,7 @@ const ArticleForm = ({ username }) => {
           <div>
             <p>Content</p>
             <ReactQuill
+              className=".ql-editor"
               theme="snow"
               modules={modules}
               formats={formats}

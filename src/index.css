@@ -43,6 +43,11 @@ body {
   top: 0rem;
 }
 
+.ql-editor {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 @keyframes mobileopen {
   from {
     top: -99rem;
