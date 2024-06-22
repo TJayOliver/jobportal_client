@@ -10,10 +10,7 @@ export const modules = {
   clipboard: { matchVisual: false },
 };
 
-export const editorStyle = {
-  height: "200px",
-  width: "100%",
-};
+export const editorStyle = { minHeight: "100px" };
 
 export const formats = [
   "header",

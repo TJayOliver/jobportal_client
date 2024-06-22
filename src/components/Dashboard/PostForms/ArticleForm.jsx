@@ -4,14 +4,11 @@ import axios from "axios";
 import FormInputs from "../formInputs";
 import { useState, useMemo, useRef } from "react";
 import ReactQuill from "react-quill";
-// import "react-quill/dist/quill.snow.css";
-// import { modules, formats, editorStyle } from "../../reactquillmodules";
+import "react-quill/dist/quill.snow.css";
+import { modules, formats, editorStyle } from "../../reactquillmodules";
 import { BASE_URL } from "../../../pages/request";
 import { ThreeDots } from "react-loader-spinner";
 import Loading from "../../Loading/Loading";
-// import JoditEditor from "jodit-react";
-// import { joditOptions } from "../../../libs/joditEditor";
-import { TipTap } from "../../../libs/TipTap";
 
 const ArticleForm = ({ username }) => {
   const [content, setContent] = useState("");
@@ -27,29 +24,6 @@ const ArticleForm = ({ username }) => {
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const editor = useRef(null);
-  // const config = useMemo(
-  //   () => ({
-  //     readonly: false,
-  //     placeholder: "Start Typing Content",
-  //     defaultActionOnPaste: "insert_as_html",
-  //     defaultLineHeight: 1.5,
-  //     enter: "div",
-  //     buttons: joditOptions,
-  //     buttonsMD: joditOptions,
-  //     buttonsSM: joditOptions,
-  //     buttonsXS: joditOptions,
-  //     statusbar: false,
-  //     sizeLG: 900,
-  //     sizeMD: 700,
-  //     sizeSM: 400,
-  //     toolbarAdaptive: false,
-  //     toolbarButtonSize: "small",
-  //     showXPathInStatusbar: false,
-  //   }),
-  //   []
-  // );
 
   const formValues = (e) => {
     const { name, value, type, checked } = e.target;
@@ -103,7 +77,7 @@ const ArticleForm = ({ username }) => {
             placeholder="e.g. How to write a Personal Statement"
           />
 
-          {/* <div>
+          <div>
             <p>Content</p>
             <ReactQuill
               theme="snow"
@@ -113,21 +87,7 @@ const ArticleForm = ({ username }) => {
               value={content}
               onChange={setContent}
             />
-          </div> */}
-
-          {/* <div>
-            <p>Content</p>
-            <JoditEditor
-              ref={editor}
-              value={content}
-              config={config}
-              tabIndex={1}
-              onBlur={(newContent) => setContent(newContent)}
-              onChange={(newContent) => {}}
-            />
-          </div> */}
-
-          <TipTap />
+          </div>
 
           <div className=" flex flex-col gap-1">
             <label htmlFor="category">Category</label>
