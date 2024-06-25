@@ -14,7 +14,7 @@ import parser from "html-react-parser";
 const Share = ({ url, title, description }) => {
   return (
     <section className="gap-1 flex">
-      <WhatsappShareButton url={url} title={`${title} ${parser(description)}`}>
+      <WhatsappShareButton url={url} title={title}>
         <WhatsappIcon size={40} round />
       </WhatsappShareButton>
 
