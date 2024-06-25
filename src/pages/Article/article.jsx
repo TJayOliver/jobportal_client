@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import Footer from "../../components/Footer/Footer";
 import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia.jsx";
 import { useState, useEffect } from "react";
@@ -12,23 +14,13 @@ import Loading from "../../components/Loading/Loading";
 import SubscribeBlueBox from "../../components/Subscribe/subscribeBlueBox";
 import Cookie from "../../components/Cookie/Cookie";
 import moment from "moment";
+import logo from "../../assets/logo.png";
+import { Helmet } from "react-helmet-async";
 
-export const LatestBox = ({
-  image,
-  author,
-  datecreated,
-  title,
-  brief,
-  category,
-  to,
-}) => {
+export const LatestBox = ({ image, author, datecreated, title, brief, category, to }) => {
   return (
     <div className="h-[26rem] w-full md:w-[15rem] rounded-lg bg-white flex flex-col shrink-0">
-      <img
-        src={`${image}`}
-        loading="lazy"
-        className=" h-44 rounded-t-lg object-cover w-full"
-      />
+      <img src={`${image}`} loading="lazy" className=" h-44 rounded-t-lg object-cover w-full" />
       <div className="p-2 flex flex-col gap-2">
         <div className="flex gap-2">
           <small>{author}</small>
@@ -62,22 +54,9 @@ const Article = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch(
-      "article",
-      setArticles,
-      setLoading,
-      signal,
-      setMessage,
-      setCookieTracker
-    );
+    fetch("article", setArticles, setLoading, signal, setMessage, setCookieTracker);
     fetch("article/featured", setFeatured, setLoading, signal, setMessage);
-    fetch(
-      "article/mainfeatured",
-      setMainFeatured,
-      setLoading,
-      signal,
-      setMessage
-    );
+    fetch("article/mainfeatured", setMainFeatured, setLoading, signal, setMessage);
 
     return () => controller.abort();
   }, []);
@@ -90,11 +69,33 @@ const Article = () => {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="index, follow" />
+        <meta property="og:site_name" content="Future Forte" />
+        <meta property="og:title" content="Career Guidance" />
+        <meta
+          property="og:description"
+          content="Future Forte is a platform dedicated to connecting, graduates, students to endless life changing opportunities"
+        />
+        <meta property="og:url" content="https://futureforte.netlify.app" />
+        <meta property="og:type" content="article" />
+        <meta property="article:publisher" content="https://futureforte.netlify.app" />
+        <meta property="og:image" content={logo} />
+        <meta property="og:image:secure_url" content={logo} />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="640" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Career Guidance" />
+        <meta
+          name="twitter:description"
+          content="Future Forte is a platform dedicated to connecting, graduates, students to endless life changing opportunities"
+        />
+        <meta name="twitter:image" content={logo} />
+        <meta name="twitter:url" content="https://futureforte.netlify.app" />
+      </Helmet>
+
       <Header />
-      <Subscribe
-        SubscribeState={SubscribeState}
-        SetSubscribeState={SetSubscribeState}
-      />
+      <Subscribe SubscribeState={SubscribeState} SetSubscribeState={SetSubscribeState} />
       <main className=" h-full ">
         <section className="max-w-5xl m-auto p-3 flex flex-col gap-2">
           {/* main featured */}
@@ -120,10 +121,7 @@ const Article = () => {
                   <small className="text-justify line-clamp-2">
                     {parser(post.post.slice(0, 100))}
                   </small>
-                  <small>
-                    {" "}
-                    {moment(post.datecreated).format("DD-MM-YYYY")}
-                  </small>
+                  <small> {moment(post.datecreated).format("DD-MM-YYYY")}</small>
                 </div>
               </div>
             ))
@@ -149,17 +147,11 @@ const Article = () => {
                   <div className="absolute z-20 text-white p-2 flex flex-col gap-3 bottom-0 duration-100 ease-in">
                     <small>{post.author}</small>
                     <div className="text-xl md:text-2xl font-bold">
-                      <a
-                        className="hover:underline line-clamp-4"
-                        href={`/article/${post.id}`}
-                      >
+                      <a className="hover:underline line-clamp-4" href={`/article/${post.id}`}>
                         {post.title}
                       </a>
                     </div>
-                    <small>
-                      {" "}
-                      {moment(post.datecreated).format("DD-MM-YYYY")}
-                    </small>
+                    <small> {moment(post.datecreated).format("DD-MM-YYYY")}</small>
                   </div>
                 </div>
               ))

@@ -24,6 +24,8 @@ import Subscribe from "../../components/Subscribe/Subscribe";
 import parser from "html-react-parser";
 //import Cookie from "../../components/Cookie/Cookie";
 import moment from "moment";
+import { Helmet } from "react-helmet-async";
+import logo from "../../assets/logo.png";
 
 export const ScholarshipBox = ({
   image,
@@ -115,6 +117,31 @@ const Scholarship = () => {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="index, follow" />
+        <meta property="og:site_name" content="Future Forte" />
+        <meta property="og:title" content="Scholarship" />
+        <meta
+          property="og:description"
+          content="Future Forte is a platform dedicated to connecting, graduates, students to endless scholarship opportunities"
+        />
+        <meta property="og:url" content="https://futureforte.netlify.app" />
+        <meta property="og:type" content="article" />
+        <meta property="article:publisher" content="https://futureforte.netlify.app" />
+        <meta property="og:image" content={logo} />
+        <meta property="og:image:secure_url" content={logo} />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="640" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Scholarship" />
+        <meta
+          name="twitter:description"
+          content="Future Forte is a platform dedicated to connecting, graduates, students to endless scholarship opportunities"
+        />
+        <meta name="twitter:image" content={logo} />
+        <meta name="twitter:url" content="https://futureforte.netlify.app" />
+      </Helmet>
+
       <Header />
 
       <Subscribe SubscribeState={SubscribeState} SetSubscribeState={SetSubscribeState} />
