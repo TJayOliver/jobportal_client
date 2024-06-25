@@ -149,7 +149,7 @@ const ScholarshipDescription = () => {
         <img src={image} loading="lazy" className="h-full w-full object-cover" />
       </aside>
 
-      <main className="relative flex p-2 justify-between">
+      <main className="relative flex p-2 justify-evenly">
         {/* Descriptions */}
         <section className="flex flex-col -translate-y-24 gap-3 w-full md:basis-[70%]">
           {/* name and share */}
