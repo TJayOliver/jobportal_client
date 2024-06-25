@@ -218,6 +218,7 @@ const JobForm = ({ username }) => {
           <div>
             <p>Overview</p>
             <ReactQuill
+              className=".ql-editor"
               theme="snow"
               modules={modules}
               formats={formats}
@@ -230,6 +231,7 @@ const JobForm = ({ username }) => {
           <div>
             <p>Job Details</p>
             <ReactQuill
+              className=".ql-editor"
               theme="snow"
               modules={modules}
               formats={formats}

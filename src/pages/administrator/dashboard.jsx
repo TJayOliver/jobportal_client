@@ -370,7 +370,7 @@ const Dashboard = () => {
     return () => controller.abort();
   }, []);
 
-  const [postPerPage, setPostPerPage] = useState(5);
+  const [postPerPage, setPostPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastPostIndex = currentPage * postPerPage;

@@ -209,6 +209,7 @@ const ScholarshipForm = ({ username }) => {
           <div>
             <p>Description</p>
             <ReactQuill
+              className=".ql-editor"
               theme="snow"
               modules={modules}
               formats={formats}
@@ -221,6 +222,7 @@ const ScholarshipForm = ({ username }) => {
           <div>
             <p>Scholarship Information</p>
             <ReactQuill
+              className=".ql-editor"
               theme="snow"
               modules={modules}
               formats={formats}
