@@ -34,13 +34,7 @@ const FeaturedJobs = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch(
-      "scholarship/featured",
-      setScholarshipFeatured,
-      setLoading,
-      signal,
-      setDisplayJob
-    );
+    fetch("scholarship/featured", setScholarshipFeatured, setLoading, signal, setDisplayJob);
     fetch("job/featured", setJobsFeatured, setLoading, signal);
     return () => controller.abort();
   }, []);
@@ -126,7 +120,7 @@ const FeaturedJobs = () => {
                   key={id}
                   image={scholarship.image}
                   location={scholarship.scholarshiptype}
-                  company={scholarship.scholarshipname.slice(0, 30)}
+                  company={scholarship.scholarshipname.slice(0, 20)}
                   category={scholarship.scholarshiptype}
                   to={`/scholarship/${scholarship.id}`}
                 />

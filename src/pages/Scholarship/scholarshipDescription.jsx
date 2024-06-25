@@ -149,109 +149,111 @@ const ScholarshipDescription = () => {
         <img src={image} loading="lazy" className="h-full w-full object-cover" />
       </aside>
 
-      <main className="relative flex p-2 justify-around">
+      <main className="relative flex p-2 justify-between gap-4">
         {/* Descriptions */}
-        <section className="flex flex-col -translate-y-24 gap-3 w-full md:basis-[70%]">
-          {/* name and share */}
-          <section
-            id="description"
-            className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 border border-gray-100"
-          >
-            {/* scholarship image and share button*/}
-            <div className="flex justify-between items-center">
+        <section className="flex flex-col w-full -translate-y-14">
+          <section className="flex flex-col gap-3">
+            {/* name and share */}
+            <section
+              id="description"
+              className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 border border-gray-100"
+            >
+              {/* scholarship image and share button*/}
+              <div className="flex justify-between items-center">
+                {loading ? (
+                  <Loading />
+                ) : (
+                  scholarship.map((list, id) => (
+                    <img
+                      key={id}
+                      loading="lazy"
+                      src={`${list.image}`}
+                      className="rounded-full h-24 w-24 object-cover"
+                    />
+                  ))
+                )}
+                {/* share */}
+                <div className="flex gap-1 items-center">
+                  <Share url={url} title={title} description={description} />
+                </div>
+              </div>
+
               {loading ? (
                 <Loading />
               ) : (
                 scholarship.map((list, id) => (
-                  <img
-                    key={id}
-                    loading="lazy"
-                    src={`${list.image}`}
-                    className="rounded-full h-24 w-24 object-cover"
-                  />
+                  <div key={id} id="name/location">
+                    <h1 className="text-2xl font-bold">{list.scholarshipname}</h1>
+                    <small className="font-medium">{list.country}</small>
+                  </div>
                 ))
               )}
-              {/* share */}
-              <div className="flex gap-1 items-center">
-                <Share url={url} title={title} description={description} />
-              </div>
-            </div>
-
-            {loading ? (
-              <Loading />
-            ) : (
-              scholarship.map((list, id) => (
-                <div key={id} id="name/location">
-                  <h1 className="text-2xl font-bold">{list.scholarshipname}</h1>
-                  <small className="font-medium">{list.country}</small>
-                </div>
-              ))
-            )}
-            {loading ? (
-              <Loading />
-            ) : (
-              scholarship.map((list, id) => (
-                <div key={id} className="text-justify">
-                  {parser(`${list.description}`)}
-                </div>
-              ))
-            )}
-          </section>
-
-          {/* minimum information */}
-          <section className="h-20 border border-gray-100 flex  m-auto p-8 rounded-lg py-14 gap-4 divide-x-2 max-w-5xl items-center justify-between w-full text-sm md:text-md">
-            <div>
-              <div className="flex items-center gap-1">
-                <BsPeople />
-                <p className="font-bold">Agent</p>
-              </div>
-              {loading ? (
-                <Loading />
-              ) : (
-                scholarship.map((list, id) => <p key={id}>{list.agent} Required</p>)
-              )}
-            </div>
-            <div className="p-2">
-              <div className="flex items-center gap-1">
-                <BsCalendar2 />
-                <p className="font-bold">Deadline</p>
-              </div>
               {loading ? (
                 <Loading />
               ) : (
                 scholarship.map((list, id) => (
-                  <p key={id}>{moment(list.deadline).format("YYYY-MM-DD")}</p>
+                  <div key={id} className="text-justify">
+                    {parser(`${list.description}`)}
+                  </div>
                 ))
               )}
-            </div>
-            <div className="p-2">
-              <div className="flex items-center gap-1">
-                <BiSolidCategory />
-                <p className="font-bold">Programs Offered</p>
+            </section>
+
+            {/* minimum information */}
+            <section className="h-20 border border-gray-100 flex  m-auto p-8 rounded-lg py-14 gap-4 divide-x-2 max-w-5xl items-center justify-between w-full text-sm md:text-md">
+              <div>
+                <div className="flex items-center gap-1">
+                  <BsPeople />
+                  <p className="font-bold">Agent</p>
+                </div>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  scholarship.map((list, id) => <p key={id}>{list.agent} Required</p>)
+                )}
               </div>
+              <div className="p-2">
+                <div className="flex items-center gap-1">
+                  <BsCalendar2 />
+                  <p className="font-bold">Deadline</p>
+                </div>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  scholarship.map((list, id) => (
+                    <p key={id}>{moment(list.deadline).format("YYYY-MM-DD")}</p>
+                  ))
+                )}
+              </div>
+              <div className="p-2">
+                <div className="flex items-center gap-1">
+                  <BiSolidCategory />
+                  <p className="font-bold">Programs Offered</p>
+                </div>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  scholarship.map((list, id) => <p key={id}>{list.programs}</p>)
+                )}
+              </div>
+            </section>
+
+            {/* scholarship information  */}
+            <section
+              id="scholarship information"
+              className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 text-justify"
+            >
               {loading ? (
                 <Loading />
               ) : (
-                scholarship.map((list, id) => <p key={id}>{list.programs}</p>)
+                scholarship.map((post, id) => <section key={id}>{parser(post.post)}</section>)
               )}
-            </div>
-          </section>
-
-          {/* scholarship information  */}
-          <section
-            id="scholarship information"
-            className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 text-justify"
-          >
-            {loading ? (
-              <Loading />
-            ) : (
-              scholarship.map((post, id) => <section key={id}>{parser(post.post)}</section>)
-            )}
+            </section>
           </section>
         </section>
 
         {/* Related Scholarships */}
-        <section className=" hidden py-2 md:block h-full basis-[25%]">
+        <section className=" hidden py-2 md:block h-[76rem] overflow-y-scroll basis-[25%]">
           <h1 className="font-bold text-xl mb-2">Related Scholarships</h1>
           {loading ? (
             <Loading />
