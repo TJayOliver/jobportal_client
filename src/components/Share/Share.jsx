@@ -9,7 +9,6 @@ import {
   XIcon,
   LinkedinIcon,
 } from "react-share";
-import parser from "html-react-parser";
 
 const Share = ({ url, title, description }) => {
   return (
