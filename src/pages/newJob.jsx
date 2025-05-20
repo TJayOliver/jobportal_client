@@ -1,31 +1,47 @@
-import { CiSearch } from "react-icons/ci";
-import { FaCediSign, FaRegFaceMeh } from "react-icons/fa6";
+import { CiSearch, CiClock2 } from "react-icons/ci";
+import { FaCediSign } from "react-icons/fa6";
 import { FaShareFromSquare } from "react-icons/fa6";
-import { CiClock2 } from "react-icons/ci";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoHeart, IoFilter } from "react-icons/io5";
 import { useEffect, useState, useRef } from "react";
 import { fetch, BASE_URL } from "./request";
-import ClickSpark from "../components/clickSpark";
-import { MdArrowForward } from "react-icons/md";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
+import AdvertBox from "../components/Advert/advertBox";
+import government from "../assets/government.jpg";
+import built from "../assets/built.jpg";
+import Pagination from "../components/Pagination/Pagination";
+import axios from "axios";
+import Loading from "../components/Loading/Loading";
 
-const CardElement = ({ overview, position, location, salary, datecreated }) => {
+const CardElement = ({
+  image,
+  overview,
+  position,
+  company,
+  location,
+  salary,
+  datecreated,
+}) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [onMouseEnter, setOnMouseEnter] = useState(false);
   const toggleLike = () => {
     setIsLiked(!isLiked);
   };
   return (
-    <div className="bg-[#0F141E] border-slate-600 h-60 max-w-screen-xl relative rounded-md shadow-lg border ">
+    <div className="bg-[#0F141E] border-slate-600 h-60 max-w-screen-xl relative rounded-md shadow-lg border motion-translate-y-in-100">
       {/* image,location,title,share */}
       <div className="flex justify-between items-center p-4">
         <div className="flex gap-1">
-          <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]"></div>
+          <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]">
+            <img
+              src={image}
+              alt="OP"
+              className="h-full w-full bg-cover rounded-full"
+            />
+          </div>
           <div className="flex flex-col">
             <h1 className="text-sm dark:text-white">{position}</h1>
-            <p className="text-sm dark:text-white">{location}</p>
+            <small className="text-[12px] dark:text-white">{location}</small>
           </div>
         </div>
         {/* share */}
@@ -47,31 +63,18 @@ const CardElement = ({ overview, position, location, salary, datecreated }) => {
       </div>
       {/* buttons */}
       <div className="absolute bottom-0 left-0 right-0 px-2 pb-2 gap-1 flex justify-between items-center">
-        <ClickSpark
-          sparkColor="#fff"
-          sparkSize={10}
-          sparkRadius={15}
-          sparkCount={8}
-          duration={400}
-        >
-          <button
-            onMouseEnter={() => setOnMouseEnter(true)}
-            onMouseLeave={() => setOnMouseEnter(false)}
-            className="bg-gradient-to-r flex justify-center h-10 items-center  from-[#641B2E] to-[#3a111c]  w-full p-2 text-slate-200 rounded-xl"
-          >
-            {onMouseEnter ? (
-              <MdArrowForward className="duration-100 ease-in" />
-            ) : (
-              <p className="duration-100 ease-in">Apply</p>
-            )}
-          </button>
-        </ClickSpark>
-
+        <button className="bg-gradient-to-r flex justify-center h-10 items-center  from-[#641B2E] to-[#3a111c]  w-full p-2 text-slate-200 rounded-xl hover:motion-preset-fade hover:motion-duration-2000">
+          <p>Apply</p>
+        </button>
         <div
           onClick={toggleLike}
           className="rounded-lg h-10 w-12 border border-slate-300 flex items-center justify-center cursor-pointer"
         >
-          {isLiked ? <IoHeart size={20} /> : <IoMdHeartEmpty size={20} />}
+          {isLiked ? (
+            <IoHeart size={20} className="motion-preset-confetti" />
+          ) : (
+            <IoMdHeartEmpty size={20} />
+          )}
         </div>
       </div>
     </div>
@@ -79,19 +82,7 @@ const CardElement = ({ overview, position, location, salary, datecreated }) => {
 };
 
 const NewJobs = () => {
-  const categories = [
-    { id: 1, categoryname: "Healthcare & Medical Services" },
-    { id: 2, categoryname: "Information Technology" },
-    { id: 3, categoryname: "Engineering & Manufacturing" },
-    { id: 4, categoryname: "Finance & Accounting" },
-    { id: 5, categoryname: "Education & Training" },
-    { id: 6, categoryname: "Marketing & Communications" },
-    { id: 7, categoryname: "Hospitality & Tourism" },
-    { id: 8, categoryname: "Retail & Sales" },
-    { id: 9, categoryname: "Construction & Trades" },
-    { id: 10, categoryname: "Legal & Compliance" },
-  ];
-  const job = [
+  const [jobs, setJobs] = useState([
     {
       id: "1",
       overview: "Responsible for diagnosing and treating patients.",
@@ -262,28 +253,73 @@ const NewJobs = () => {
       jobcategory: "Legal & Compliance",
       datecreated: "21/05/2025",
     },
-  ];
+  ]);
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([
+    { id: 1, categoryname: "Healthcare & Medical Services" },
+    { id: 2, categoryname: "Information Technology" },
+    { id: 3, categoryname: "Engineering & Manufacturing" },
+    { id: 4, categoryname: "Finance & Accounting" },
+    { id: 5, categoryname: "Education & Training" },
+    { id: 6, categoryname: "Marketing & Communications" },
+    { id: 7, categoryname: "Hospitality & Tourism" },
+    { id: 8, categoryname: "Retail & Sales" },
+    { id: 9, categoryname: "Construction & Trades" },
+    { id: 10, categoryname: "Legal & Compliance" },
+  ]);
+  const [message, setMessage] = useState("");
+  const [cookieTracker, setCookieTracker] = useState(null);
+  const [postPerPage, setPostPerPage] = useState(20);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchResultsVerified, setSearchResultsVerified] = useState(false);
   const inputRef = useRef(null);
-
   const toggleSearch = () => {
     setIsSearchVisible(!isSearchVisible);
   };
-
   useEffect(() => {
     if (isSearchVisible && inputRef.current) {
       inputRef.current.focus();
     }
   }, [isSearchVisible]);
 
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetch("job", setJobs, setLoading, signal, setMessage, setCookieTracker);
+    fetch("category", setCategories, setLoading, signal, setMessage);
+    return () => controller.abort();
+  }, []);
+
+  const [searchInput, setSearchInput] = useState({ position: "" });
+  const handleSearchInputs = (e) => {
+    const { name, value } = e.target;
+    setSearchInput((prev) => ({ ...prev, [name]: value }));
+  };
+  const searchJobByPosition = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${BASE_URL}/job/search`, searchInput);
+      setSearchResultsVerified(true);
+      setSearchResults(response.data.data);
+    } catch (error) {
+      setMessage(error.response.data.message);
+    }
+  };
+
+  const lastPageIndex = currentPage * postPerPage;
+  const firstPageIndex = lastPageIndex - postPerPage;
+  const post = jobs.slice(firstPageIndex, lastPageIndex);
   return (
     <>
       <Header />
-
       <main className=" bg-[#1D232A] text-[#d6d8dd] p-4 min-h-[calc(100vh-312px)] relative">
         <section className="flex justify-between p-4">
           {/* side bar */}
-          <div className="hidden md:flex md:flex-col h-[32rem] w-56 border border-slate-400 rounded-xl basis-[20%] gap-2 sticky top-32 p-4">
+          <div className="hidden md:flex md:flex-col h-fit w-56 border border-slate-400 rounded-xl basis-[20%] gap-2 sticky top-32 p-4 motion-translate-y-in-100">
             {/* heading */}
             <div className="flex justify-between">
               <h1>Filter</h1>
@@ -293,7 +329,7 @@ const NewJobs = () => {
             </div>
             {/* Work Schedule */}
             <div>
-              <p className="font-bold">Work Schedule</p>
+              <p className="font-bold text-white">Work Schedule</p>
               <div className="flex gap-1">
                 <input
                   type="checkbox"
@@ -315,7 +351,7 @@ const NewJobs = () => {
             </div>
             {/* category */}
             <div>
-              <p className="font-bold">Category</p>
+              <p className="font-bold text-white">Category</p>
               {categories.map((category, id) => (
                 <div key={id} className="flex gap-1">
                   <input
@@ -339,10 +375,14 @@ const NewJobs = () => {
               >
                 <CiSearch size={20} className="text-white" />
               </div>
-
               <input
                 ref={inputRef}
                 type="search"
+                onKeyDown={(e) => e.key === "Enter" && searchJobByPosition(e)}
+                enterKeyHint="search"
+                name="position"
+                value={searchInput.position}
+                onChange={handleSearchInputs}
                 placeholder="Job Title"
                 className={`text-black border placeholder:text-sm placeholder:text-slate-400 px-2 border-slate-300 rounded-3xl p-1 outline-none transition-all duration-300 ease-in-out ${
                   isSearchVisible ? "w-full opacity-100" : "w-0 opacity-0 "
@@ -354,19 +394,71 @@ const NewJobs = () => {
               </div>
             </div>
             {/* displaying jobs */}
-            <div className="flex flex-col md:grid md:grid-cols-4 gap-4 ">
-              {job.map((job, id) => (
-                <CardElement
-                  key={id}
-                  overview={job.overview.substring(0, 50)}
-                  position={job.position}
-                  location={job.location}
-                  salary={job.salary}
-                  datecreated={job.datecreated}
-                />
-              ))}
-            </div>
+            {searchResultsVerified ? (
+              /* if search results have been retrieved, display*/
+              <div className="flex flex-col">
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <div>
+                    <div className="display-boxes">
+                      {searchResults.length === 0
+                        ? `No Jobs for ${searchInput.position} Found`
+                        : searchResults.map((job, id) => (
+                            <CardElement
+                              key={id}
+                              overview={job.overview.substring(0, 50)}
+                              position={job.position}
+                              location={job.location}
+                              salary={job.salary}
+                              datecreated={job.datecreated}
+                            />
+                          ))}
+                    </div>
+                    <Pagination
+                      totalPost={searchResults.length}
+                      postPerPage={postPerPage}
+                      setCurrentPage={setCurrentPage}
+                      currentPage={currentPage}
+                    />
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* if user hasnt search for anything, display all scholarships */
+              <div className="flex flex-col">
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <div>
+                    <div className="display-boxes">
+                      {jobs.map((job, id) => (
+                        <CardElement
+                          key={id}
+                          overview={job.overview.substring(0, 50)}
+                          position={job.position}
+                          location={job.location}
+                          salary={job.salary}
+                          datecreated={job.datecreated}
+                        />
+                      ))}
+                    </div>
+                    <Pagination
+                      totalPost={post.length}
+                      postPerPage={postPerPage}
+                      setCurrentPage={setCurrentPage}
+                      currentPage={currentPage}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
+        </section>
+        {/* advert */}
+        <section className="flex justify-between gap-2">
+          <AdvertBox image={built} />
+          <AdvertBox image={government} />
         </section>
       </main>
 

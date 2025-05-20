@@ -14,7 +14,7 @@ import ScholarshipCategory from "./pages/Scholarship/scholarshipCategory.jsx";
 import Unsubscribe from "./pages/unSubscribe.jsx";
 import Privacy from "./pages/privacy.jsx";
 import { HelmetProvider } from "react-helmet-async";
-import NewJobs from "./pages/new.jsx";
+import NewJobs from "./pages/newJob.jsx";
 import NewJobDescription from "./pages/newdescription.jsx";
 import NewScholarship from "./pages/newScholarship.jsx";
 

@@ -55,7 +55,7 @@ const Footer = () => {
             placeholder="email address"
           />
           <button className="bg-yellow-400 rounded-3xl text-black text-sm p-1 md:p-2">
-            SUBSCRIBE FOR FREE
+            Subscribe
           </button>
         </div>
       </section>

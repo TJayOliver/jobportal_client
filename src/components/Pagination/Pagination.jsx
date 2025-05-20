@@ -10,10 +10,10 @@ const Pagination = ({
   for (let i = 1; i <= page; i++) {
     pageNumbers.push(i);
   }
-  const className = `bg-gray-200 p-3 hover:bg-gray-300 hover:duration-100 hover:ease-out cursor-pointer rounded-md `;
+  const className = `border border-slate-600 bg-[#0F141E] hover:bg-transparent cursor-pointer rounded-sm p-2 text-sm flex items-center`;
   return (
     <div className=" flex justify-center items-center mt-2">
-      <ul className=" flex gap-4">
+      <ul className=" flex gap-4 items-center">
         {pageNumbers.map((page, id) => (
           <li
             key={id}
@@ -23,7 +23,7 @@ const Pagination = ({
             className={
               page == currentPage
                 ? className
-                : `bg-gray-200 p-3 hover:bg-gray-300 hover:duration-100 hover:ease-out cursor-pointer rounded-md `
+                : `border border-slate-600 bg-transparent cursor-pointer rounded-sm p-2 `
             }
           >
             {" "}

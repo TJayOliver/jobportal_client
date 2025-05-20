@@ -1,13 +1,21 @@
+import { useState, useEffect } from "react";
+
 const Header = () => {
+  const [activateConfetti, setConfetti] = useState(false);
+  const triggerConfetti = () => {
+    setConfetti(true);
+  };
+
   return (
     <section className="sticky top-0 z-20">
-      <aside className="bg-yellow-300  text-black h-8 items-center justify-center flex p-1 w-full">
+      <aside className="bg-yellow-300  text-black  items-center justify-center flex p-1 w-full">
         <div className="rounded-lg px-1 border border-slate-100 bg-yellow-200 flex items-center mr-1 ">
           <small>New</small>
         </div>
-        <small className=" whitespace-nowrap">
-          ✨ Get Noticed by Thousands! Promote your brand on Opportunity
-          Archives—where opportunities thrive: market@opportunityarchives.com
+
+        <small className={""}>
+          ✨ Get Noticed by Thousands! Promote your brand:
+          market@opportunityarchives.com
         </small>
       </aside>
 
@@ -27,7 +35,14 @@ const Header = () => {
             Scholarships
           </a>
         </nav>
-        <button className="bg-slate-100 p-2 rounded-3xl text-[12px] text-black font-bold">
+        <button
+          onClick={triggerConfetti}
+          className={
+            activateConfetti
+              ? "bg-slate-100 p-2 rounded-3xl text-[12px] text-black font-bold motion-preset-confetti"
+              : "bg-slate-100 p-2 rounded-3xl text-[12px] text-black font-bold"
+          }
+        >
           SUBSCRIBE
         </button>
       </header>

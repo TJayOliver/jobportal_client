@@ -29,6 +29,10 @@ body {
   @apply hidden;
 }
 
+.display-boxes {
+  @apply flex flex-col sm:grid sm:grid-cols-2 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 gap-4;
+}
+
 .mobileMenu {
   position: absolute;
   width: 100%;
