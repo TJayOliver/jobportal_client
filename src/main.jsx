@@ -4,10 +4,8 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Error } from "./components/Error/error.jsx";
 import Home from "./pages/home.jsx";
-import Article from "./pages/Article/article.jsx";
 import Administrator from "./pages/administrator/administrator.jsx";
 import Dashboard from "./pages/administrator/dashboard.jsx";
-import ArticleDescription from "./pages/Article/articleDescription.jsx";
 import JobDescription from "./pages/Job/JobDescription.jsx";
 import Jobs from "./pages/Job/Jobs.jsx";
 import Scholarship from "./pages/Scholarship/scholarship.jsx";
@@ -16,6 +14,9 @@ import ScholarshipCategory from "./pages/Scholarship/scholarshipCategory.jsx";
 import Unsubscribe from "./pages/unSubscribe.jsx";
 import Privacy from "./pages/privacy.jsx";
 import { HelmetProvider } from "react-helmet-async";
+import NewJobs from "./pages/new.jsx";
+import NewJobDescription from "./pages/newdescription.jsx";
+import NewScholarship from "./pages/newScholarship.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,18 +35,23 @@ const router = createBrowserRouter([
     errorElement: <Error />,
   },
   {
-    path: "/article",
-    element: <Article />,
-    errorElement: <Error />,
-  },
-  {
-    path: "/article/:id",
-    element: <ArticleDescription />,
-    errorElement: <Error />,
-  },
-  {
     path: "/job",
     element: <Jobs />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/newjob",
+    element: <NewJobs />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/newdescription",
+    element: <NewJobDescription />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/newscholarship",
+    element: <NewScholarship />,
     errorElement: <Error />,
   },
   {

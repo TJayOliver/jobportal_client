@@ -68,3 +68,36 @@ body {
     line-height: 0px;
   }
 }
+
+.vertical-scroller {
+  height: 1.5em;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroller-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: scroll-vertical 10s linear infinite;
+}
+
+.scroller-content small {
+  margin: 0;
+  padding: 0.25em 0;
+  line-height: 1.5em;
+}
+
+@keyframes scroll-vertical {
+  0%,
+  40% {
+    transform: translateY(0); /* Show first text */
+  }
+  50%,
+  90% {
+    transform: translateY(-100%); /* Show second text */
+  }
+  100% {
+    transform: translateY(0); /* Reset */
+  }
+}

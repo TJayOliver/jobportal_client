@@ -1,63 +1,69 @@
-const Footer = ({ onClick }) => {
-  const date = new Date();
-  const Year = date.getFullYear();
+import { SiFacebook } from "react-icons/si";
+import { FaSquareXTwitter } from "react-icons/fa6";
 
+const Footer = () => {
   return (
-    <aside className=" h-full p-4 flex flex-col justify-center text-md bg-black/90 text-white/80">
-      <div className="flex flex-col justify-center m-auto max-w-7xl w-full gap-10">
-        <div className="flex justify-between items-center ">
-          <p className=" font-AliandoRocky text-4xl text-white">Future Forte</p>
-          <div className="flex items-center gap-1">
-            <div
-              onClick={onClick}
-              role="button"
-              className="p-2 bg-teal-500 rounded-md"
-            >
-              Subscribe
-            </div>
+    <footer className="bg-[#0F141E] p-8 flex flex-col justify-evenly text-md text-white relative gap-8">
+      <section className="flex flex-col md:flex-row justify-between gap-4">
+        {/* quick links */}
+        <div className="flex flex-col gap-3 text-slate-200">
+          <h1 className="font-bold text-xl text-white">Quick Links</h1>
+          <a className="hover:text-white/50 text-sm" href="#">
+            Home
+          </a>
+          <a className="hover:text-white/50 text-sm" href="#">
+            Job
+          </a>
+          <a className="hover:text-white/50 text-sm" href="#">
+            Scholarship
+          </a>
+        </div>
+        {/* contact */}
+        <div className="flex flex-col gap-3 text-slate-200">
+          <h1 className="font-bold text-xl text-white">Contact & Legal</h1>
+          <a className="text-sm">support@opportunityarchives.com</a>
+          <a className="hover:text-white/50 text-sm" href="#">
+            Privacy Policy
+          </a>
+          <a className="hover:text-white/50 text-sm" href="#">
+            Terms & Condition
+          </a>
+        </div>
+        {/* social handles */}
+        <div className="flex flex-col gap-3 text-slate-200">
+          <h1 className="font-bold text-xl text-white">
+            Follow Us - Lets Connect
+          </h1>
+          <div className="flex items-center gap-2">
+            <a className="hover:text-white/50 " href="#">
+              <FaSquareXTwitter />
+            </a>
+            <a className="hover:text-white/50" href="#">
+              <SiFacebook />
+            </a>
           </div>
         </div>
-
-        <hr></hr>
-
-        <div className="flex gap-8 items-center justify-between md:gap-20">
-          {/* about and address */}
-          <div className="flex flex-col gap-4 md:w-2/4">
-            {/* about */}
-            <div>
-              <p className="font-bold">About</p>
-              <small className="text-justify ">
-                Future Forte is a Job Portal Website, a platform dedicated to
-                connecting, graduates, students and job seekers with
-                opportunities for graduate jobs, internships, scholarships and
-                informative articles.
-              </small>
-            </div>
-
-            {/* address */}
-            <div>
-              <p className="font-bold">Address</p>
-              <small>futureforte@gmail.com</small>
-            </div>
-
-            <small className="flex">&copy;FutureForte {Year}</small>
-          </div>
-
-          {/* Tags */}
-          <div className="hidden md:block">
-            <p className="font-bold">Tags</p>
-            <div className="md:flex md:flex-col flex flex-row text-center justify-center flex-wrap gap-3 mt-1">
-              <small className="p-1 bg-white/50 rounded-md">Job Search</small>
-              <small className="p-1 bg-white/50 rounded-md">Scholarships</small>
-              <small className="p-1 bg-white/50 rounded-md">Internships</small>
-              <small className="p-1 bg-white/50 rounded-md">
-                Career Guidance
-              </small>
-            </div>
-          </div>
+      </section>
+      {/* subscribe */}
+      <section className="flex justify-between">
+        <h1 className="md:text-3xl">
+          Never Miss an Opportunity - <br></br> Join Our Community
+        </h1>
+        <div className="flex flex-col gap-2">
+          <input
+            className=" outline-none bg-transparent border-b placeholder:text-sm p-1 w-full"
+            placeholder="email address"
+          />
+          <button className="bg-yellow-400 rounded-3xl text-black text-sm p-1 md:p-2">
+            SUBSCRIBE FOR FREE
+          </button>
         </div>
-      </div>
-    </aside>
+      </section>
+      <hr></hr>
+      <p className="flex justify-center">
+        Copyright &copy;{new Date().getFullYear()} | Privacy Policy
+      </p>
+    </footer>
   );
 };
 
