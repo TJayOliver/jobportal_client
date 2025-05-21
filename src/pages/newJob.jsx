@@ -1,4 +1,4 @@
-import { CiSearch, CiClock2 } from "react-icons/ci";
+import { CiClock2 } from "react-icons/ci";
 import { FaCediSign } from "react-icons/fa6";
 import { FaShareFromSquare } from "react-icons/fa6";
 import { IoMdHeartEmpty } from "react-icons/io";
@@ -13,6 +13,7 @@ import built from "../assets/built.jpg";
 import Pagination from "../components/Pagination/Pagination";
 import axios from "axios";
 import Loading from "../components/Loading/Loading";
+import SearchBar from "../components/searchBar";
 
 const CardElement = ({
   image,
@@ -368,31 +369,17 @@ const NewJobs = () => {
           {/* jobs display*/}
           <div className="md:basis-[75%] flex flex-col gap-2">
             {/* search bar */}
-            <div className="flex justify-between items-center gap-2">
-              <div
-                onClick={toggleSearch}
-                className="rounded-full h-10 w-10 border border-slate-300 flex items-center justify-center"
-              >
-                <CiSearch size={20} className="text-white" />
-              </div>
-              <input
-                ref={inputRef}
-                type="search"
-                onKeyDown={(e) => e.key === "Enter" && searchJobByPosition(e)}
-                enterKeyHint="search"
-                name="position"
-                value={searchInput.position}
-                onChange={handleSearchInputs}
-                placeholder="Job Title"
-                className={`text-black border placeholder:text-sm placeholder:text-slate-400 px-2 border-slate-300 rounded-3xl p-1 outline-none transition-all duration-300 ease-in-out ${
-                  isSearchVisible ? "w-full opacity-100" : "w-0 opacity-0 "
-                }`}
-              />
-              <div className="rounded-3xl border border-slate-300 p-2 flex justify-between items-center gap-1">
-                <IoFilter />
-                <p>Recent</p>
-              </div>
-            </div>
+            <SearchBar
+              name={"position"}
+              value={searchInput.position}
+              placeholder={"Job Title"}
+              onChange={handleSearchInputs}
+              searchFunction={searchJobByPosition}
+              setSearchResultsVerified={searchResultsVerified}
+              setSearchResults={setSearchResults}
+              setMessage={setMessage}
+              link={"job/filtersearch"}
+            />
             {/* displaying jobs */}
             {searchResultsVerified ? (
               /* if search results have been retrieved, display*/
