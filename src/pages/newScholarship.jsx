@@ -2,9 +2,8 @@ import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import { TypeAnimation } from "react-type-animation";
 import { FaShareFromSquare } from "react-icons/fa6";
-import { CiSearch } from "react-icons/ci";
 import { IoMdHeartEmpty } from "react-icons/io";
-import { IoHeart, IoFilter } from "react-icons/io5";
+import { IoHeart } from "react-icons/io5";
 import { useEffect, useState, useRef } from "react";
 import { fetch, BASE_URL } from "./request";
 import government from "../assets/government.jpg";
@@ -14,6 +13,7 @@ import Pagination from "../components/Pagination/Pagination";
 import axios from "axios";
 import Loading from "../components/Loading/Loading";
 import SearchBar from "../components/searchBar";
+import CheckBoxFilter from "../components/checkBoxFilter";
 
 const CardElement = ({
   image,
@@ -33,12 +33,24 @@ const CardElement = ({
       {/* image,location,title,share */}
       <div className="flex justify-between items-center p-4">
         <div className="flex gap-1">
-          <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]">
-            <img
-              src={image}
-              alt="OP"
-              className="h-full w-full bg-cover rounded-full"
-            />
+          <div className="flex gap-1">
+            {!image && (
+              <div className=" h-9 w-9 shrink-0 bg-[#2d2e32] flex items-center justify-center rounded-full">
+                {scholarshipname.substring(0, 2)}
+              </div>
+            )}
+            {image && (
+              <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]">
+                <img
+                  src={image}
+                  alt={scholarshipname.substring(0, 2)}
+                  onError={(e) => {
+                    e.target.style.display = "none"; // Hide broken image
+                  }}
+                  className="h-full w-full bg-cover rounded-full"
+                />
+              </div>
+            )}
           </div>
           <div className="flex flex-col">
             <h1 className="text-sm text-white inline md:hidden">
@@ -258,7 +270,6 @@ const NewScholarship = () => {
       datecreated: "2024-04-18",
     },
   ]);
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [cookieTracker, setCookieTracker] = useState(null);
@@ -266,15 +277,6 @@ const NewScholarship = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsVerified, setSearchResultsVerified] = useState(false);
-  const inputRef = useRef(null);
-  const toggleSearch = () => {
-    setIsSearchVisible(!isSearchVisible);
-  };
-  useEffect(() => {
-    if (isSearchVisible && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isSearchVisible]);
 
   axios.defaults.withCredentials = true;
 
@@ -291,14 +293,11 @@ const NewScholarship = () => {
     );
     return () => controller.abort();
   }, []);
-
   const [searchInput, setSearchInput] = useState({ scholarshipname: "" });
-
   const handleSearchInputs = (e) => {
     const { name, value } = e.target;
     setSearchInput((prev) => ({ ...prev, [name]: value }));
   };
-
   const searchScholarshipByName = async (e) => {
     e.preventDefault();
     try {
@@ -307,9 +306,83 @@ const NewScholarship = () => {
         searchInput
       );
       setSearchResultsVerified(true);
+      setLoading(false);
       setSearchResults(response.data.data);
     } catch (error) {
       setMessage(error.response.data.message);
+    }
+  };
+  const [filters, setFilters] = useState({
+    type: [],
+    level: [],
+    category: [],
+  });
+  const handleFilterChange = async (e) => {
+    const { name, value, checked } = e.target;
+    // Update filters state
+    setFilters((prev) => {
+      const filterType =
+        name === "Fully Funded" || name === "Partially Funded"
+          ? "type"
+          : name === "Bachelors Degree" ||
+            name === "Masters Degree" ||
+            name === "Post Graduate Diploma" ||
+            name === "Doctorate Degree"
+          ? "level"
+          : "category";
+
+      const newFilters = { ...prev };
+
+      if (checked) {
+        newFilters[filterType] = [...newFilters[filterType], value];
+      } else {
+        newFilters[filterType] = newFilters[filterType].filter(
+          (item) => item !== value
+        );
+      }
+
+      return newFilters;
+    });
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/scholarship/checkboxfilter`,
+        {
+          type: filters.type,
+          level: filters.level,
+          category: filters.category,
+        }
+      );
+      setSearchResultsVerified(true);
+      setLoading(false);
+      setSearchResults(response.data.data);
+    } catch (error) {
+      setLoading(true);
+      setMessage(error.response.data.message);
+    }
+  };
+  const resetFilters = async () => {
+    try {
+      // 1. Reset all filters to empty arrays
+      setFilters({
+        type: [],
+        level: [],
+        category: [],
+      });
+      // 2. Fetch fresh data from server
+      const controller = new AbortController();
+      const signal = controller.signal;
+      fetch(
+        "scholarship",
+        setScholarship,
+        setLoading,
+        signal,
+        setMessage,
+        setCookieTracker
+      );
+      setLoading(false);
+    } catch (error) {
+      setLoading(true);
+      setMessage("Failed to reset filters");
     }
   };
 
@@ -321,7 +394,7 @@ const NewScholarship = () => {
       <Header />
       {/* text animation */}
       <aside className=" h-[4rem] flex items-center relative bg-gradient-to-r from-cyan-500 to-blue-500 m-auto ">
-        <div className="m-auto max-w-5xl w-full text-2xl md:text-4xl font-medium text-white">
+        <div className="m-auto p-4 md:p-0 md:max-w-5xl w-full text-2xl md:text-4xl font-medium text-white">
           <div className="">
             <TypeAnimation
               sequence={[
@@ -346,120 +419,101 @@ const NewScholarship = () => {
             {/* heading */}
             <div className="flex justify-between">
               <h1>Filter</h1>
-              <p className="hover:text-red-500 hover:underline cursor-pointer">
+              <p
+                onClick={resetFilters}
+                className="hover:text-red-500 hover:underline cursor-pointer"
+              >
                 Reset
               </p>
             </div>
             {/* Scholarship Type */}
             <div>
               <p className="font-bold text-white">Scholarship Type</p>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Fully Funded"
-                  value="Fully Funded"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Part Time</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Partially Funded"
-                  value="Partially Funded"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Full Time</p>
-              </div>
+              <CheckBoxFilter
+                name={"Fully Funded"}
+                value={"Fully Funded"}
+                onChange={handleFilterChange}
+                filterGroup="type"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Partially Funded"}
+                value={"Partially Funded"}
+                onChange={handleFilterChange}
+                filterGroup="type"
+                filters={filters}
+              />
             </div>
             {/* Scholarship Level */}
             <div>
               <p className="font-bold text-white">Scholarship Level</p>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Bachelors Degree"
-                  value="Bachelors Degree"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Bachelors Degree</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Masters Degree"
-                  value="Masters Degree"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Masters Degree</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Post Graduate Diploma"
-                  value="Post Graduate Diploma"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Post Graduate Diploma</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Doctorate Degree"
-                  value="Doctorate Degree"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Doctorate Degree</p>
-              </div>
+              <CheckBoxFilter
+                name={"Bachelors Degree"}
+                value={"Bachelors Degree"}
+                onChange={handleFilterChange}
+                filterGroup="level"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Masters Degree"}
+                value={"Masters Degree"}
+                onChange={handleFilterChange}
+                filterGroup="level"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Post Graduate Diploma"}
+                value={"Post Graduate Diploma"}
+                onChange={handleFilterChange}
+                filterGroup="level"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Doctorate Degree"}
+                value={"Doctorate Degree"}
+                onChange={handleFilterChange}
+                filterGroup="level"
+                filters={filters}
+              />
             </div>
             {/* Scholarship Category */}
             <div>
               <p className="font-bold text-white">Scholarship Category</p>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Government"
-                  value="Government"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Government</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Private"
-                  value="Private"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Private</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Organizational"
-                  value="Organizational"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Organizational</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="International"
-                  value="International"
-                  className=" accent-[#8E1616]"
-                />
-                <p>International</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Research"
-                  value="Research"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Research</p>
-              </div>
+              <CheckBoxFilter
+                name={"Government"}
+                value={"Government"}
+                onChange={handleFilterChange}
+                filterGroup="category"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Private"}
+                value={"Private"}
+                onChange={handleFilterChange}
+                filterGroup="category"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Organizational"}
+                value={"Organizational"}
+                onChange={handleFilterChange}
+                filterGroup="category"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"International"}
+                value={"International"}
+                onChange={handleFilterChange}
+                filterGroup="category"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Research"}
+                value={"Research"}
+                onChange={handleFilterChange}
+                filterGroup="category"
+                filters={filters}
+              />
             </div>
           </div>
           {/* jobs display*/}

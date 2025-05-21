@@ -1,8 +1,7 @@
 import { CiClock2 } from "react-icons/ci";
-import { FaCediSign } from "react-icons/fa6";
-import { FaShareFromSquare } from "react-icons/fa6";
+import { FaCediSign, FaShareFromSquare } from "react-icons/fa6";
 import { IoMdHeartEmpty } from "react-icons/io";
-import { IoHeart, IoFilter } from "react-icons/io5";
+import { IoHeart } from "react-icons/io5";
 import { useEffect, useState, useRef } from "react";
 import { fetch, BASE_URL } from "./request";
 import Footer from "../components/Footer/Footer";
@@ -14,6 +13,7 @@ import Pagination from "../components/Pagination/Pagination";
 import axios from "axios";
 import Loading from "../components/Loading/Loading";
 import SearchBar from "../components/searchBar";
+import CheckBoxFilter from "../components/checkBoxFilter";
 
 const CardElement = ({
   image,
@@ -33,13 +33,23 @@ const CardElement = ({
       {/* image,location,title,share */}
       <div className="flex justify-between items-center p-4">
         <div className="flex gap-1">
-          <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]">
-            <img
-              src={image}
-              alt="OP"
-              className="h-full w-full bg-cover rounded-full"
-            />
-          </div>
+          {!image && (
+            <div className=" h-9 w-9 shrink-0 bg-[#2d2e32] flex items-center justify-center rounded-full">
+              {company.substring(0, 2)}
+            </div>
+          )}
+          {image && (
+            <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]">
+              <img
+                src={image}
+                alt={company.substring(0, 2)}
+                onError={(e) => {
+                  e.target.style.display = "none"; // Hide broken image
+                }}
+                className="h-full w-full bg-cover rounded-full"
+              />
+            </div>
+          )}
           <div className="flex flex-col">
             <h1 className="text-sm dark:text-white">{position}</h1>
             <small className="text-[12px] dark:text-white">{location}</small>
@@ -272,18 +282,8 @@ const NewJobs = () => {
   const [cookieTracker, setCookieTracker] = useState(null);
   const [postPerPage, setPostPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searchResultsVerified, setSearchResultsVerified] = useState(false);
-  const inputRef = useRef(null);
-  const toggleSearch = () => {
-    setIsSearchVisible(!isSearchVisible);
-  };
-  useEffect(() => {
-    if (isSearchVisible && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isSearchVisible]);
 
   axios.defaults.withCredentials = true;
 
@@ -305,9 +305,61 @@ const NewJobs = () => {
     try {
       const response = await axios.post(`${BASE_URL}/job/search`, searchInput);
       setSearchResultsVerified(true);
+      setLoading(false);
       setSearchResults(response.data.data);
     } catch (error) {
+      setLoading(true);
       setMessage(error.response.data.message);
+    }
+  };
+  const [filters, setFilters] = useState({
+    schedule: [],
+    category: [],
+  });
+  const handleFilterChange = async (e) => {
+    const { name, value, checked } = e.target;
+    // Update filters state
+    setFilters((prev) => {
+      const filterType =
+        name === "Part Time" || name === "Full Time" ? "schedule" : "category";
+      const newFilters = { ...prev };
+      if (checked) {
+        newFilters[filterType] = [...newFilters[filterType], value];
+      } else {
+        newFilters[filterType] = newFilters[filterType].filter(
+          (item) => item !== value
+        );
+      }
+      return newFilters;
+    });
+    try {
+      const response = await axios.post(`${BASE_URL}/job/checkboxfilter`, {
+        schedule: filters.schedule,
+        category: filters.category,
+      });
+      setSearchResultsVerified(true);
+      setLoading(false);
+      setSearchResults(response.data.data);
+    } catch (error) {
+      setLoading(true);
+      setMessage(error.response.data.message);
+    }
+  };
+  const resetFilters = async () => {
+    try {
+      // 1. Reset all filters to empty arrays
+      setFilters({
+        schedule: [],
+        category: [],
+      });
+      // 2. Fetch fresh data from server
+      const controller = new AbortController();
+      const signal = controller.signal;
+      fetch("job", setJobs, setLoading, signal, setMessage, setCookieTracker);
+      setLoading(false);
+    } catch (error) {
+      setLoading(true);
+      setMessage("Failed to reset filters");
     }
   };
 
@@ -324,45 +376,43 @@ const NewJobs = () => {
             {/* heading */}
             <div className="flex justify-between">
               <h1>Filter</h1>
-              <p className="hover:text-red-500 hover:underline cursor-pointer">
+              <p
+                onClick={resetFilters}
+                className="hover:text-red-500 hover:underline cursor-pointer"
+              >
                 Reset
               </p>
             </div>
             {/* Work Schedule */}
             <div>
               <p className="font-bold text-white">Work Schedule</p>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Part Time"
-                  value="Part Time"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Part Time</p>
-              </div>
-              <div className="flex gap-1">
-                <input
-                  type="checkbox"
-                  name="Part Time"
-                  value="Part Time"
-                  className=" accent-[#8E1616]"
-                />
-                <p>Full Time</p>
-              </div>
+              <CheckBoxFilter
+                name={"Full Time"}
+                value={"Full Time"}
+                onChange={handleFilterChange}
+                filterGroup="schedule"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Part Time"}
+                value={"Part Time"}
+                onChange={handleFilterChange}
+                filterGroup="schedule"
+                filters={filters}
+              />
             </div>
             {/* category */}
             <div>
               <p className="font-bold text-white">Category</p>
               {categories.map((category, id) => (
-                <div key={id} className="flex gap-1">
-                  <input
-                    type="checkbox"
-                    name="Part Time"
-                    value={category.categoryname}
-                    className=" accent-[#8E1616]"
-                  />
-                  <p>{category.categoryname}</p>
-                </div>
+                <CheckBoxFilter
+                  id={id}
+                  name={category.categoryname}
+                  value={category.categoryname}
+                  onChange={handleFilterChange}
+                  filterGroup="category"
+                  filters={filters}
+                />
               ))}
             </div>
           </div>
@@ -427,6 +477,7 @@ const NewJobs = () => {
                           location={job.location}
                           salary={job.salary}
                           datecreated={job.datecreated}
+                          company={job.company}
                         />
                       ))}
                     </div>
@@ -448,7 +499,6 @@ const NewJobs = () => {
           <AdvertBox image={government} />
         </section>
       </main>
-
       <Footer />
     </>
   );

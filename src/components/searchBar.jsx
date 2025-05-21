@@ -32,8 +32,10 @@ const SearchBar = ({
     try {
       const response = await axios.post(`${BASE_URL}/${link}`, searchInput);
       setSearchResultsVerified(true);
+      setLoading(false);
       setSearchResults(response.data.data);
     } catch (error) {
+      setLoading(true);
       setMessage(error.response.data.message);
     }
   };
@@ -59,12 +61,12 @@ const SearchBar = ({
           isSearchVisible ? "w-full opacity-100" : "w-0 opacity-0 "
         }`}
       />
-      <div className="rounded-3xl border border-slate-300 p-2 flex justify-between items-center gap-1 relative">
+      <div className="rounded-3xl border border-slate-300 p-2 flex justify-between items-center gap-1 relative cursor-pointer">
         <IoFilter />
         <select
           value={searchInput.filter}
           onChange={handleFilterChange}
-          className="bg-transparent outline-none border-none [&>option]:bg-[#191919]"
+          className="bg-transparent cursor-pointer outline-none border-none [&>option]:bg-[#191919]"
         >
           <option value="Recent">Recent</option>
           <option value="Oldest">Oldest</option>
