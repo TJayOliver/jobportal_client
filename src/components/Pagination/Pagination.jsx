@@ -23,7 +23,7 @@ const Pagination = ({
             className={
               page == currentPage
                 ? className
-                : `border border-slate-600 bg-transparent cursor-pointer rounded-sm p-2 `
+                : `border border-slate-600 bg-transparent cursor-pointer rounded-sm h-7 w-7 flex items-center justify-center `
             }
           >
             {" "}

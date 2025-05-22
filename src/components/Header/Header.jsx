@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const Header = () => {
+const Header = ({ toggleSubscribe }) => {
   const [activateConfetti, setConfetti] = useState(false);
   const triggerConfetti = () => {
     setConfetti(true);
+    toggleSubscribe();
   };
 
   return (
@@ -13,7 +14,7 @@ const Header = () => {
           <small>New</small>
         </div>
 
-        <small className={""}>
+        <small>
           ✨ Get Noticed by Thousands! Promote your brand:
           market@opportunityarchives.com
         </small>

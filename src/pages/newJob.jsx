@@ -14,6 +14,7 @@ import axios from "axios";
 import Loading from "../components/Loading/Loading";
 import SearchBar from "../components/searchBar";
 import CheckBoxFilter from "../components/checkBoxFilter";
+import Subscribe from "../components/Subscribe/Subscribe";
 
 const CardElement = ({
   image,
@@ -35,7 +36,7 @@ const CardElement = ({
         <div className="flex gap-1">
           {!image && (
             <div className=" h-9 w-9 shrink-0 bg-[#2d2e32] flex items-center justify-center rounded-full">
-              {company.substring(0, 2)}
+              {company}
             </div>
           )}
           {image && (
@@ -74,7 +75,7 @@ const CardElement = ({
       </div>
       {/* buttons */}
       <div className="absolute bottom-0 left-0 right-0 px-2 pb-2 gap-1 flex justify-between items-center">
-        <button className="bg-gradient-to-r flex justify-center h-10 items-center  from-[#641B2E] to-[#3a111c]  w-full p-2 text-slate-200 rounded-xl hover:motion-preset-fade hover:motion-duration-2000">
+        <button className="bg-gradient-to-r flex justify-center h-10 items-center  from-[#ee4f79] to-[#3a111c] w-full p-2 text-slate-200 rounded-xl hover:motion-preset-fade hover:motion-duration-2000">
           <p>Apply</p>
         </button>
         <div
@@ -93,193 +94,10 @@ const CardElement = ({
 };
 
 const NewJobs = () => {
-  const [jobs, setJobs] = useState([
-    {
-      id: "1",
-      overview: "Responsible for diagnosing and treating patients.",
-      position: "General Physician",
-      image: "doctor.jpg",
-      imagename: "Doctor Profile",
-      salary: "100,000",
-      featured: "true",
-      company: "Healthcare Solutions Ltd.",
-      website: "https://healthcare-solutions.com",
-      duration: "Full Time",
-      location: "London, UK",
-      post: "Seeking an experienced physician to join our team.",
-      author: "John Doe",
-      jobcategory: "Healthcare & Medical Services",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "2",
-      overview: "Develop and maintain software applications.",
-      position: "Software Engineer",
-      image: "software_engineer.jpg",
-      imagename: "Software Engineer",
-      salary: "85,000",
-      featured: "false",
-      company: "Tech Innovations Inc.",
-      website: "https://techinnovations.com",
-      duration: "Full Time",
-      location: "San Francisco, USA",
-      post: "Join our team to work on cutting-edge technology.",
-      author: "Jane Smith",
-      jobcategory: "Information Technology (IT)",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "3",
-      overview: "Oversee the planning and execution of engineering projects.",
-      position: "Project Engineer",
-      image: "engineer.jpg",
-      imagename: "Engineer Working",
-      salary: "75,000",
-      featured: "true",
-      company: "Global Engineering Ltd.",
-      website: "https://globaleng.com",
-      duration: "Full Time",
-      location: "Berlin, Germany",
-      post: "Looking for an experienced engineer to manage projects.",
-      author: "Michael Brown",
-      jobcategory: "Engineering & Manufacturing",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "4",
-      overview: "Analyze financial statements and reports.",
-      position: "Financial Analyst",
-      image: "finance.jpg",
-      imagename: "Finance Reports",
-      salary: "90,000",
-      featured: "false",
-      company: "Finance Experts LLC",
-      website: "https://financeexperts.com",
-      duration: "Full Time",
-      location: "New York, USA",
-      post: "Seeking a detail-oriented financial analyst.",
-      author: "Emily White",
-      jobcategory: "Finance & Accounting",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "5",
-      overview: "Teach courses to students at a university level.",
-      position: "Professor of Mathematics",
-      image: "professor.jpg",
-      imagename: "University Lecturer",
-      salary: "80,000",
-      featured: "true",
-      company: "Oxford University",
-      website: "https://oxford.ac.uk",
-      duration: "Full Time",
-      location: "Oxford, UK",
-      post: "Seeking a mathematics professor with teaching experience.",
-      author: "William Green",
-      jobcategory: "Education & Training",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "6",
-      overview: "Create marketing strategies and campaigns.",
-      position: "Marketing Manager",
-      image: "marketing.jpg",
-      imagename: "Marketing Strategy",
-      salary: "70,000",
-      featured: "false",
-      company: "Brand Solutions Ltd.",
-      website: "https://brandsolutions.com",
-      duration: "Full Time",
-      location: "Paris, France",
-      post: "Hiring a marketing expert to lead our campaigns.",
-      author: "Sarah Johnson",
-      jobcategory: "Marketing & Communications",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "7",
-      overview: "Manage hotel operations and guest experiences.",
-      position: "Hotel Manager",
-      image: "hotel.jpg",
-      imagename: "Luxury Hotel",
-      salary: "65,000",
-      featured: "true",
-      company: "Grand Hotels Worldwide",
-      website: "https://grandhotels.com",
-      duration: "Full Time",
-      location: "Dubai, UAE",
-      post: "Seeking a hospitality professional to manage operations.",
-      author: "Robert Wilson",
-      jobcategory: "Hospitality & Tourism",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "8",
-      overview: "Manage retail store operations and sales strategies.",
-      position: "Store Manager",
-      image: "retail.jpg",
-      imagename: "Retail Store",
-      salary: "50,000",
-      featured: "false",
-      company: "Retail Experts Inc.",
-      website: "https://retailexperts.com",
-      duration: "Full Time",
-      location: "Toronto, Canada",
-      post: "Looking for an experienced store manager.",
-      author: "Anna Scott",
-      jobcategory: "Retail & Sales",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "9",
-      overview: "Manage construction projects and teams.",
-      position: "Construction Supervisor",
-      image: "construction.jpg",
-      imagename: "Construction Site",
-      salary: "60,000",
-      featured: "true",
-      company: "BuildRight Ltd.",
-      website: "https://buildright.com",
-      duration: "Full Time",
-      location: "Sydney, Australia",
-      post: "Hiring a skilled supervisor for ongoing construction projects.",
-      author: "Daniel Lee",
-      jobcategory: "Construction & Trades",
-      datecreated: "21/05/2025",
-    },
-    {
-      id: "10",
-      overview: "Provide legal advice and support.",
-      position: "Legal Advisor",
-      image: "legal.jpg",
-      imagename: "Courtroom",
-      salary: "95,000",
-      featured: "false",
-      company: "Law Firm Associates",
-      website: "https://lawfirmassociates.com",
-      duration: "Full Time",
-      location: "Washington, USA",
-      post: "Seeking a skilled legal advisor with corporate experience.",
-      author: "Laura Martinez",
-      jobcategory: "Legal & Compliance",
-      datecreated: "21/05/2025",
-    },
-  ]);
+  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([
-    { id: 1, categoryname: "Healthcare & Medical Services" },
-    { id: 2, categoryname: "Information Technology" },
-    { id: 3, categoryname: "Engineering & Manufacturing" },
-    { id: 4, categoryname: "Finance & Accounting" },
-    { id: 5, categoryname: "Education & Training" },
-    { id: 6, categoryname: "Marketing & Communications" },
-    { id: 7, categoryname: "Hospitality & Tourism" },
-    { id: 8, categoryname: "Retail & Sales" },
-    { id: 9, categoryname: "Construction & Trades" },
-    { id: 10, categoryname: "Legal & Compliance" },
-  ]);
+  const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState("");
-  const [cookieTracker, setCookieTracker] = useState(null);
   const [postPerPage, setPostPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, setSearchResults] = useState([]);
@@ -290,11 +108,10 @@ const NewJobs = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch("job", setJobs, setLoading, signal, setMessage, setCookieTracker);
+    fetch("job", setJobs, setLoading, signal, setMessage);
     fetch("category", setCategories, setLoading, signal, setMessage);
     return () => controller.abort();
   }, []);
-
   const [searchInput, setSearchInput] = useState({ position: "" });
   const handleSearchInputs = (e) => {
     const { name, value } = e.target;
@@ -313,30 +130,29 @@ const NewJobs = () => {
     }
   };
   const [filters, setFilters] = useState({
-    schedule: [],
+    duration: [],
     category: [],
   });
   const handleFilterChange = async (e) => {
     const { name, value, checked } = e.target;
     // Update filters state
-    setFilters((prev) => {
-      const filterType =
-        name === "Part Time" || name === "Full Time" ? "schedule" : "category";
-      const newFilters = { ...prev };
-      if (checked) {
-        newFilters[filterType] = [...newFilters[filterType], value];
-      } else {
-        newFilters[filterType] = newFilters[filterType].filter(
-          (item) => item !== value
-        );
-      }
-      return newFilters;
-    });
+    const filterType =
+      name === "Part Time" || name === "Full Time" ? "duration" : "category";
+    const updatedFilters = { ...filters };
+    if (checked) {
+      updatedFilters[filterType] = [...updatedFilters[filterType], value];
+    } else {
+      updatedFilters[filterType] = updatedFilters[filterType].filter(
+        (item) => item !== value
+      );
+    }
+    // Update state AND use the updated value immediately
+    setFilters(updatedFilters);
     try {
-      const response = await axios.post(`${BASE_URL}/job/checkboxfilter`, {
-        schedule: filters.schedule,
-        category: filters.category,
-      });
+      const response = await axios.post(
+        `${BASE_URL}/job/checkboxfilter`,
+        updatedFilters
+      );
       setSearchResultsVerified(true);
       setLoading(false);
       setSearchResults(response.data.data);
@@ -349,14 +165,13 @@ const NewJobs = () => {
     try {
       // 1. Reset all filters to empty arrays
       setFilters({
-        schedule: [],
+        duration: [],
         category: [],
       });
       // 2. Fetch fresh data from server
-      const controller = new AbortController();
-      const signal = controller.signal;
-      fetch("job", setJobs, setLoading, signal, setMessage, setCookieTracker);
-      setLoading(false);
+      const response = await axios.get(`${BASE_URL}/job`);
+      setSearchResultsVerified(true);
+      setSearchResults(response.data.data);
     } catch (error) {
       setLoading(true);
       setMessage("Failed to reset filters");
@@ -366,9 +181,18 @@ const NewJobs = () => {
   const lastPageIndex = currentPage * postPerPage;
   const firstPageIndex = lastPageIndex - postPerPage;
   const post = jobs.slice(firstPageIndex, lastPageIndex);
+
+  const [subscribeState, setSubscribeState] = useState(false);
+  const toggleSubscribe = () => {
+    setSubscribeState((prev) => !prev);
+  };
   return (
     <>
-      <Header />
+      <Subscribe
+        subscribeState={subscribeState}
+        setSubscribeState={setSubscribeState}
+      />
+      <Header toggleSubscribe={toggleSubscribe} />
       <main className=" bg-[#1D232A] text-[#d6d8dd] p-4 min-h-[calc(100vh-312px)] relative">
         <section className="flex justify-between p-4">
           {/* side bar */}
@@ -390,14 +214,14 @@ const NewJobs = () => {
                 name={"Full Time"}
                 value={"Full Time"}
                 onChange={handleFilterChange}
-                filterGroup="schedule"
+                filterGroup="duration"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"Part Time"}
                 value={"Part Time"}
                 onChange={handleFilterChange}
-                filterGroup="schedule"
+                filterGroup="duration"
                 filters={filters}
               />
             </div>
@@ -406,7 +230,7 @@ const NewJobs = () => {
               <p className="font-bold text-white">Category</p>
               {categories.map((category, id) => (
                 <CheckBoxFilter
-                  id={id}
+                  key={id}
                   name={category.categoryname}
                   value={category.categoryname}
                   onChange={handleFilterChange}
@@ -469,20 +293,20 @@ const NewJobs = () => {
                 ) : (
                   <div>
                     <div className="display-boxes">
-                      {jobs.map((job, id) => (
+                      {post.map((job) => (
                         <CardElement
-                          key={id}
+                          key={job.id}
                           overview={job.overview.substring(0, 50)}
                           position={job.position}
                           location={job.location}
                           salary={job.salary}
                           datecreated={job.datecreated}
-                          company={job.company}
+                          company={job.company.substring(0, 2)}
                         />
                       ))}
                     </div>
                     <Pagination
-                      totalPost={post.length}
+                      totalPost={jobs.length}
                       postPerPage={postPerPage}
                       setCurrentPage={setCurrentPage}
                       currentPage={currentPage}

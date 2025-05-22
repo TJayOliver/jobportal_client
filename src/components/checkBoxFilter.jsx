@@ -1,16 +1,7 @@
-const randomNumber = Math.floor(Math.random() * 1001);
-const CheckBoxFilter = ({
-  name,
-  value,
-  onChange,
-  filterGroup,
-  filters,
-  id,
-}) => {
+const CheckBoxFilter = ({ name, value, onChange, filterGroup, filters }) => {
   return (
     <div className="flex gap-1">
       <input
-        key={id || randomNumber}
         type="checkbox"
         name={name}
         value={value}

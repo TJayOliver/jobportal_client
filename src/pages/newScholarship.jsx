@@ -108,171 +108,9 @@ const CardElement = ({
 };
 
 const NewScholarship = () => {
-  const [scholarships, setScholarship] = useState([
-    {
-      id: "sch-001",
-      image: "https://example.com/images/chevening.jpg",
-      imagename: "chevening-scholarship",
-      scholarshipname: "Chevening Scholarship",
-      deadline: "2024-11-07",
-      description:
-        "The UK government's global scholarship program for future leaders to study in the UK.",
-      scholarshiptype: "Fully Funded",
-      programs: "Masters Degree",
-      scholarshipcategory: "Government",
-      country: "United Kingdom",
-      post: "Posted by UK Foreign Office",
-      author: "admin1",
-      datecreated: "2024-01-15",
-    },
-    {
-      id: "sch-002",
-      image: "https://example.com/images/fulbright.jpg",
-      imagename: "fulbright-program",
-      scholarshipname: "Fulbright Foreign",
-      deadline: "2024-10-15",
-      description:
-        "Funded by the U.S. Department of State for international students to study in America.",
-      scholarshiptype: "Fully Funded",
-      programs: "All Levels",
-      scholarshipcategory: "Government",
-      country: "United States",
-      post: "Posted by U.S. Embassy",
-      author: "admin2",
-      datecreated: "2024-02-20",
-    },
-    {
-      id: "sch-003",
-      image: "https://example.com/images/daad.jpg",
-      imagename: "daad-scholarship",
-      scholarshipname: "DAAD Scholarship",
-      deadline: "2024-09-30",
-      description:
-        "German Academic Exchange Service funding for international students.",
-      scholarshiptype: "Partially Funded",
-      programs: "Masters Degree",
-      scholarshipcategory: "International",
-      country: "Germany",
-      post: "Posted by DAAD",
-      author: "admin3",
-      datecreated: "2024-03-10",
-    },
-    {
-      id: "sch-004",
-      image: "https://example.com/images/vanier.jpg",
-      imagename: "vanier-scholarship",
-      scholarshipname: "Vanier Graduate Scholarship",
-      deadline: "2024-08-01",
-      description:
-        "Canadian government scholarship for doctoral students demonstrating leadership.",
-      scholarshiptype: "Fully Funded",
-      programs: "Doctorate Degree",
-      scholarshipcategory: "Government",
-      country: "Canada",
-      post: "Posted by Canadian Universities",
-      author: "admin1",
-      datecreated: "2024-01-25",
-    },
-    {
-      id: "sch-005",
-      image: "https://example.com/images/erasmus.jpg",
-      imagename: "erasmus-mundus",
-      scholarshipname: "Erasmus Mundus Joint Masters",
-      deadline: "2024-12-15",
-      description:
-        "EU-funded program for international students to study across multiple European countries.",
-      scholarshiptype: "Fully Funded",
-      programs: "Masters Degree",
-      scholarshipcategory: "International",
-      country: "France",
-      post: "Posted by EU Commission",
-      author: "admin4",
-      datecreated: "2024-04-05",
-    },
-    {
-      id: "sch-006",
-      image: "https://example.com/images/gates-cambridge.jpg",
-      imagename: "gates-cambridge",
-      scholarshipname: "Gates Cambridge Scholarship",
-      deadline: "2024-10-12",
-      description:
-        "Full-cost scholarship for outstanding applicants to pursue postgraduate degrees at Cambridge.",
-      scholarshiptype: "Fully Funded",
-      programs: "Post Graduate Diploma",
-      scholarshipcategory: "Private",
-      country: "United Kingdom",
-      post: "Posted by Cambridge University",
-      author: "admin2",
-      datecreated: "2024-02-15",
-    },
-    {
-      id: "sch-007",
-      image: "https://example.com/images/aeon.jpg",
-      imagename: "aeon-scholarship",
-      scholarshipname: "AEON Scholarship",
-      deadline: "2024-07-31",
-      description:
-        "Japanese corporate scholarship for Asian students to study in Japan.",
-      scholarshiptype: "Partially Funded",
-      programs: "Bachelors Degree",
-      scholarshipcategory: "Private",
-      country: "Japan",
-      post: "Posted by AEON Foundation",
-      author: "admin5",
-      datecreated: "2024-05-01",
-    },
-    {
-      id: "sch-008",
-      image: "https://example.com/images/endeavour.jpg",
-      imagename: "endeavour-postgraduate",
-      scholarshipname: "Endeavour Postgraduate Scholarship",
-      deadline: "2024-06-30",
-      description:
-        "Australian government award for international students to undertake postgraduate study.",
-      scholarshiptype: "Fully Funded",
-      programs: "Masters Degree",
-      scholarshipcategory: "Government",
-      country: "Australia",
-      post: "Posted by Australian Department of Education",
-      author: "admin3",
-      datecreated: "2024-03-22",
-    },
-    {
-      id: "sch-009",
-      image: "https://example.com/images/ethz.jpg",
-      imagename: "eth-zurich",
-      scholarshipname: "ETH Excellence Scholarship",
-      deadline: "2024-12-01",
-      description:
-        "Merit-based scholarship for excellent students at ETH Zurich.",
-      scholarshiptype: "Partially Funded",
-      programs: "Masters Degree",
-      scholarshipcategory: "Organizational",
-      country: "Switzerland",
-      post: "Posted by ETH Zurich",
-      author: "admin1",
-      datecreated: "2024-01-10",
-    },
-    {
-      id: "sch-010",
-      image: "https://example.com/images/axol.jpg",
-      imagename: "axol-science",
-      scholarshipname: "Axol Science Scholarship for Women",
-      deadline: "2024-09-15",
-      description:
-        "Private scholarship supporting women in STEM fields worldwide.",
-      scholarshiptype: "Partially Funded",
-      programs: "All Levels",
-      scholarshipcategory: "Private",
-      country: "United States",
-      post: "Posted by Axol Foundation",
-      author: "admin4",
-      datecreated: "2024-04-18",
-    },
-  ]);
+  const [scholarships, setScholarship] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [cookieTracker, setCookieTracker] = useState(null);
   const [postPerPage, setPostPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, setSearchResults] = useState([]);
@@ -283,14 +121,7 @@ const NewScholarship = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch(
-      "scholarship",
-      setScholarship,
-      setLoading,
-      signal,
-      setMessage,
-      setCookieTracker
-    );
+    fetch("scholarship", setScholarship, setLoading, signal, setMessage);
     return () => controller.abort();
   }, []);
   const [searchInput, setSearchInput] = useState({ scholarshipname: "" });
@@ -313,44 +144,36 @@ const NewScholarship = () => {
     }
   };
   const [filters, setFilters] = useState({
-    type: [],
-    level: [],
-    category: [],
+    scholarshiptype: [],
+    programs: [],
+    scholarshipcategory: [],
   });
   const handleFilterChange = async (e) => {
     const { name, value, checked } = e.target;
     // Update filters state
-    setFilters((prev) => {
-      const filterType =
-        name === "Fully Funded" || name === "Partially Funded"
-          ? "type"
-          : name === "Bachelors Degree" ||
-            name === "Masters Degree" ||
-            name === "Post Graduate Diploma" ||
-            name === "Doctorate Degree"
-          ? "level"
-          : "category";
-
-      const newFilters = { ...prev };
-
-      if (checked) {
-        newFilters[filterType] = [...newFilters[filterType], value];
-      } else {
-        newFilters[filterType] = newFilters[filterType].filter(
-          (item) => item !== value
-        );
-      }
-
-      return newFilters;
-    });
+    const filterType =
+      name === "Fully Funded" || name === "Partially Funded"
+        ? "scholarshiptype"
+        : name === "Bachelors Degree" ||
+          name === "Masters Degree" ||
+          name === "Post Graduate Diploma" ||
+          name === "Doctorate Degree"
+        ? "programs"
+        : "scholarshipcategory";
+    const updatedFilters = { ...filters };
+    if (checked) {
+      updatedFilters[filterType] = [...updatedFilters[filterType], value];
+    } else {
+      updatedFilters[filterType] = updatedFilters[filterType].filter(
+        (item) => item !== value
+      );
+    }
+    // Update state AND use the updated value immediately
+    setFilters(updatedFilters);
     try {
       const response = await axios.post(
         `${BASE_URL}/scholarship/checkboxfilter`,
-        {
-          type: filters.type,
-          level: filters.level,
-          category: filters.category,
-        }
+        updatedFilters
       );
       setSearchResultsVerified(true);
       setLoading(false);
@@ -364,22 +187,14 @@ const NewScholarship = () => {
     try {
       // 1. Reset all filters to empty arrays
       setFilters({
-        type: [],
-        level: [],
-        category: [],
+        scholarshiptype: [],
+        programs: [],
+        scholarshipcategory: [],
       });
       // 2. Fetch fresh data from server
-      const controller = new AbortController();
-      const signal = controller.signal;
-      fetch(
-        "scholarship",
-        setScholarship,
-        setLoading,
-        signal,
-        setMessage,
-        setCookieTracker
-      );
-      setLoading(false);
+      const response = await axios.get(`${BASE_URL}/scholarship`);
+      setSearchResultsVerified(true);
+      setSearchResults(response.data.data);
     } catch (error) {
       setLoading(true);
       setMessage("Failed to reset filters");
@@ -389,9 +204,14 @@ const NewScholarship = () => {
   const lastPageIndex = currentPage * postPerPage;
   const firstPageIndex = lastPageIndex - postPerPage;
   const post = scholarships.slice(firstPageIndex, lastPageIndex);
+
+  const [subscribeState, setSubscribeState] = useState(false);
+  const toggleSubscribe = () => {
+    setSubscribeState((prev) => !prev);
+  };
   return (
     <>
-      <Header />
+      <Header toggleSubscribe={toggleSubscribe} />
       {/* text animation */}
       <aside className=" h-[4rem] flex items-center relative bg-gradient-to-r from-cyan-500 to-blue-500 m-auto ">
         <div className="m-auto p-4 md:p-0 md:max-w-5xl w-full text-2xl md:text-4xl font-medium text-white">
@@ -433,14 +253,14 @@ const NewScholarship = () => {
                 name={"Fully Funded"}
                 value={"Fully Funded"}
                 onChange={handleFilterChange}
-                filterGroup="type"
+                filterGroup="scholarshiptype"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"Partially Funded"}
                 value={"Partially Funded"}
                 onChange={handleFilterChange}
-                filterGroup="type"
+                filterGroup="scholarshiptype"
                 filters={filters}
               />
             </div>
@@ -448,31 +268,38 @@ const NewScholarship = () => {
             <div>
               <p className="font-bold text-white">Scholarship Level</p>
               <CheckBoxFilter
+                name={"All Levels"}
+                value={"All Levels"}
+                onChange={handleFilterChange}
+                filterGroup="programs"
+                filters={filters}
+              />
+              <CheckBoxFilter
                 name={"Bachelors Degree"}
                 value={"Bachelors Degree"}
                 onChange={handleFilterChange}
-                filterGroup="level"
+                filterGroup="programs"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"Masters Degree"}
                 value={"Masters Degree"}
                 onChange={handleFilterChange}
-                filterGroup="level"
+                filterGroup="programs"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"Post Graduate Diploma"}
                 value={"Post Graduate Diploma"}
                 onChange={handleFilterChange}
-                filterGroup="level"
+                filterGroup="programs"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"Doctorate Degree"}
                 value={"Doctorate Degree"}
                 onChange={handleFilterChange}
-                filterGroup="level"
+                filterGroup="programs"
                 filters={filters}
               />
             </div>
@@ -483,35 +310,35 @@ const NewScholarship = () => {
                 name={"Government"}
                 value={"Government"}
                 onChange={handleFilterChange}
-                filterGroup="category"
+                filterGroup="scholarshipcategory"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"Private"}
                 value={"Private"}
                 onChange={handleFilterChange}
-                filterGroup="category"
+                filterGroup="scholarshipcategory"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"Organizational"}
                 value={"Organizational"}
                 onChange={handleFilterChange}
-                filterGroup="category"
+                filterGroup="scholarshipcategory"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"International"}
                 value={"International"}
                 onChange={handleFilterChange}
-                filterGroup="category"
+                filterGroup="scholarshipcategory"
                 filters={filters}
               />
               <CheckBoxFilter
                 name={"Research"}
                 value={"Research"}
                 onChange={handleFilterChange}
-                filterGroup="category"
+                filterGroup="scholarshipcategory"
                 filters={filters}
               />
             </div>
@@ -582,7 +409,7 @@ const NewScholarship = () => {
                       ))}
                     </div>
                     <Pagination
-                      totalPost={post.length}
+                      totalPost={scholarships.length}
                       postPerPage={postPerPage}
                       setCurrentPage={setCurrentPage}
                       currentPage={currentPage}

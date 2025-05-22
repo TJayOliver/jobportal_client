@@ -7,13 +7,18 @@ export const CLIENT_URL = "https://futureforte.netlify.app";
 // export const BASE_URL = "http://localhost:4040";
 // export const CLIENT_URL = "http://localhost:5173";
 
-export const fetch = async (link, setState, setLoading, signall, setMessage, setCookieTracker) => {
+export const fetch = async (
+  link,
+  setState,
+  setLoading,
+  signall,
+  setMessage
+) => {
   try {
     const response = await axios.get(`${BASE_URL}/${link}`, {
       signall,
     });
     setState(response.data.data);
-    setCookieTracker(response.data.callCookie);
     setLoading(false);
     setMessage(response.data.message);
   } catch (error) {
@@ -27,15 +32,13 @@ export const fetchByID = async (
   setState,
   setLoading,
   signall,
-  setMessage,
-  setCookieTracker
+  setMessage
 ) => {
   try {
     const response = await axios.get(`${BASE_URL}/${link}/${id}`, {
       signall,
     });
     setState(response.data.data);
-    setCookieTracker(response.data.callCookie);
     setLoading(false);
     setMessage(response);
   } catch (error) {
