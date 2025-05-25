@@ -1,7 +1,5 @@
 import { CiClock2 } from "react-icons/ci";
-import { FaCediSign, FaShareFromSquare } from "react-icons/fa6";
-import { IoMdHeartEmpty } from "react-icons/io";
-import { IoHeart } from "react-icons/io5";
+import { FaCediSign } from "react-icons/fa6";
 import { useEffect, useState, useRef } from "react";
 import { fetch, BASE_URL } from "./request";
 import Footer from "../components/Footer/Footer";
@@ -15,87 +13,11 @@ import Loading from "../components/Loading/Loading";
 import SearchBar from "../components/searchBar";
 import CheckBoxFilter from "../components/checkBoxFilter";
 import Subscribe from "../components/Subscribe/Subscribe";
-
-const CardElement = ({
-  image,
-  overview,
-  position,
-  company,
-  location,
-  salary,
-  datecreated,
-}) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const toggleLike = () => {
-    setIsLiked(!isLiked);
-  };
-  return (
-    <div className="bg-[#0F141E] border-slate-600 h-60 max-w-screen-xl relative rounded-md shadow-lg border motion-translate-y-in-100">
-      {/* image,location,title,share */}
-      <div className="flex justify-between items-center p-4">
-        <div className="flex gap-1">
-          {!image && (
-            <div className=" h-9 w-9 shrink-0 bg-[#2d2e32] flex items-center justify-center rounded-full">
-              {company}
-            </div>
-          )}
-          {image && (
-            <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]">
-              <img
-                src={image}
-                alt={company.substring(0, 2)}
-                onError={(e) => {
-                  e.target.style.display = "none"; // Hide broken image
-                }}
-                className="h-full w-full bg-cover rounded-full"
-              />
-            </div>
-          )}
-          <div className="flex flex-col">
-            <h1 className="text-sm dark:text-white">{position}</h1>
-            <small className="text-[12px] dark:text-white">{location}</small>
-          </div>
-        </div>
-        {/* share */}
-        <FaShareFromSquare />
-      </div>
-      {/* short description */}
-      <div className="px-4">
-        <p className=" text-sm">{overview}..</p>
-        <hr className="mt-2"></hr>
-      </div>
-      {/* salary,date posted */}
-      <div className="flex items-center justify-between p-4">
-        <div className="text-[12px] flex items-center">
-          <FaCediSign /> <p>{salary}</p>
-        </div>
-        <div className="flex items-center text-[12px] gap-1">
-          <CiClock2 /> {datecreated}
-        </div>
-      </div>
-      {/* buttons */}
-      <div className="absolute bottom-0 left-0 right-0 px-2 pb-2 gap-1 flex justify-between items-center">
-        <button className="bg-gradient-to-r flex justify-center h-10 items-center  from-[#ee4f79] to-[#3a111c] w-full p-2 text-slate-200 rounded-xl hover:motion-preset-fade hover:motion-duration-2000">
-          <p>Apply</p>
-        </button>
-        <div
-          onClick={toggleLike}
-          className="rounded-lg h-10 w-12 border border-slate-300 flex items-center justify-center cursor-pointer"
-        >
-          {isLiked ? (
-            <IoHeart size={20} className="motion-preset-confetti" />
-          ) : (
-            <IoMdHeartEmpty size={20} />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+import CardElement from "../components/cardElement";
 
 const NewJobs = () => {
   const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState("");
   const [postPerPage, setPostPerPage] = useState(20);
@@ -172,6 +94,7 @@ const NewJobs = () => {
       const response = await axios.get(`${BASE_URL}/job`);
       setSearchResultsVerified(true);
       setSearchResults(response.data.data);
+      setLoading(false);
     } catch (error) {
       setLoading(true);
       setMessage("Failed to reset filters");
@@ -228,16 +151,22 @@ const NewJobs = () => {
             {/* category */}
             <div>
               <p className="font-bold text-white">Category</p>
-              {categories.map((category, id) => (
-                <CheckBoxFilter
-                  key={id}
-                  name={category.categoryname}
-                  value={category.categoryname}
-                  onChange={handleFilterChange}
-                  filterGroup="category"
-                  filters={filters}
-                />
-              ))}
+              {loading ? (
+                <Loading />
+              ) : (
+                <div>
+                  {categories.map((category, id) => (
+                    <CheckBoxFilter
+                      key={id}
+                      name={category.categoryname}
+                      value={category.categoryname}
+                      onChange={handleFilterChange}
+                      filterGroup="category"
+                      filters={filters}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           {/* jobs display*/}
@@ -267,12 +196,21 @@ const NewJobs = () => {
                         ? `No Jobs for ${searchInput.position} Found`
                         : searchResults.map((job, id) => (
                             <CardElement
-                              key={id}
-                              overview={job.overview.substring(0, 50)}
-                              position={job.position}
-                              location={job.location}
-                              salary={job.salary}
-                              datecreated={job.datecreated}
+                              key={job.id}
+                              descriptionOrOverview={job.overview.substring(
+                                0,
+                                50
+                              )}
+                              postionOrScholarshipName={job.position}
+                              countryOrLocation={job.location}
+                              salaryOrDeadline={job.salary}
+                              scholarshiptypeOrDateCreated={job.datecreated}
+                              cediOrClock={<FaCediSign />}
+                              clockOrTrophy={<CiClock2 />}
+                              companyOrScholarshipName={job.company.substring(
+                                0,
+                                2
+                              )}
                             />
                           ))}
                     </div>
@@ -296,12 +234,14 @@ const NewJobs = () => {
                       {post.map((job) => (
                         <CardElement
                           key={job.id}
-                          overview={job.overview.substring(0, 50)}
-                          position={job.position}
-                          location={job.location}
-                          salary={job.salary}
-                          datecreated={job.datecreated}
-                          company={job.company.substring(0, 2)}
+                          descriptionOrOverview={job.overview.substring(0, 50)}
+                          postionOrScholarshipName={job.position}
+                          countryOrLocation={job.location}
+                          salaryOrDeadline={job.salary}
+                          scholarshiptypeOrDateCreated={job.datecreated}
+                          cediOrClock={<FaCediSign />}
+                          clockOrTrophy={<CiClock2 />}
+                          companyOrScholarshipName={job.company.substring(0, 2)}
                         />
                       ))}
                     </div>

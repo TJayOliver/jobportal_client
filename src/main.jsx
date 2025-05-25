@@ -17,6 +17,7 @@ import { HelmetProvider } from "react-helmet-async";
 import NewJobs from "./pages/newJob.jsx";
 import NewJobDescription from "./pages/newdescription.jsx";
 import NewScholarship from "./pages/newScholarship.jsx";
+import NewScholarshipDescription from "./pages/newscholarshipDescription.jsx";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
   },
   {
-    path: "/newdescription",
+    path: "/newjobdescription",
     element: <NewJobDescription />,
     errorElement: <Error />,
   },
@@ -55,8 +56,18 @@ const router = createBrowserRouter([
     errorElement: <Error />,
   },
   {
+    path: "/newscholarship/:id",
+    element: <NewScholarshipDescription />,
+    errorElement: <Error />,
+  },
+  {
     path: "/job/:id",
     element: <JobDescription />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/newjob/:id",
+    element: <NewScholarshipDescription />,
     errorElement: <Error />,
   },
   {

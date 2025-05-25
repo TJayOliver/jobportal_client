@@ -1,9 +1,6 @@
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import { TypeAnimation } from "react-type-animation";
-import { FaShareFromSquare } from "react-icons/fa6";
-import { IoMdHeartEmpty } from "react-icons/io";
-import { IoHeart } from "react-icons/io5";
 import { useEffect, useState, useRef } from "react";
 import { fetch, BASE_URL } from "./request";
 import government from "../assets/government.jpg";
@@ -14,102 +11,13 @@ import axios from "axios";
 import Loading from "../components/Loading/Loading";
 import SearchBar from "../components/searchBar";
 import CheckBoxFilter from "../components/checkBoxFilter";
-
-const CardElement = ({
-  image,
-  description,
-  scholarshipname,
-  country,
-  deadline,
-  scholarshiptype,
-}) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const toggleLike = () => {
-    setIsLiked(!isLiked);
-  };
-
-  return (
-    <div className="bg-[#0F141E] border-slate-600 h-60 max-w-screen-xl relative rounded-md shadow-lg border motion-translate-y-in-100">
-      {/* image,location,title,share */}
-      <div className="flex justify-between items-center p-4">
-        <div className="flex gap-1">
-          <div className="flex gap-1">
-            {!image && (
-              <div className=" h-9 w-9 shrink-0 bg-[#2d2e32] flex items-center justify-center rounded-full">
-                {scholarshipname.substring(0, 2)}
-              </div>
-            )}
-            {image && (
-              <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]">
-                <img
-                  src={image}
-                  alt={scholarshipname.substring(0, 2)}
-                  onError={(e) => {
-                    e.target.style.display = "none"; // Hide broken image
-                  }}
-                  className="h-full w-full bg-cover rounded-full"
-                />
-              </div>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h1 className="text-sm text-white inline md:hidden">
-              {scholarshipname.substring(0, 50)}..
-            </h1>
-            <h1 className="text-sm hidden md:inline text-white">
-              {scholarshipname.substring(0, 20)}..
-            </h1>
-            <small className="text-[12px] text-white">{country}</small>
-          </div>
-        </div>
-        {/* share */}
-        <FaShareFromSquare />
-      </div>
-      {/* short description */}
-      <div className="px-4">
-        <span className="text-sm inline md:hidden lg:hidden">
-          {description.substring(0, 15)}..
-        </span>
-        <span className="text-sm hidden md:inline lg:hidden">
-          {description.substring(0, 10)}..
-        </span>
-        <span className="text-sm hidden md:hidden lg:inline">
-          {description.substring(0, 30)}..
-        </span>
-        <hr className="mt-2"></hr>
-      </div>
-      {/* salary,date posted */}
-      <div className="flex items-center justify-between p-4">
-        <div className="text-[12px] flex items-center">
-          <p>{deadline}</p>
-        </div>
-        <div className="flex items-center text-[12px] gap-1">
-          {scholarshiptype}
-        </div>
-      </div>
-      {/* buttons */}
-      <div className="absolute bottom-0 left-0 right-0 px-2 pb-2 gap-1 flex justify-between items-center">
-        <button className="bg-gradient-to-r flex justify-center h-10 items-center  from-[#641B2E] to-[#3a111c]  w-full p-2 text-slate-200 rounded-xl hover:motion-preset-fade hover:motion-duration-2000">
-          <p className="duration-100 ease-in">Apply</p>
-        </button>
-        <div
-          onClick={toggleLike}
-          className="rounded-lg h-10 w-12 border border-slate-300 flex items-center justify-center cursor-pointer"
-        >
-          {isLiked ? (
-            <IoHeart size={20} className="motion-preset-confetti" />
-          ) : (
-            <IoMdHeartEmpty size={20} />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+import CardElement from "../components/cardElement";
+import { GoTrophy } from "react-icons/go";
+import { CiClock2 } from "react-icons/ci";
 
 const NewScholarship = () => {
   const [scholarships, setScholarship] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [postPerPage, setPostPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
@@ -140,6 +48,7 @@ const NewScholarship = () => {
       setLoading(false);
       setSearchResults(response.data.data);
     } catch (error) {
+      setLoading(true);
       setMessage(error.response.data.message);
     }
   };
@@ -195,6 +104,7 @@ const NewScholarship = () => {
       const response = await axios.get(`${BASE_URL}/scholarship`);
       setSearchResultsVerified(true);
       setSearchResults(response.data.data);
+      setLoading(false);
     } catch (error) {
       setLoading(true);
       setMessage("Failed to reset filters");
@@ -230,7 +140,11 @@ const NewScholarship = () => {
       </aside>
       {/* scholarship image */}
       <section className="">
-        <img src={government} className=" h-32 w-full object-cover" />
+        <img
+          src={government}
+          loading="lazy"
+          className=" h-32 w-full object-cover"
+        />
       </section>
       <main className="bg-[#1D232A] text-[#d6d8dd] p-4 bg-cover min-h-[calc(100vh-312px)] relative ">
         <section className="flex justify-between p-4">
@@ -372,11 +286,21 @@ const NewScholarship = () => {
                         : searchResults.map((scholarship, id) => (
                             <CardElement
                               key={id}
-                              description={scholarship.description}
-                              scholarshipname={scholarship.scholarshipname}
-                              country={scholarship.country}
-                              deadline={scholarship.deadline}
-                              scholarshiptype={scholarship.scholarshiptype}
+                              postionOrScholarshipName={
+                                scholarship.scholarshipname
+                              }
+                              descriptionOrOverview={scholarship.description}
+                              companyOrScholarshipName={
+                                scholarship.scholarshipname
+                              }
+                              countryOrLocation={scholarship.country}
+                              salaryOrDeadline={scholarship.deadline}
+                              scholarshiptypeOrDateCreated={
+                                scholarship.scholarshiptype
+                              }
+                              cediOrClock={<CiClock2 />}
+                              clockOrTrophy={<GoTrophy />}
+                              link={`/newscholarship/${scholarship.id}`}
                             />
                           ))}
                     </div>
@@ -400,11 +324,17 @@ const NewScholarship = () => {
                       {post.map((scholarship, id) => (
                         <CardElement
                           key={id}
-                          description={scholarship.description}
-                          scholarshipname={scholarship.scholarshipname}
-                          country={scholarship.country}
-                          deadline={scholarship.deadline}
-                          scholarshiptype={scholarship.scholarshiptype}
+                          postionOrScholarshipName={scholarship.scholarshipname}
+                          descriptionOrOverview={scholarship.description}
+                          companyOrScholarshipName={scholarship.scholarshipname}
+                          countryOrLocation={scholarship.country}
+                          salaryOrDeadline={scholarship.deadline}
+                          scholarshiptypeOrDateCreated={
+                            scholarship.scholarshiptype
+                          }
+                          cediOrClock={<CiClock2 />}
+                          clockOrTrophy={<GoTrophy />}
+                          link={`/newscholarship/${scholarship.id}`}
                         />
                       ))}
                     </div>

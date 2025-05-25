@@ -3,10 +3,12 @@ import Footer from "../components/Footer/Footer";
 import { FaCediSign, FaRegFaceMeh } from "react-icons/fa6";
 import { FaShareFromSquare } from "react-icons/fa6";
 import { CiClock2 } from "react-icons/ci";
+import { IoIosArrowRoundBack } from "react-icons/io";
 import { useState } from "react";
 import image from "../assets/built.jpg";
-import { IoIosArrowRoundBack } from "react-icons/io";
-
+import international from "../assets/international.jpg";
+import AdvertBox from "../components/Advert/advertBox";
+import DescriptionTemplate from "../components/descriptionTemplate";
 const AdvertCard = ({ image }) => {
   return (
     <div
@@ -120,14 +122,43 @@ const NewJobDescription = () => {
       datecreated: "21/05/2025",
     },
   ];
+  const desc = [
+    {
+      id: "1",
+      overview: "Responsible for diagnosing and treating patients.",
+      position: "General Physician",
+      image: "doctor.jpg",
+      imagename: "Doctor Profile",
+      salary: "100,000",
+      featured: "true",
+      company: "Healthcare Solutions Ltd.",
+      website: "https://healthcare-solutions.com",
+      duration: "Full Time",
+      location: "London, UK",
+      post: "Seeking an experienced physician to join our team.",
+      author: "John Doe",
+      jobcategory: "Healthcare & Medical Services",
+      datecreated: "21/05/2025",
+    },
+  ];
 
   return (
     <>
       <Header />
-      <main className=" dark:bg-[#1D232A] dark:text-[#d6d8dd] p-4 min-h-[calc(100vh-312px)] relative ">
-        <section className="flex justify-between p-4">
+      <aside
+        style={{ backgroundImage: `url(${international})` }}
+        className="h-56 w-full bg-red-400 relative"
+      >
+        <div className="absolute h-full w-full grid place-content-center bg-black/30">
+          <p className="text-white text-xlshadow-md md:text-3xl">
+            International Scholarship
+          </p>
+        </div>
+      </aside>
+      <main className=" bg-[#1D232A] text-[#d6d8dd] md:p-4 min-h-[calc(100vh-312px)] relative flex flex-col">
+        <section className="flex justify-between md:p-4">
           {/* left sidebar */}
-          <div className="hidden md:flex md:flex-col w-56  rounded-xl basis-[20%] gap-2 sticky top-20 p-4">
+          <div className="hidden md:flex md:flex-col w-56  rounded-xl basis-[20%] gap-2 sticky top-20 p-4 motion-translate-x-in-25">
             {job.map((job, id) => (
               <CardElement
                 key={id}
@@ -140,7 +171,7 @@ const NewJobDescription = () => {
             ))}
           </div>
           {/* description display*/}
-          <div className=" basis-full md:basis-[55%] flex flex-col gap-2">
+          <div className=" basis-auto md:basis-[55%] flex flex-col gap-2 motion-translate-y-in-75">
             {/* back */}
             <div className="  flex items-center ">
               <IoIosArrowRoundBack />
@@ -151,61 +182,30 @@ const NewJobDescription = () => {
                 Back
               </small>
             </div>
-            {/* heading */}
-            <div className="h-28 p-4 rounded-t-2xl">
-              <div className="flex gap-2">
-                <div className=" h-20 w-20 dark:bg-[#0F141E] dark:border-slate-600 bg-white border "></div>
-                <div className="flex flex-col">
-                  <h1 className="text-xl font-bold dark:text-white">
-                    Company Name
-                  </h1>
-                  <small className="mb-2">Location</small>
-                  <small className=" dark:bg-[#0F141E] bg-white rounded-lg w-20 px-1 ">
-                    Category
-                  </small>
-                </div>
-              </div>
-            </div>
-            {/* Description */}
-            <div className=" p-4 rounded-t-2xl flex flex-col gap-4 ">
-              <div className="flex justify-between">
-                <div>
-                  <h1 className="text-xl font-bold dark:text-white">
-                    Software Developer
-                  </h1>
-                  <div>
-                    <p className="font-bold dark:text-white">Company Name</p>
-                    <small>Location</small>
-                  </div>
-                  <small>Job Type: Full Time</small>
-                </div>
-                <div className="hidden md:flex flex-col">
-                  <small>Posted On:</small>
-                  <button className="dark:bg-[#0F141E] bg-red-500 w-full p-2 text-slate-200 rounded-xl ">
-                    Apply Now
-                  </button>
-                </div>
-              </div>
-              <p className="text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit,
-                cumque. Repellat, cupiditate repellendus. Dolorum ad ut illum
-                quo consequatur deleniti minus ducimus nam magni, totam corrupti
-                et, aperiam accusamus animi! Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Velit, cumque. Repellat,
-                cupiditate repellendus. Dolorum ad ut illum quo consequatur
-                deleniti minus ducimus nam magni, t Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Velit, cumque. Repellat,
-                cupiditate repellendus. Dolorum ad ut illum quo consequatur
-                deleniti minus ducimus nam magni, totam corrupti et, aperiam
-                accusamus animi!otam corrupti et, aperiam accusamus animi!
-              </p>
-            </div>
+            {desc.map((job) => (
+              <DescriptionTemplate
+                image={international}
+                imageAlt={job.company.substring(0, 2)}
+                location={job.location}
+                category={job.jobcategory}
+                companyNameOrScholarshipTitle={job.company}
+                jobOrScholarhipTitle={job.position}
+                jobDurationOrScholarshipType={job.duration}
+                datecreated={job.datecreated}
+                post={job.post}
+                link={"/scholarship"}
+              />
+            ))}
           </div>
           {/* right sidebar*/}
-          <div className="md:basis-[20%] flex flex-col bg-contain gap-2  rounded-xl ">
+          <div className="md:basis-[20%] flex flex-col bg-contain gap-2 rounded-xl motion-translate-x-in-25">
             <AdvertCard image={image} />
             <AdvertCard image={image} />
           </div>
+        </section>
+        <section className="flex justify-between gap-2">
+          <AdvertBox image={international} />
+          <AdvertBox image={image} />
         </section>
       </main>
       <Footer />
