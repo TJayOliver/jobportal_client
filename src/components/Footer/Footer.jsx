@@ -8,13 +8,13 @@ const Footer = () => {
         {/* quick links */}
         <div className="flex flex-col gap-3 text-slate-200">
           <h1 className="font-bold text-xl text-white">Quick Links</h1>
-          <a className="hover:text-white/50 text-sm" href="#">
+          <a className="hover:text-white/50 text-sm" href="/">
             Home
           </a>
-          <a className="hover:text-white/50 text-sm" href="#">
+          <a className="hover:text-white/50 text-sm" href="/job">
             Job
           </a>
-          <a className="hover:text-white/50 text-sm" href="#">
+          <a className="hover:text-white/50 text-sm" href="/scholarship">
             Scholarship
           </a>
         </div>

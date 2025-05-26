@@ -1,90 +1,41 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
-import { useParams } from "react-router-dom";
-import Loading from "../../components/Loading/Loading";
+import Footer from "../../components/Footer/Footer";
+import { IoIosArrowRoundBack } from "react-icons/io";
 import { useState, useEffect } from "react";
-import { fetch, fetchByID, CLIENT_URL } from "../request";
-import parser from "html-react-parser";
-import Platforms from "../../components/Platforms/Platforms";
+import { useParams } from "react-router-dom";
+import image from "../../assets/built.jpg";
+import international from "../../assets/international.jpg";
 import Subscribe from "../../components/Subscribe/Subscribe";
-import { BsCalendar2, BsPeople } from "react-icons/bs";
-import { BiSolidCategory } from "react-icons/bi";
-import megaphone from "../../assets/megaphone.png";
-import image from "../../assets/student1.jpg";
-//import Cookie from "../../components/Cookie/Cookie";
+import AdvertBox from "../../components/Advert/advertBox";
+import DescriptionTemplate from "../../components/descriptionTemplate";
+import Loading from "../../components/Loading/Loading";
 import axios from "axios";
-import moment from "moment";
-import Share from "../../components/Share/Share";
-import { Helmet } from "react-helmet-async";
+import { fetch, fetchByID } from "../request";
+import DescriptionCardElement from "../../components/descriptionCardElement";
+import { CountryCode } from "../../components/countryFlag";
 
-const RelatedBox = ({ image, scholarshipname, location, agent, deadline, programs, to }) => {
+const AdvertCard = ({ image }) => {
   return (
-    <div className=" rounded-lg border border-gray-100 p-4 flex flex-col gap-2 bg-slate-50">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-1">
-          <img src={`${image}`} loading="lazy" className="rounded-full w-14 h-14" />
-          <div>
-            <p className="font-bold">{scholarshipname}</p>
-            <small>{location}</small>
-          </div>
-        </div>
-        <div className="flex items-center gap-1">
-          <BsPeople />
-          <p>{agent} Required</p>
-        </div>
-        <div className="flex items-center gap-1">
-          <BsCalendar2 />
-          <p>Apply Before {moment(deadline).format("YYYY-MM-DD")}</p>
-        </div>
-        <div className="flex items-center gap-1">
-          <BiSolidCategory />
-          <p>{programs}</p>
-        </div>
-      </div>
-      <a
-        href={to}
-        className="bg-blue-500 hover:bg-blue-600 rounded-lg p-2 flex justify-center font-bold text-white"
-      >
-        Apply
-      </a>
-    </div>
+    <div
+      style={{ backgroundImage: `url(${image})` }}
+      className=" rounded-xl h-96 bg-contain"
+    ></div>
   );
 };
 
 const ScholarshipDescription = () => {
+  axios.defaults.withCredentials = true;
   const params = useParams();
   const id = params.id;
 
   const [scholarship, setScholarship] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-  const [cookieTracker, setCookieTracker] = useState(null);
-
-  const [similar, setSimilar] = useState([]);
-
-  axios.defaults.withCredentials = true;
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [headImage, setHeadImage] = useState("");
-
-  useEffect(() => {
-    if (scholarship.length > 0) {
-      const scholarships = scholarship[0];
-      setTitle(scholarships.scholarshipname);
-      setDescription(scholarships.description);
-      setHeadImage(`${scholarships.image}`);
-    }
-  }, [scholarship]);
-
-  const stripHtmlTags = (htmlString) => {
-    return htmlString.replace(/(<([^>]+)>)/gi, "");
-  };
-
-  const desc = stripHtmlTags(description);
+  const [scholarshipCategory, setScholarshipCategory] = useState(null);
+  const [countryName, setCountryName] = useState(null);
+  const [countryCode, setCountryCode] = useState(null);
+  const [relatedScholarshipByCategory, setRelatedScholarshipByCategory] =
+    useState([]);
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -94,211 +45,138 @@ const ScholarshipDescription = () => {
       setScholarship,
       setLoading,
       setMessage,
-      signal,
-      setCookieTracker
+      signal
     );
     return () => controller.abort();
   }, [id]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    if (scholarship.length) {
+      scholarship.map((scholarship) => {
+        setScholarshipCategory(scholarship.scholarshipcategory);
+      });
+    }
+    if (scholarshipCategory !== null) {
       const controller = new AbortController();
       const signal = controller.signal;
-      const countryPromises = scholarship.map(async (count) => count.country);
-      const [countryname] = await Promise.all(countryPromises);
-      try {
-        await fetch(`scholarship/country/${countryname}`, setSimilar, setLoading, signal);
-        return () => controller.abort();
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    if (!loading) {
-      // Only fetch data when loading is false
-      fetchData();
+      fetch(
+        `scholarship/category/${scholarshipCategory}`,
+        setRelatedScholarshipByCategory,
+        setLoading,
+        signal,
+        setMessage
+      );
+      scholarship.map((country) => setCountryName(country.country));
+      return () => controller.abort();
     }
-  }, [scholarship, loading]);
+  }, [scholarship]);
 
-  const [SubscribeState, SetSubscribeState] = useState(false);
-  const url = `${CLIENT_URL}/scholarship/${id}`;
+  useEffect(() => {
+    if (countryName !== null) {
+      setCountryCode(CountryCode(countryName));
+    }
+  }, [countryName]);
+
+  const flag = countryCode
+    ? `https://countryflagsapi.netlify.app/flag/${countryCode}.svg`
+    : null;
+
+  const limitRelatedScholarship = relatedScholarshipByCategory.slice(0, 5);
+
+  const [subscribeState, setSubscribeState] = useState(false);
+  const toggleSubscribe = () => {
+    setSubscribeState((prev) => !prev);
+  };
   return (
     <>
-      <Helmet>
-        <meta name="robots" content="index, follow" />
-        <meta property="og:site_name" content="Future Forte" />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={desc} />
-        <meta property="og:url" content={url} />
-        <meta property="og:type" content="article" />
-        <meta property="article:publisher" content={url} />
-        <meta property="og:image" content={headImage} />
-        <meta property="og:image:secure_url" content={headImage} />
-        <meta property="og:image:width" content="1280" />
-        <meta property="og:image:height" content="640" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={desc} />
-        <meta name="twitter:image" content={headImage} />
-        <meta name="twitter:url" content={url} />
-      </Helmet>
-
-      <Header />
-      <Subscribe SubscribeState={SubscribeState} SetSubscribeState={SetSubscribeState} />
-      <aside className="h-64">
-        <img src={image} loading="lazy" className="h-full w-full object-cover" />
-      </aside>
-
-      <main className="relative flex p-2 justify-between gap-4">
-        {/* Descriptions */}
-        <section className="flex flex-col w-full -translate-y-14">
-          <section className="flex flex-col gap-3">
-            {/* name and share */}
-            <section
-              id="description"
-              className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 border border-gray-100"
-            >
-              {/* scholarship image and share button*/}
-              <div className="flex justify-between items-center">
-                {loading ? (
-                  <Loading />
-                ) : (
-                  scholarship.map((list, id) => (
-                    <img
-                      key={id}
-                      loading="lazy"
-                      src={`${list.image}`}
-                      className="rounded-full h-24 w-24 object-cover"
-                    />
-                  ))
-                )}
-                {/* share */}
-                <div className="flex gap-1 items-center">
-                  <Share url={url} title={title} description={description} />
-                </div>
-              </div>
-
-              {loading ? (
-                <Loading />
-              ) : (
-                scholarship.map((list, id) => (
-                  <div key={id} id="name/location">
-                    <h1 className="text-2xl font-bold">{list.scholarshipname}</h1>
-                    <small className="font-medium">{list.country}</small>
-                  </div>
-                ))
-              )}
-              {loading ? (
-                <Loading />
-              ) : (
-                scholarship.map((list, id) => (
-                  <div key={id} className="text-justify">
-                    {parser(`${list.description}`)}
-                  </div>
-                ))
-              )}
-            </section>
-
-            {/* minimum information */}
-            <section className="h-20 border border-gray-100 flex  m-auto p-8 rounded-lg py-14 gap-4 divide-x-2 max-w-5xl items-center justify-between w-full text-sm md:text-md">
-              <div>
-                <div className="flex items-center gap-1">
-                  <BsPeople />
-                  <p className="font-bold">Agent</p>
-                </div>
-                {loading ? (
-                  <Loading />
-                ) : (
-                  scholarship.map((list, id) => <p key={id}>{list.agent} Required</p>)
-                )}
-              </div>
-              <div className="p-2">
-                <div className="flex items-center gap-1">
-                  <BsCalendar2 />
-                  <p className="font-bold">Deadline</p>
-                </div>
-                {loading ? (
-                  <Loading />
-                ) : (
-                  scholarship.map((list, id) => (
-                    <p key={id}>{moment(list.deadline).format("YYYY-MM-DD")}</p>
-                  ))
-                )}
-              </div>
-              <div className="p-2">
-                <div className="flex items-center gap-1">
-                  <BiSolidCategory />
-                  <p className="font-bold">Programs Offered</p>
-                </div>
-                {loading ? (
-                  <Loading />
-                ) : (
-                  scholarship.map((list, id) => <p key={id}>{list.programs}</p>)
-                )}
-              </div>
-            </section>
-
-            {/* scholarship information  */}
-            <section
-              id="scholarship information"
-              className="w-full max-w-5xl m-auto flex flex-col bg-white rounded-lg p-8 gap-3 text-justify"
-            >
-              {loading ? (
-                <Loading />
-              ) : (
-                scholarship.map((post, id) => <section key={id}>{parser(post.post)}</section>)
-              )}
-            </section>
-          </section>
-        </section>
-
-        {/* Related Scholarships */}
-        <section className=" hidden py-2 md:block h-[76rem] overflow-y-scroll basis-[25%]">
-          <h1 className="font-bold text-xl mb-2">Related Scholarships</h1>
-          {loading ? (
-            <Loading />
-          ) : (
-            similar.map((list, id) => (
-              <RelatedBox
-                key={id}
-                image={list.image}
-                scholarshipname={list.scholarshipname}
-                location={list.location}
-                agent={list.agent}
-                deadline={list.deadline}
-                programs={list.programs}
-                to={`/scholarship/${list.id}`}
-              />
-            ))
+      <Subscribe
+        subscribeState={subscribeState}
+        setSubscribeState={setSubscribeState}
+      />
+      <Header toggleSubscribe={toggleSubscribe} />
+      <aside
+        style={{ backgroundImage: `url(${flag})` }}
+        className="h-56 w-full relative bg-cover"
+      >
+        <div className="absolute h-full w-full grid place-content-center bg-black/30">
+          {countryName !== null && (
+            <p className="text-white text-xlshadow-md md:text-3xl">
+              Study in {countryName}
+            </p>
           )}
-        </section>
-      </main>
-
-      {/* subscribe */}
-      <aside className="p-3">
-        <div className="flex justify-between p-2 bg-gradient-to-tr from-blue-500 to-teal-500 items-center rounded-md mt-1 mb-2 max-w-6xl m-auto">
-          <div className="text-white">
-            <p className=" text-xl md:text-3xl font-medium">Job Alert E-mails </p>
-            <small>
-              Keep track of positions that you are interested in by signing up for job alert emails
-            </small>
-          </div>
-          <div className="rounded-lg bg-gradient-to-r from-white/90 to-white flex flex-col items-center justify-center gap-4 h-48 w-44 p-1">
-            <img src={megaphone} className=" object-cover h-32" loading="lazy" />
-            <button
-              onClick={() => SetSubscribeState(true)}
-              className="p-2 bg-gradient-to-tr from-blue-500 to-teal-500 w-full text-sm whitespace-nowrap rounded-md text-white font-medium"
-            >
-              Notify Me
-            </button>
-          </div>
         </div>
       </aside>
-
-      <Platforms />
-      <SocialMedia />
-      {/* {cookieTracker ? <Cookie /> : null} */}
-      <Footer onClick={() => SetSubscribeState(true)} />
+      <main className=" bg-[#1D232A] text-[#d6d8dd] md:p-4 min-h-[calc(100vh-312px)] relative flex flex-col">
+        <section className="flex justify-between md:p-4">
+          {/* left sidebar */}
+          <div className="hidden md:flex md:flex-col w-56 rounded-xl basis-[20%] gap-2 sticky top-20 p-4 motion-translate-x-in-25">
+            {loading ? (
+              <Loading />
+            ) : (
+              <div className="flex flex-col gap-3">
+                {limitRelatedScholarship.map((scholarship) => (
+                  <DescriptionCardElement
+                    key={scholarship.id}
+                    image={flag}
+                    descriptionOrOverview={scholarship.description.substring(
+                      0,
+                      50
+                    )}
+                    postionOrScholarshipName={scholarship.scholarshipname}
+                    countryOrLocation={scholarship.country}
+                    salaryOrDeadline={scholarship.deadline}
+                    scholarshiptypeOrDateCreated={scholarship.scholarshiptype}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+          {/* description display*/}
+          <div className=" basis-auto md:basis-[55%] flex flex-col gap-2 motion-translate-y-in-75">
+            {/* back */}
+            <div className="  flex items-center ">
+              <IoIosArrowRoundBack />
+              <small
+                className="hover:underline hover:text-white/50 hover:cursor-pointer"
+                onClick={() => window.history.back()}
+              >
+                Back
+              </small>
+            </div>
+            {loading ? (
+              <Loading />
+            ) : (
+              <div>
+                {scholarship.map((scholarship) => (
+                  <DescriptionTemplate
+                    key={scholarship.id}
+                    image={flag}
+                    imageAlt={scholarship.scholarshipname.substring(0, 2)}
+                    location={scholarship.country}
+                    category={scholarship.scholarshipcategory}
+                    companyNameOrScholarshipTitle={scholarship.scholarshipname}
+                    jobOrScholarhipTitle={scholarship.scholarshipname}
+                    jobDurationOrScholarshipType={scholarship.duration}
+                    datecreated={scholarship.datecreated}
+                    post={scholarship.post}
+                    link={scholarship.website}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+          {/* right sidebar*/}
+          <div className="md:basis-[20%] flex flex-col bg-contain gap-2 rounded-xl motion-translate-x-in-25">
+            <AdvertCard image={image} />
+            <AdvertCard image={image} />
+          </div>
+        </section>
+        <section className="flex justify-between gap-2">
+          <AdvertBox image={international} />
+          <AdvertBox image={image} />
+        </section>
+      </main>
+      <Footer />
     </>
   );
 };

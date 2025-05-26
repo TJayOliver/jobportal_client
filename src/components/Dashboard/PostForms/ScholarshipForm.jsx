@@ -16,7 +16,6 @@ const ScholarshipForm = ({ username }) => {
   const [post, setPost] = useState("");
 
   const [sForm, setSForm] = useState({
-    image: null,
     scholarshipname: "",
     deadline: "",
     scholarshiptype: "",
@@ -25,7 +24,7 @@ const ScholarshipForm = ({ username }) => {
     country: "",
     description: "",
     scholarshipcategory: "",
-    agent: "",
+    website: "",
     post: "",
     author: username,
   });
@@ -42,26 +41,15 @@ const ScholarshipForm = ({ username }) => {
     }));
   };
 
-  const FormFiles = (e) => {
-    setSForm({
-      ...sForm,
-      image: e.target.files[0],
-      description: description,
-      post: post,
-    });
-  };
-
   const Submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const newFormData = new FormData();
-    for (const key in sForm) {
-      newFormData.append(key, sForm[key]);
-    }
+
     try {
-      const response = await axios.post(`${BASE_URL}/scholarship/create`, newFormData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/scholarship/create`,
+        sForm
+      );
       const data = response.data.message;
       setMessage(data);
       setSubmitted(true);
@@ -104,6 +92,17 @@ const ScholarshipForm = ({ username }) => {
               onChange={FormValues}
             />
 
+            <FormInputs
+              label="Website"
+              htmlFor="website"
+              type="text"
+              id="website"
+              name="website"
+              value={sForm.website}
+              required={true}
+              onChange={FormValues}
+            />
+
             <div className=" flex flex-col gap-1 w-full">
               <label htmlFor="scholarshiptype">Type</label>
               <select
@@ -119,24 +118,6 @@ const ScholarshipForm = ({ username }) => {
                 </option>
                 <option value="Fully Funded">Fully Funded</option>
                 <option value="Partially Funded">Partially Funded</option>
-              </select>
-            </div>
-
-            <div className=" flex flex-col gap-1 w-full">
-              <label htmlFor="scholarshiptype">Agent</label>
-              <select
-                id="agent"
-                name="agent"
-                value={sForm.agent}
-                onChange={FormValues}
-                className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white "
-                required
-              >
-                <option value="" disabled>
-                  --Agent --
-                </option>
-                <option value="Agent">Agent</option>
-                <option value="No agent">No Agent</option>
               </select>
             </div>
           </div>
@@ -180,7 +161,9 @@ const ScholarshipForm = ({ username }) => {
                 <option value="Bachelors Degree">Bachelors Degree</option>
                 <option value="Masters Degree">Masters Degree</option>
                 <option value="Doctorate Degree">Doctorate Degree</option>
-                <option value="Post Graduate Diploma">Post Graduate Diploma</option>
+                <option value="Post Graduate Diploma">
+                  Post Graduate Diploma
+                </option>
               </select>
             </div>
 
@@ -243,17 +226,6 @@ const ScholarshipForm = ({ username }) => {
               onChange={FormValues}
             />
           </div>
-
-          <FormInputs
-            label="Upload Scholarship Flyer"
-            htmlFor="image"
-            type="file"
-            id="image"
-            name="image"
-            onChange={FormFiles}
-            required={true}
-            accept="image/*"
-          />
 
           <button className=" bg-teal-600 p-2  text-white hover:bg-teal-500">
             {" "}

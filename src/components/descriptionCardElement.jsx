@@ -1,5 +1,6 @@
 import { FaShareFromSquare } from "react-icons/fa6";
 const DescriptionCardElement = ({
+  image,
   descriptionOrOverview,
   postionOrScholarshipName,
   countryOrLocation,
@@ -17,7 +18,10 @@ const DescriptionCardElement = ({
       {/* image,location,title,share */}
       <div className="flex justify-between items-center p-4">
         <div className="flex gap-1">
-          <div className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32]"></div>
+          <div
+            style={{ backgroundImage: `url(${image})` }}
+            className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32] bg-cover"
+          ></div>
           <div className="flex flex-col">
             <h1 className="text-sm dark:text-white">
               {postionOrScholarshipName}

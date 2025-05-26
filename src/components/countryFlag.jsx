@@ -196,6 +196,7 @@ const countryNameToCode = {
   Zambia: "ZM",
   Zimbabwe: "ZW",
 };
-const CountryFlag = ({ country }) => {
+export const CountryCode = (country) => {
   const countryCode = countryNameToCode[country];
+  return countryCode;
 };

@@ -1,5 +1,4 @@
 import Footer from "../components/Footer/Footer";
-import Platforms from "../components/Platforms/Platforms";
 import Header from "../components/Header/Header";
 import Subscribe from "../components/Subscribe/Subscribe";
 import { useState } from "react";
@@ -88,7 +87,6 @@ const Privacy = () => {
           </div>
         </section>
       </main>
-      <Platforms />
       <Footer onClick={() => SetSubscribeState(true)} />
     </>
   );

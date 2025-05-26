@@ -1,171 +1,135 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
-import image from "../../assets/eight.jpg";
-import orgImage from "../../assets/organizational.png";
-import resImage from "../../assets/research.jpg";
-import govImage from "../../assets/government.jpg";
-import privImage from "../../assets/private.jpg";
-import intImage from "../../assets/international.jpg";
-import axios from "axios";
-import Header from "../../components/Header/Header";
-import SocialMedia from "../../components/Homepage/SocialMedia/SocialMedia";
 import Footer from "../../components/Footer/Footer";
-import ScholarshipCategoryBox from "../../components/Scholarships/ScholarshipCat";
-import { BsArrowLeftSquare, BsArrowRightSquare } from "react-icons/bs";
-import { BiSearch } from "react-icons/bi";
-import { fetch, BASE_URL } from "../request.js";
-import Loading from "../../components/Loading/Loading";
-import Pagination from "../../components/Pagination/Pagination";
+import Header from "../../components/Header/Header";
 import { TypeAnimation } from "react-type-animation";
-import Platforms from "../../components/Platforms/Platforms";
+import { useEffect, useState, useRef } from "react";
+import { fetch, BASE_URL } from "../request";
+import government from "../../assets/government.jpg";
+import built from "../../assets/built.jpg";
+import AdvertBox from "../../components/Advert/advertBox";
+import Pagination from "../../components/Pagination/Pagination";
+import axios from "axios";
+import Loading from "../../components/Loading/Loading";
+import SearchBar from "../../components/searchBar";
+import CheckBoxFilter from "../../components/checkBoxFilter";
+import CardElement from "../../components/cardElement";
+import { GoTrophy } from "react-icons/go";
+import { CiClock2 } from "react-icons/ci";
 import Subscribe from "../../components/Subscribe/Subscribe";
-import parser from "html-react-parser";
-//import Cookie from "../../components/Cookie/Cookie";
-import moment from "moment";
-import { Helmet } from "react-helmet-async";
-import logo from "../../assets/logo.png";
-
-export const ScholarshipBox = ({
-  image,
-  country,
-  scholarshiptype,
-  scholarshipname,
-  description,
-  agent,
-  to,
-}) => {
-  return (
-    <div className="h-[26rem] w-full md:w-[15rem] rounded-lg flex flex-col shrink-0">
-      <img
-        src={`${image}`}
-        className=" h-44 rounded-t-lg object-cover w-full"
-      />
-      <div className="p-2 flex flex-col gap-2">
-        <div className="font-bold text-lg">
-          <a className="hover:underline" href={to}>
-            {scholarshipname}
-          </a>
-        </div>
-        <p>{country}</p>
-        <small className="line-clamp-5">{parser(`${description}`)}</small>
-        <div className="flex gap-2">
-          <small>{agent}</small>
-          <small>{scholarshiptype}</small>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const Scholarship = () => {
   const [scholarships, setScholarship] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
   const [postPerPage, setPostPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
-  const [message, setMessage] = useState("");
-  const [cookieTracker, setCookieTracker] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchResultsVerified, setSearchResultsVerified] = useState(false);
 
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch(
-      "scholarship",
-      setScholarship,
-      setLoading,
-      signal,
-      setMessage,
-      setCookieTracker
-    );
+    fetch("scholarship", setScholarship, setLoading, signal, setMessage);
     return () => controller.abort();
   }, []);
-
-  const container = document.getElementById("container");
-
-  const handleLeftClick = () => {
-    const scrollNumber = 100;
-    container.scrollLeft -= scrollNumber;
-  };
-  const handleRightClick = () => {
-    const scrollNumber = 100;
-    container.scrollLeft += scrollNumber;
-  };
-
-  const [searchInput, setSearchInput] = useState({ country: "" });
-
+  const [searchInput, setSearchInput] = useState({ scholarshipname: "" });
   const handleSearchInputs = (e) => {
     const { name, value } = e.target;
     setSearchInput((prev) => ({ ...prev, [name]: value }));
   };
-  const [searchResults, setSearchResults] = useState([]);
-  const [SResultsVerifier, setSResultsVerifier] = useState(false);
-
-  const submit = async (e) => {
+  const searchScholarshipByName = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
         `${BASE_URL}/scholarship/search`,
         searchInput
       );
-      setSResultsVerifier(true);
+      setSearchResultsVerified(true);
+      setLoading(false);
       setSearchResults(response.data.data);
     } catch (error) {
+      setLoading(true);
       setMessage(error.response.data.message);
     }
   };
-
-  const [SubscribeState, SetSubscribeState] = useState(false);
+  const [filters, setFilters] = useState({
+    scholarshiptype: [],
+    programs: [],
+    scholarshipcategory: [],
+  });
+  const handleFilterChange = async (e) => {
+    const { name, value, checked } = e.target;
+    // Update filters state
+    const filterType =
+      name === "Fully Funded" || name === "Partially Funded"
+        ? "scholarshiptype"
+        : name === "Bachelors Degree" ||
+          name === "Masters Degree" ||
+          name === "Post Graduate Diploma" ||
+          name === "Doctorate Degree"
+        ? "programs"
+        : "scholarshipcategory";
+    const updatedFilters = { ...filters };
+    if (checked) {
+      updatedFilters[filterType] = [...updatedFilters[filterType], value];
+    } else {
+      updatedFilters[filterType] = updatedFilters[filterType].filter(
+        (item) => item !== value
+      );
+    }
+    // Update state AND use the updated value immediately
+    setFilters(updatedFilters);
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/scholarship/checkboxfilter`,
+        updatedFilters
+      );
+      setSearchResultsVerified(true);
+      setLoading(false);
+      setSearchResults(response.data.data);
+    } catch (error) {
+      setLoading(true);
+      setMessage(error.response.data.message);
+    }
+  };
+  const resetFilters = async () => {
+    try {
+      // 1. Reset all filters to empty arrays
+      setFilters({
+        scholarshiptype: [],
+        programs: [],
+        scholarshipcategory: [],
+      });
+      // 2. Fetch fresh data from server
+      const response = await axios.get(`${BASE_URL}/scholarship`);
+      setSearchResultsVerified(true);
+      setSearchResults(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(true);
+      setMessage("Failed to reset filters");
+    }
+  };
 
   const lastPageIndex = currentPage * postPerPage;
   const firstPageIndex = lastPageIndex - postPerPage;
-  const scholarshipSlicedData = scholarships.slice(
-    firstPageIndex,
-    lastPageIndex
-  );
-  const searchResultsData = searchResults.slice(firstPageIndex, lastPageIndex);
+  const post = scholarships.slice(firstPageIndex, lastPageIndex);
 
+  const [subscribeState, setSubscribeState] = useState(false);
+  const toggleSubscribe = () => {
+    setSubscribeState((prev) => !prev);
+  };
   return (
     <>
-      <Helmet>
-        <meta name="robots" content="index, follow" />
-        <meta property="og:site_name" content="Future Forte" />
-        <meta property="og:title" content="Scholarship" />
-        <meta
-          property="og:description"
-          content="Future Forte is a platform dedicated to connecting, graduates, students to endless scholarship opportunities"
-        />
-        <meta property="og:url" content="https://futureforte.netlify.app" />
-        <meta property="og:type" content="article" />
-        <meta
-          property="article:publisher"
-          content="https://futureforte.netlify.app"
-        />
-        <meta property="og:image" content={logo} />
-        <meta property="og:image:secure_url" content={logo} />
-        <meta property="og:image:width" content="1280" />
-        <meta property="og:image:height" content="640" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Scholarship" />
-        <meta
-          name="twitter:description"
-          content="Future Forte is a platform dedicated to connecting, graduates, students to endless scholarship opportunities"
-        />
-        <meta name="twitter:image" content={logo} />
-        <meta name="twitter:url" content="https://futureforte.netlify.app" />
-      </Helmet>
-
-      <Header />
-
       <Subscribe
-        SubscribeState={SubscribeState}
-        SetSubscribeState={SetSubscribeState}
+        subscribeState={subscribeState}
+        setSubscribeState={setSubscribeState}
       />
-
+      <Header toggleSubscribe={toggleSubscribe} />
       {/* text animation */}
-      <aside className="h-36 flex items-center relative bg-gradient-to-r from-cyan-500 to-blue-500 m-auto ">
-        <div className="m-auto max-w-5xl w-full text-4xl font-medium text-white">
+      <aside className=" h-[4rem] flex items-center relative bg-gradient-to-r from-cyan-500 to-blue-500 m-auto ">
+        <div className="m-auto p-4 md:p-0 md:max-w-5xl w-full text-2xl md:text-4xl font-medium text-white">
           <div className="">
             <TypeAnimation
               sequence={[
@@ -179,191 +143,225 @@ const Scholarship = () => {
           </div>
         </div>
       </aside>
-
-      <main className="max-w-5xl flex flex-col m-auto justify-center ">
-        <section className=" bg-red-500 hidden w-full h-[8rem] ">
-          <div className="w-2/4 rounded-2xl px-6 py-10 flex flex-col gap-4">
-            <p className="text-white text-5xl font-bold">
-              Every Bright Student Deserves a Scholarships
-            </p>
-            <p>
-              Bigger Scholarship packages to achieve your dreams, we provide all
-              of these great things for you
-            </p>
-          </div>
-          <img src={image} className="w-2/4 object-cover rounded-r-2xl" />
-        </section>
-
-        {/* Scholarship Categories */}
-        <section className=" flex flex-col justify-center py-1">
-          <div className="p-4">
-            <p className="font-bold text-4xl mb-2">Scholarship Categories</p>
-
+      {/* scholarship image */}
+      <section className="">
+        <img
+          src={government}
+          loading="lazy"
+          className=" h-32 w-full object-cover"
+        />
+      </section>
+      <main className="bg-[#1D232A] text-[#d6d8dd] p-4 bg-cover min-h-[calc(100vh-312px)] relative ">
+        <section className="flex justify-between p-4">
+          {/* side bar */}
+          <div className="hidden md:flex md:flex-col h-fit w-56 border border-slate-400 rounded-xl basis-[20%] gap-2 sticky top-32 p-4 motion-translate-y-in-100">
+            {/* heading */}
             <div className="flex justify-between">
-              <p>
-                Many categories are presented, each containing numerous
-                scholarships and ready for you to browse through
+              <h1>Filter</h1>
+              <p
+                onClick={resetFilters}
+                className="hover:text-red-500 hover:underline cursor-pointer"
+              >
+                Reset
               </p>
-              <div className="text-3xl flex gap-4 ">
-                <BsArrowLeftSquare
-                  id="leftbtn"
-                  onClick={handleLeftClick}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white cursor-pointer"
-                />
-                <BsArrowRightSquare
-                  id="rightbtn"
-                  onClick={handleRightClick}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white cursor-pointer"
-                />
-              </div>
+            </div>
+            {/* Scholarship Type */}
+            <div>
+              <p className="font-bold text-white">Scholarship Type</p>
+              <CheckBoxFilter
+                name={"Fully Funded"}
+                value={"Fully Funded"}
+                onChange={handleFilterChange}
+                filterGroup="scholarshiptype"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Partially Funded"}
+                value={"Partially Funded"}
+                onChange={handleFilterChange}
+                filterGroup="scholarshiptype"
+                filters={filters}
+              />
+            </div>
+            {/* Scholarship Level */}
+            <div>
+              <p className="font-bold text-white">Scholarship Level</p>
+              <CheckBoxFilter
+                name={"All Levels"}
+                value={"All Levels"}
+                onChange={handleFilterChange}
+                filterGroup="programs"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Bachelors Degree"}
+                value={"Bachelors Degree"}
+                onChange={handleFilterChange}
+                filterGroup="programs"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Masters Degree"}
+                value={"Masters Degree"}
+                onChange={handleFilterChange}
+                filterGroup="programs"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Post Graduate Diploma"}
+                value={"Post Graduate Diploma"}
+                onChange={handleFilterChange}
+                filterGroup="programs"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Doctorate Degree"}
+                value={"Doctorate Degree"}
+                onChange={handleFilterChange}
+                filterGroup="programs"
+                filters={filters}
+              />
+            </div>
+            {/* Scholarship Category */}
+            <div>
+              <p className="font-bold text-white">Scholarship Category</p>
+              <CheckBoxFilter
+                name={"Government"}
+                value={"Government"}
+                onChange={handleFilterChange}
+                filterGroup="scholarshipcategory"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Private"}
+                value={"Private"}
+                onChange={handleFilterChange}
+                filterGroup="scholarshipcategory"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Organizational"}
+                value={"Organizational"}
+                onChange={handleFilterChange}
+                filterGroup="scholarshipcategory"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"International"}
+                value={"International"}
+                onChange={handleFilterChange}
+                filterGroup="scholarshipcategory"
+                filters={filters}
+              />
+              <CheckBoxFilter
+                name={"Research"}
+                value={"Research"}
+                onChange={handleFilterChange}
+                filterGroup="scholarshipcategory"
+                filters={filters}
+              />
             </div>
           </div>
+          {/* jobs display*/}
+          <div className="md:basis-[75%] flex flex-col gap-2">
+            {/* search bar */}
+            <SearchBar
+              name={"scholarshipname"}
+              value={searchInput.scholarshipname}
+              placeholder={"Scholarship Name"}
+              onChange={handleSearchInputs}
+              searchFunction={searchScholarshipByName}
+              setSearchResultsVerified={searchResultsVerified}
+              setSearchResults={setSearchResults}
+              setMessage={setMessage}
+              link={"scholarship/filtersearch"}
+            />
 
-          <div
-            id="container"
-            className="flex justify-between p-2 gap-2 overflow-x-scroll scrollbar duration-100 ease-in shrink-0 "
-          >
-            <ScholarshipCategoryBox
-              category="Government"
-              text="Government Scholarships"
-              image={govImage}
-              to={"/scholarship/category/Government"}
-              color="bg-gradient-to-r from-cyan-500 to-blue-500"
-            />
-            <ScholarshipCategoryBox
-              category="Organizational"
-              text="Organizational Scholarships"
-              image={orgImage}
-              to={"/scholarship/category/Organizational"}
-              color="bg-gradient-to-r from-cyan-500 to-blue-500"
-            />
-            <ScholarshipCategoryBox
-              category="International"
-              text="International Scholarships"
-              image={intImage}
-              to={"/scholarship/category/International"}
-              color="bg-gradient-to-r from-cyan-500 to-blue-500"
-            />
-            <ScholarshipCategoryBox
-              category="Private"
-              text="Private Scholarships"
-              image={privImage}
-              to={"/scholarship/category/Private"}
-              color="bg-gradient-to-r from-cyan-500 to-blue-500"
-            />
-            <ScholarshipCategoryBox
-              category="Research"
-              text="Research Scholarships"
-              image={resImage}
-              to={"/scholarship/category/Research"}
-              color="bg-gradient-to-r from-cyan-500 to-blue-500"
-            />
+            {/* displaying scholarship */}
+            {searchResultsVerified ? (
+              /* if search results have been retrieved, display*/
+              <div className="flex flex-col">
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <div>
+                    <div className="display-boxes">
+                      {searchResults.length === 0
+                        ? `No Scholarships for ${searchInput.scholarshipname} Found`
+                        : searchResults.map((scholarship, id) => (
+                            <CardElement
+                              key={id}
+                              postionOrScholarshipName={
+                                scholarship.scholarshipname
+                              }
+                              descriptionOrOverview={scholarship.description}
+                              companyOrScholarshipName={
+                                scholarship.scholarshipname
+                              }
+                              countryOrLocation={scholarship.country}
+                              salaryOrDeadline={scholarship.deadline}
+                              scholarshiptypeOrDateCreated={
+                                scholarship.scholarshiptype
+                              }
+                              cediOrClock={<CiClock2 />}
+                              clockOrTrophy={<GoTrophy />}
+                              link={`/newscholarship/${scholarship.id}`}
+                            />
+                          ))}
+                    </div>
+                    <Pagination
+                      totalPost={searchResults.length}
+                      postPerPage={postPerPage}
+                      setCurrentPage={setCurrentPage}
+                      currentPage={currentPage}
+                    />
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* if user hasnt search for anything, display all scholarships */
+              <div className="flex flex-col">
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <div>
+                    <div className="display-boxes">
+                      {post.map((scholarship, id) => (
+                        <CardElement
+                          key={id}
+                          postionOrScholarshipName={scholarship.scholarshipname}
+                          descriptionOrOverview={scholarship.description}
+                          companyOrScholarshipName={scholarship.scholarshipname}
+                          countryOrLocation={scholarship.country}
+                          salaryOrDeadline={scholarship.deadline}
+                          scholarshiptypeOrDateCreated={
+                            scholarship.scholarshiptype
+                          }
+                          cediOrClock={<CiClock2 />}
+                          clockOrTrophy={<GoTrophy />}
+                          link={`/newscholarship/${scholarship.id}`}
+                        />
+                      ))}
+                    </div>
+                    <Pagination
+                      totalPost={scholarships.length}
+                      postPerPage={postPerPage}
+                      setCurrentPage={setCurrentPage}
+                      currentPage={currentPage}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </section>
-
-        {/* all Scholarships */}
-        <section className="flex flex-col justify-center py-3 p-2">
-          <div className="p-4">
-            <p className="font-bold text-4xl mb-2">Explore</p>
-          </div>
-          <div className="flex justify-center gap-2">
-            {/* scholarships and search by country results */}
-            <div className=" flex flex-col gap-4 w-full">
-              <form
-                onSubmit={submit}
-                className="flex justify-between border-gray-100 border-2 rounded-lg"
-              >
-                {/* Location Search */}
-                <div className="relative w-full">
-                  <BiSearch className=" absolute text-2xl left-2 top-2.5 " />
-                  <input
-                    type="text"
-                    placeholder="search by country"
-                    name="country"
-                    value={searchInput.country}
-                    onChange={handleSearchInputs}
-                    className="px-9 w-full rounded-r-lg p-2 outline-none placeholder:relative placeholder:left-2 placeholder:text-sm"
-                  />
-                </div>
-
-                <button
-                  type="search"
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-700 h-8 flex items-center rounded-lg text-white p-2 ml-1 mt-1 whitespace-nowrap"
-                >
-                  <p>Find Scholarships</p>
-                </button>
-              </form>
-              {SResultsVerifier ? (
-                // search results
-                <div className="flex flex-col gap-4">
-                  {loading ? (
-                    <Loading className="justify-center m-auto" />
-                  ) : (
-                    <div>
-                      <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
-                        {searchResults.length === 0
-                          ? `No Scholarships for ${searchInput.country} Found`
-                          : searchResultsData.map((list, id) => (
-                              <ScholarshipBox
-                                key={id}
-                                image={list.image}
-                                agent={list.agent}
-                                scholarshiptype={list.scholarshiptype}
-                                country={list.country}
-                                scholarshipname={list.scholarshipname}
-                                description={list.description}
-                                to={`/scholarship/${list.id}`}
-                              />
-                            ))}
-                      </div>
-                      <Pagination
-                        totalPost={searchResults.length}
-                        postPerPage={postPerPage}
-                        setCurrentPage={setCurrentPage}
-                        currentPage={currentPage}
-                      />
-                    </div>
-                  )}
-                </div>
-              ) : (
-                // all scholarships
-                <div>
-                  <div className="grid grid-cols-2 md:flex md:flex-wrap gap-1 md:gap-2 ">
-                    {loading ? (
-                      <Loading />
-                    ) : (
-                      scholarshipSlicedData.map((list, id) => (
-                        <ScholarshipBox
-                          key={id}
-                          image={list.image}
-                          agent={list.agent}
-                          scholarshiptype={list.scholarshiptype}
-                          country={list.country}
-                          scholarshipname={list.scholarshipname}
-                          description={list.description.slice(0, 100)}
-                          to={`/scholarship/${list.id}`}
-                        />
-                      ))
-                    )}
-                  </div>
-                  <Pagination
-                    totalPost={scholarships.length}
-                    postPerPage={postPerPage}
-                    setCurrentPage={setCurrentPage}
-                    currentPage={currentPage}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+        {/* advert */}
+        <section className="flex justify-between gap-2">
+          <AdvertBox image={built} />
+          <AdvertBox image={government} />
         </section>
       </main>
-
-      {/* whatsapp barcode */}
-      <Platforms />
-      <SocialMedia />
-      {/* {cookieTracker ? <Cookie /> : null} */}
-      <Footer onClick={() => SetSubscribeState(true)} />
+      <Footer />
     </>
   );
 };

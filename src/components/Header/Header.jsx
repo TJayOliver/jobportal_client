@@ -25,13 +25,13 @@ const Header = ({ toggleSubscribe }) => {
         <nav className="hidden md:flex space-x-12">
           <a
             className="hover:text-white/50 transition-all duration-100 ease-out"
-            href="#"
+            href="/job"
           >
             Jobs
           </a>
           <a
             className="hover:text-white/50 transition-all duration-100 ease-out"
-            href="#"
+            href="/scholarship"
           >
             Scholarships
           </a>

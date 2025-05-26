@@ -18,7 +18,6 @@ const ScholarshipEditForm = ({ id }) => {
   const [post, setPost] = useState("");
 
   const [sForm, setSForm] = useState({
-    image: null,
     scholarshipname: "",
     deadline: "",
     scholarshiptype: "",
@@ -26,9 +25,9 @@ const ScholarshipEditForm = ({ id }) => {
     programs: "",
     country: "",
     description: "",
+    website: "",
     scholarshipcategory: "",
     post: "",
-    agent: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -40,28 +39,16 @@ const ScholarshipEditForm = ({ id }) => {
     }));
   };
 
-  const FormFiles = (e) => {
-    setSForm({
-      ...sForm,
-      image: e.target.files[0],
-      description: description,
-      post: post,
-    });
-  };
-
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
   const Submit = async (e) => {
     e.preventDefault();
     try {
-      const newFormData = new FormData();
-      for (const key in sForm) {
-        newFormData.append(key, sForm[key]);
-      }
-      const response = await axios.put(`${BASE_URL}/scholarship/update/${id}`, newFormData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.put(
+        `${BASE_URL}/scholarship/update/${id}`,
+        sForm
+      );
       const data = response.data.message;
       setSubmitted(true);
       window.alert(data);
@@ -77,17 +64,18 @@ const ScholarshipEditForm = ({ id }) => {
       try {
         const response = await axios.get(`${BASE_URL}/scholarship/edit/${id}`);
         const retrievedData = response.data.data;
-        const formattedDeadline = moment(retrievedData.deadline).format("YYYY-MM-DD");
+        const formattedDeadline = moment(retrievedData.deadline).format(
+          "YYYY-MM-DD"
+        );
         setSForm({
-          image: retrievedData.image,
           scholarshipname: retrievedData.scholarshipname,
           deadline: formattedDeadline,
           scholarshiptype: retrievedData.scholarshiptype,
           featured: retrievedData.featured,
           programs: retrievedData.programs,
           country: retrievedData.country,
+          website: retrievedData.website,
           scholarshipcategory: retrievedData.scholarshipcategory,
-          agent: retrievedData.agent,
         });
         setDescription(retrievedData.description);
         setPost(retrievedData.post);
@@ -129,6 +117,17 @@ const ScholarshipEditForm = ({ id }) => {
               onChange={FormValues}
             />
 
+            <FormInputs
+              label="Website"
+              htmlFor="website"
+              type="text"
+              id="website"
+              name="website"
+              value={sForm.website}
+              required={true}
+              onChange={FormValues}
+            />
+
             <div className=" flex flex-col gap-1">
               <label htmlFor="scholarshiptype" className=" text-xl">
                 Type
@@ -146,26 +145,6 @@ const ScholarshipEditForm = ({ id }) => {
                 </option>
                 <option value="Fully Funded">Fully Funded</option>
                 <option value="Partially Funded">Partially Funded</option>
-              </select>
-            </div>
-
-            <div className=" flex flex-col gap-1">
-              <label htmlFor="scholarshiptype" className=" text-xl">
-                Agent
-              </label>
-              <select
-                id="agent"
-                name="agent"
-                value={sForm.agent}
-                onChange={FormValues}
-                className="bg-transparent border-[1px] border-black p-2 w-full outline-teal-600 focus-within:bg-white rounded-md"
-                required
-              >
-                <option value="" disabled>
-                  --Agent --
-                </option>
-                <option value="Agent">Agent</option>
-                <option value="No agent">No Agent</option>
               </select>
             </div>
 
@@ -211,7 +190,9 @@ const ScholarshipEditForm = ({ id }) => {
                 <option value="Bachelors Degree">Bachelors Degree</option>
                 <option value="Masters Degree">Masters Degree</option>
                 <option value="Doctorate Degree">Doctorate Degree</option>
-                <option value="Post Graduate Diploma">Post Graduate Diploma</option>
+                <option value="Post Graduate Diploma">
+                  Post Graduate Diploma
+                </option>
               </select>
             </div>
 
@@ -268,19 +249,13 @@ const ScholarshipEditForm = ({ id }) => {
             <label htmlFor="featured" className=" text-lg">
               Featured
             </label>
-            <input type="checkbox" id="featured" name="featured" onChange={FormValues} />
+            <input
+              type="checkbox"
+              id="featured"
+              name="featured"
+              onChange={FormValues}
+            />
           </div>
-
-          <FormInputs
-            label="Upload Scholarship Flyer"
-            htmlFor="image"
-            type="file"
-            id="image"
-            name="image"
-            onChange={FormFiles}
-            required={false}
-            accept="jpg, .jpeg, .png, .JPG"
-          />
 
           <button className=" text-xl bg-teal-500 p-2 rounded-md text-white hover:bg-teal-600">
             {loading ? (
