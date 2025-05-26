@@ -12,7 +12,6 @@ import Loading from "../../components/Loading/Loading";
 import axios from "axios";
 import { fetch, fetchByID } from "../request";
 import DescriptionCardElement from "../../components/descriptionCardElement";
-import { CountryCode } from "../../components/countryFlag";
 
 const AdvertCard = ({ image }) => {
   return (
@@ -31,36 +30,16 @@ const JobDescription = () => {
   const [job, setJob] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-  const [jobCategory, setJobCategory] = useState(null);
-  const [relatedJobByCategory, setRelatedJobByCategory] = useState([]);
+  const [featuredJob, setFeaturedJob] = useState([]);
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     fetchByID("job/read", id, setJob, setLoading, setMessage, signal);
+    fetch("job/featured", setFeaturedJob, setLoading, setMessage, signal);
     return () => controller.abort();
   }, [id]);
 
-  useEffect(() => {
-    if (job.length) {
-      job.map((job) => {
-        setJobCategory(job.jobcategory);
-      });
-    }
-    if (jobCategory !== null) {
-      const controller = new AbortController();
-      const signal = controller.signal;
-      fetch(
-        `job/category/${jobCategory}`,
-        setRelatedJobByCategory,
-        setLoading,
-        signal,
-        setMessage
-      );
-      return () => controller.abort();
-    }
-  }, [job]);
-
-  const limitRelatedjob = relatedJobByCategory.slice(0, 5);
+  const limitFeaturedJob = featuredJob.slice(0, 5);
 
   const [subscribeState, setSubscribeState] = useState(false);
   const toggleSubscribe = () => {
@@ -82,7 +61,7 @@ const JobDescription = () => {
               <Loading />
             ) : (
               <div className="flex flex-col gap-3">
-                {limitRelatedjob.map((job) => (
+                {limitFeaturedJob.map((job) => (
                   <DescriptionCardElement
                     key={job.id}
                     image={job.image}

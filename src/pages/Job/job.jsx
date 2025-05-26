@@ -211,6 +211,7 @@ const Jobs = () => {
                                 0,
                                 2
                               )}
+                              link={`job/${job.id}`}
                             />
                           ))}
                     </div>
@@ -242,6 +243,7 @@ const Jobs = () => {
                           cediOrClock={<FaCediSign />}
                           clockOrTrophy={<CiClock2 />}
                           companyOrScholarshipName={job.company.substring(0, 2)}
+                          link={`job/${job.id}`}
                         />
                       ))}
                     </div>
