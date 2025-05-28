@@ -56,7 +56,7 @@ const DescriptionTemplate = ({
             <small>{jobDurationOrScholarshipType}</small>
           </div>
           <div className="hidden md:flex flex-col">
-            <small>Posted On: {moment(datecreated).format("DD-MM-YYYY")}</small>
+            <small>Posted On: {datecreated}</small>
           </div>
         </div>
         <div
