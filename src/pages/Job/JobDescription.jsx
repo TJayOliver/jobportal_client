@@ -12,6 +12,7 @@ import Loading from "../../components/Loading/Loading";
 import axios from "axios";
 import { fetch, fetchByID } from "../request";
 import DescriptionCardElement from "../../components/descriptionCardElement";
+import moment from "moment";
 
 const AdvertCard = ({ image }) => {
   return (
@@ -69,7 +70,10 @@ const JobDescription = () => {
                     postionOrScholarshipName={job.position}
                     countryOrLocation={job.location}
                     salaryOrDeadline={job.salary}
-                    scholarshiptypeOrDateCreated={job.datecreated}
+                    scholarshiptypeOrDateCreated={moment(
+                      job.datecreated
+                    ).format("DD-MM-YYYY")}
+                    link={`job/${job.id}`}
                   />
                 ))}
               </div>

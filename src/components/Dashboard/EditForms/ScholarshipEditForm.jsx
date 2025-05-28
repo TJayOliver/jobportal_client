@@ -127,7 +127,9 @@ const ScholarshipEditForm = ({ id }) => {
               required={true}
               onChange={FormValues}
             />
+          </div>
 
+          <div className="flex flex-col md:flex md:flex-row gap-4">
             <div className=" flex flex-col gap-1">
               <label htmlFor="scholarshiptype" className=" text-xl">
                 Type
@@ -147,7 +149,6 @@ const ScholarshipEditForm = ({ id }) => {
                 <option value="Partially Funded">Partially Funded</option>
               </select>
             </div>
-
             <div className=" flex flex-col gap-1">
               <label htmlFor="scholarshipcategory" className=" text-xl">
                 Category

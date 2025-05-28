@@ -15,6 +15,7 @@ import CardElement from "../../components/cardElement";
 import { GoTrophy } from "react-icons/go";
 import { CiClock2 } from "react-icons/ci";
 import Subscribe from "../../components/Subscribe/Subscribe";
+import moment from "moment";
 
 const Scholarship = () => {
   const [scholarships, setScholarship] = useState([]);
@@ -33,11 +34,13 @@ const Scholarship = () => {
     fetch("scholarship", setScholarship, setLoading, signal, setMessage);
     return () => controller.abort();
   }, []);
+
   const [searchInput, setSearchInput] = useState({ scholarshipname: "" });
   const handleSearchInputs = (e) => {
     const { name, value } = e.target;
     setSearchInput((prev) => ({ ...prev, [name]: value }));
   };
+
   const searchScholarshipByName = async (e) => {
     e.preventDefault();
     try {
@@ -53,11 +56,13 @@ const Scholarship = () => {
       setMessage(error.response.data.message);
     }
   };
+
   const [filters, setFilters] = useState({
     scholarshiptype: [],
     programs: [],
     scholarshipcategory: [],
   });
+
   const handleFilterChange = async (e) => {
     const { name, value, checked } = e.target;
     // Update filters state
@@ -93,6 +98,7 @@ const Scholarship = () => {
       setMessage(error.response.data.message);
     }
   };
+
   const resetFilters = async () => {
     try {
       // 1. Reset all filters to empty arrays
@@ -120,6 +126,7 @@ const Scholarship = () => {
   const toggleSubscribe = () => {
     setSubscribeState((prev) => !prev);
   };
+
   return (
     <>
       <Subscribe
@@ -268,12 +275,13 @@ const Scholarship = () => {
             <SearchBar
               name={"scholarshipname"}
               value={searchInput.scholarshipname}
-              placeholder={"Scholarship Name"}
+              placeholder={"Scholarship Name or Country"}
               onChange={handleSearchInputs}
               searchFunction={searchScholarshipByName}
-              setSearchResultsVerified={searchResultsVerified}
+              setSearchResultsVerified={setSearchResultsVerified}
               setSearchResults={setSearchResults}
               setMessage={setMessage}
+              setLoading={setLoading}
               link={"scholarship/filtersearch"}
             />
 
@@ -291,6 +299,7 @@ const Scholarship = () => {
                         : searchResults.map((scholarship, id) => (
                             <CardElement
                               key={id}
+                              country={scholarship.country}
                               postionOrScholarshipName={
                                 scholarship.scholarshipname
                               }
@@ -299,13 +308,15 @@ const Scholarship = () => {
                                 scholarship.scholarshipname
                               }
                               countryOrLocation={scholarship.country}
-                              salaryOrDeadline={scholarship.deadline}
+                              salaryOrDeadline={moment(
+                                scholarship.deadline
+                              ).format("DD-MM-YYYY")}
                               scholarshiptypeOrDateCreated={
                                 scholarship.scholarshiptype
                               }
                               cediOrClock={<CiClock2 />}
                               clockOrTrophy={<GoTrophy />}
-                              link={`/newscholarship/${scholarship.id}`}
+                              link={`/scholarship/${scholarship.id}`}
                             />
                           ))}
                     </div>
@@ -329,17 +340,20 @@ const Scholarship = () => {
                       {post.map((scholarship, id) => (
                         <CardElement
                           key={id}
+                          country={scholarship.country}
                           postionOrScholarshipName={scholarship.scholarshipname}
                           descriptionOrOverview={scholarship.description}
                           companyOrScholarshipName={scholarship.scholarshipname}
                           countryOrLocation={scholarship.country}
-                          salaryOrDeadline={scholarship.deadline}
+                          salaryOrDeadline={moment(scholarship.deadline).format(
+                            "DD-MM-YYYY"
+                          )}
                           scholarshiptypeOrDateCreated={
                             scholarship.scholarshiptype
                           }
                           cediOrClock={<CiClock2 />}
                           clockOrTrophy={<GoTrophy />}
-                          link={`/newscholarship/${scholarship.id}`}
+                          link={`/scholarship/${scholarship.id}`}
                         />
                       ))}
                     </div>

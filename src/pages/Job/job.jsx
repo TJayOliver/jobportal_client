@@ -14,6 +14,7 @@ import SearchBar from "../../components/searchBar";
 import CheckBoxFilter from "../../components/checkBoxFilter";
 import Subscribe from "../../components/Subscribe/Subscribe";
 import CardElement from "../../components/cardElement";
+import moment from "moment";
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -178,9 +179,10 @@ const Jobs = () => {
               placeholder={"Job Title"}
               onChange={handleSearchInputs}
               searchFunction={searchJobByPosition}
-              setSearchResultsVerified={searchResultsVerified}
+              setSearchResultsVerified={setSearchResultsVerified}
               setSearchResults={setSearchResults}
               setMessage={setMessage}
+              setLoading={setLoading}
               link={"job/filtersearch"}
             />
             {/* displaying jobs */}
@@ -197,6 +199,7 @@ const Jobs = () => {
                         : searchResults.map((job, id) => (
                             <CardElement
                               key={job.id}
+                              image={job.image}
                               descriptionOrOverview={job.overview.substring(
                                 0,
                                 50
@@ -204,7 +207,9 @@ const Jobs = () => {
                               postionOrScholarshipName={job.position}
                               countryOrLocation={job.location}
                               salaryOrDeadline={job.salary}
-                              scholarshiptypeOrDateCreated={job.datecreated}
+                              scholarshiptypeOrDateCreated={moment(
+                                job.datecreated
+                              ).format("DD-MM-YYYY")}
                               cediOrClock={<FaCediSign />}
                               clockOrTrophy={<CiClock2 />}
                               companyOrScholarshipName={job.company.substring(
@@ -235,11 +240,14 @@ const Jobs = () => {
                       {post.map((job) => (
                         <CardElement
                           key={job.id}
+                          image={job.image}
                           descriptionOrOverview={job.overview.substring(0, 50)}
                           postionOrScholarshipName={job.position}
                           countryOrLocation={job.location}
                           salaryOrDeadline={job.salary}
-                          scholarshiptypeOrDateCreated={job.datecreated}
+                          scholarshiptypeOrDateCreated={moment(
+                            job.datecreated
+                          ).format("DD-MM-YYYY")}
                           cediOrClock={<FaCediSign />}
                           clockOrTrophy={<CiClock2 />}
                           companyOrScholarshipName={job.company.substring(0, 2)}

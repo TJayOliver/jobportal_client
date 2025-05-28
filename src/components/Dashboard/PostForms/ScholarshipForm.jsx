@@ -12,19 +12,18 @@ import { ThreeDots } from "react-loader-spinner";
 import Loading from "../../Loading/Loading";
 
 const ScholarshipForm = ({ username }) => {
-  const [description, setDescription] = useState("");
   const [post, setPost] = useState("");
 
   const [sForm, setSForm] = useState({
-    scholarshipname: "",
+    /* scholarshipname: "", */
     deadline: "",
     scholarshiptype: "",
     featured: false,
     programs: "",
     country: "",
-    description: "",
+    /* description: "", */
     scholarshipcategory: "",
-    website: "",
+    /*    website: "", */
     post: "",
     author: username,
   });
@@ -37,6 +36,7 @@ const ScholarshipForm = ({ username }) => {
     const { name, value, type, checked } = e.target;
     setSForm((prevData) => ({
       ...prevData,
+      post: post,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
@@ -44,7 +44,6 @@ const ScholarshipForm = ({ username }) => {
   const Submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const response = await axios.post(
         `${BASE_URL}/scholarship/create`,
@@ -68,7 +67,7 @@ const ScholarshipForm = ({ username }) => {
         <Loading />
       ) : (
         <form onSubmit={Submit} className=" p-3 flex flex-col gap-4 text-md">
-          <FormInputs
+          {/* <FormInputs
             label="Scholarship Name"
             htmlFor="scholarshipname"
             type="text"
@@ -78,7 +77,7 @@ const ScholarshipForm = ({ username }) => {
             onChange={FormValues}
             required={true}
             placeholder="e.g. Afghanistan Government Scholarships"
-          />
+          /> */}
 
           <div className="flex flex-col md:flex md:flex-row gap-4">
             <FormInputs
@@ -92,7 +91,7 @@ const ScholarshipForm = ({ username }) => {
               onChange={FormValues}
             />
 
-            <FormInputs
+            {/* <FormInputs
               label="Website"
               htmlFor="website"
               type="text"
@@ -101,7 +100,7 @@ const ScholarshipForm = ({ username }) => {
               value={sForm.website}
               required={true}
               onChange={FormValues}
-            />
+            /> */}
 
             <div className=" flex flex-col gap-1 w-full">
               <label htmlFor="scholarshiptype">Type</label>
@@ -190,8 +189,17 @@ const ScholarshipForm = ({ username }) => {
           </div>
 
           <div>
-            <p>Description</p>
-            <ReactQuill
+            {/* <FormTextarea
+              label="Description"
+              htmlFor="website"
+              id="description"
+              name="description"
+              value={sForm.description}
+              placeholder="enter description"
+              required={true}
+              onChange={FormValues}
+            /> */}
+            {/* <ReactQuill
               className=".ql-editor"
               theme="snow"
               modules={modules}
@@ -199,19 +207,25 @@ const ScholarshipForm = ({ username }) => {
               style={editorStyle}
               value={description}
               onChange={setDescription}
-            />
+            /> */}
           </div>
 
           <div>
-            <p>Scholarship Information</p>
+            <p>Content</p>
             <ReactQuill
               className=".ql-editor"
               theme="snow"
               modules={modules}
               formats={formats}
               style={editorStyle}
-              value={post}
-              onChange={setPost}
+              value={sForm.post}
+              onChange={(content) => {
+                setPost(content);
+                setSForm((prevData) => ({
+                  ...prevData,
+                  post: content,
+                }));
+              }}
             />
           </div>
 

@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const DescriptionTemplate = ({
   image,
   imageAlt,
@@ -54,17 +56,19 @@ const DescriptionTemplate = ({
             <small>{jobDurationOrScholarshipType}</small>
           </div>
           <div className="hidden md:flex flex-col">
-            <small>Posted On:{datecreated}</small>
-            <a
-              href={link}
-              className="bg-[#0F141E] w-full p-2 text-slate-200 rounded-xl "
-            >
-              Apply Now
-            </a>
+            <small>Posted On: {moment(datecreated).format("DD-MM-YYYY")}</small>
           </div>
         </div>
-        <p className="text-justify">{post}</p>
+        <div
+          className="text-justify text-white/95"
+          dangerouslySetInnerHTML={{ __html: post }}
+        ></div>
       </div>
+      <a href={link}>
+        <button className="bg-[#0F141E] hover:bg-[#121722] cursor-pointer p-2 w-full rounded-lg text-center">
+          Apply
+        </button>
+      </a>
     </div>
   );
 };

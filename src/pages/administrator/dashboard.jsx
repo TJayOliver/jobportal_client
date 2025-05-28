@@ -209,19 +209,6 @@ const Dashboard = () => {
     setJobEditForm(false);
     setScholarshipEditForm(false);
   };
-  const handleTestimonialForm = () => {
-    setCreateAdminForm(false);
-    setCategoryForm(false);
-    setJobForm(false);
-    setScholarshipForm(false);
-    setSubscribersList(false);
-    setOverviewInfo(false);
-    setJobInfo(false);
-    setScholarshipInfo(false);
-    setCategoryEditForm(false);
-    setJobEditForm(false);
-    setScholarshipEditForm(false);
-  };
 
   const [retrievedCategoriesData, setRetrievedCategoriesData] = useState([]);
   const [retrievedJobsData, setRetrievedJobsData] = useState([]);
@@ -377,7 +364,6 @@ const Dashboard = () => {
       window.alert(error.response.data.message);
     }
   };
-
   return (
     <>
       {confirmEdit && (
@@ -389,7 +375,7 @@ const Dashboard = () => {
         />
       )}
       {verified && (
-        <main className=" relative h-screen flex flex-col md:flex md:flex-row justify- gap-3 p-2 from-blue-600 to-green-500 bg-gradient-to-tr">
+        <main className=" relative h-screen flex flex-col md:flex md:flex-row justify- gap-3 p-2 from-blue-600 to-green-500 bg-gradient-to-tr ">
           {/* left panel */}
           <section className="bg-white w-full h-44 md:w-60 md:h-full rounded-lg flex flex-col relative duration-100 ease-out">
             {/* Heading*/}
@@ -840,7 +826,7 @@ const Dashboard = () => {
                                 </div>
                                 <div
                                   onClick={() =>
-                                    handleConfirmEdit(
+                                    handleConfirmDelete(
                                       data.id,
                                       data.scholarshipname,
                                       "scholarship"

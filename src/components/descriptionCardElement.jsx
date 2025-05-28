@@ -1,6 +1,7 @@
 import { FaShareFromSquare } from "react-icons/fa6";
+import { CountryCode } from "./countryFlag";
+
 const DescriptionCardElement = ({
-  image,
   descriptionOrOverview,
   postionOrScholarshipName,
   countryOrLocation,
@@ -9,7 +10,15 @@ const DescriptionCardElement = ({
   cediOrClock,
   clockOrTrophy,
   link,
+  country,
+  image,
 }) => {
+  const countryCode = CountryCode(country);
+
+  const flag = countryCode
+    ? `https://countryflagsapi.netlify.app/flag/${countryCode}.svg`
+    : image;
+
   return (
     <a
       href={link}
@@ -19,14 +28,12 @@ const DescriptionCardElement = ({
       <div className="flex justify-between items-center p-4">
         <div className="flex gap-1">
           <div
-            style={{ backgroundImage: `url(${image})` }}
+            style={{ backgroundImage: `url(${flag})` }}
             className="h-9 w-9 rounded-full shrink-0 flex bg-[#2d2e32] bg-cover"
           ></div>
           <div className="flex flex-col">
-            <h1 className="text-sm dark:text-white">
-              {postionOrScholarshipName}
-            </h1>
-            <p className="text-sm dark:text-white">{countryOrLocation}</p>
+            <h1 className="text-sm text-white">{postionOrScholarshipName}</h1>
+            <p className="text-sm text-white">{countryOrLocation}</p>
           </div>
         </div>
         {/* share */}

@@ -2,6 +2,7 @@ import { IoFilter } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { BASE_URL } from "../pages/request";
 
 const SearchBar = ({
   name,
@@ -12,6 +13,7 @@ const SearchBar = ({
   link,
   setSearchResultsVerified,
   setSearchResults,
+  setLoading,
   setMessage,
 }) => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -28,15 +30,16 @@ const SearchBar = ({
   const [searchInput, setSearchInput] = useState({ filter: "Recent" });
   const handleFilterChange = async (e) => {
     const { value } = e.target;
-    setSearchInput((prev) => ({ ...prev, filter: value }));
+    const updatedInput = { ...searchInput, filter: value };
+    setSearchInput(updatedInput);
     try {
-      const response = await axios.post(`${BASE_URL}/${link}`, searchInput);
+      const response = await axios.post(`${BASE_URL}/${link}`, updatedInput);
+      setSearchResults(response.data.data);
       setSearchResultsVerified(true);
       setLoading(false);
-      setSearchResults(response.data.data);
     } catch (error) {
       setLoading(true);
-      setMessage(error.response.data.message);
+      setMessage("Error");
     }
   };
 

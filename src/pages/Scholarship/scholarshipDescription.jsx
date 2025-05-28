@@ -13,6 +13,7 @@ import axios from "axios";
 import { fetch, fetchByID } from "../request";
 import DescriptionCardElement from "../../components/descriptionCardElement";
 import { CountryCode } from "../../components/countryFlag";
+import moment from "moment";
 
 const AdvertCard = ({ image }) => {
   return (
@@ -117,14 +118,16 @@ const ScholarshipDescription = () => {
                 {limitRelatedScholarship.map((scholarship) => (
                   <DescriptionCardElement
                     key={scholarship.id}
-                    image={flag}
+                    country={scholarship.country}
                     descriptionOrOverview={scholarship.description.substring(
                       0,
                       50
                     )}
                     postionOrScholarshipName={scholarship.scholarshipname}
                     countryOrLocation={scholarship.country}
-                    salaryOrDeadline={scholarship.deadline}
+                    salaryOrDeadline={moment(scholarship.deadline).format(
+                      "DD-MM-YYYY"
+                    )}
                     scholarshiptypeOrDateCreated={scholarship.scholarshiptype}
                   />
                 ))}
@@ -157,7 +160,9 @@ const ScholarshipDescription = () => {
                     companyNameOrScholarshipTitle={scholarship.scholarshipname}
                     jobOrScholarhipTitle={scholarship.scholarshipname}
                     jobDurationOrScholarshipType={scholarship.duration}
-                    datecreated={scholarship.datecreated}
+                    datecreated={moment(scholarship.datecreated).format(
+                      "DD-MM-YYYY"
+                    )}
                     post={scholarship.post}
                     link={scholarship.website}
                   />
