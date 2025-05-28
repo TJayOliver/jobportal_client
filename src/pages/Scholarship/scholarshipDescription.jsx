@@ -37,6 +37,7 @@ const ScholarshipDescription = () => {
   const [countryCode, setCountryCode] = useState(null);
   const [relatedScholarshipByCategory, setRelatedScholarshipByCategory] =
     useState([]);
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -52,30 +53,33 @@ const ScholarshipDescription = () => {
   }, [id]);
 
   useEffect(() => {
-    if (scholarship.length) {
-      scholarship.map((scholarship) => {
-        setScholarshipCategory(scholarship.scholarshipcategory);
-      });
-    }
-    if (scholarshipCategory !== null) {
-      const controller = new AbortController();
-      const signal = controller.signal;
-      fetch(
-        `scholarship/category/${scholarshipCategory}`,
-        setRelatedScholarshipByCategory,
-        setLoading,
-        signal,
-        setMessage
-      );
-      scholarship.map((country) => setCountryName(country.country));
-      return () => controller.abort();
-    }
+    if (!scholarship.length) return;
+    const { scholarshipcategory, country } = scholarship[0];
+    setScholarshipCategory(scholarshipcategory);
+    setCountryName(country);
+
+    const controller = new AbortController();
+    const fetchRelated = async () => {
+      try {
+        await fetch(
+          `scholarship/category/${scholarshipcategory}`,
+          setRelatedScholarshipByCategory,
+          setLoading,
+          controller.signal,
+          setMessage
+        );
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setMessage(error.message);
+        }
+      }
+    };
+    fetchRelated();
   }, [scholarship]);
 
   useEffect(() => {
-    if (countryName !== null) {
-      setCountryCode(CountryCode(countryName));
-    }
+    if (!countryName) return;
+    setCountryCode(CountryCode(countryName));
   }, [countryName]);
 
   const flag = countryCode
