@@ -10,7 +10,7 @@
 
 html,
 body {
-  @apply bg-gradient-to-r bg-white text-[#004242] h-screen inter overflow-x-hidden select-none scroll-smooth;
+  @apply bg-[#0F141E]  text-[#004242] h-screen inter overflow-x-hidden select-none scroll-smooth;
 }
 
 @font-face {
@@ -33,75 +33,10 @@ body {
   @apply flex flex-col sm:grid sm:grid-cols-2 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 gap-4;
 }
 
-.mobileMenu {
-  position: absolute;
-  width: 100%;
-  left: 0;
-}
-
-.mobileClose {
-  position: absolute;
-  width: 100%;
-  left: 0;
-  height: 0px;
-  top: 0rem;
-}
-
 .ql-editor {
   -webkit-user-select: text;
   user-select: text;
   -webkit-touch-callout: default;
   width: 100%;
   box-sizing: border-box;
-}
-
-@keyframes mobileopen {
-  from {
-    top: -99rem;
-  }
-  to {
-    top: 6rem;
-  }
-}
-
-@keyframes mobileclose {
-  from {
-  }
-  to {
-    height: 0px;
-    line-height: 0px;
-  }
-}
-
-.vertical-scroller {
-  height: 1.5em;
-  overflow: hidden;
-  position: relative;
-}
-
-.scroller-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  animation: scroll-vertical 10s linear infinite;
-}
-
-.scroller-content small {
-  margin: 0;
-  padding: 0.25em 0;
-  line-height: 1.5em;
-}
-
-@keyframes scroll-vertical {
-  0%,
-  40% {
-    transform: translateY(0); /* Show first text */
-  }
-  50%,
-  90% {
-    transform: translateY(-100%); /* Show second text */
-  }
-  100% {
-    transform: translateY(0); /* Reset */
-  }
 }

@@ -1,5 +1,4 @@
 import Header from "../components/Header/Header.jsx";
-import Footer from "../components/Footer/Footer.jsx";
 import Featured from "../components/Homepage/Featured/Featured.jsx";
 import { useState } from "react";
 import Subscribe from "../components/Subscribe/Subscribe.jsx";
@@ -15,7 +14,7 @@ export default function Home() {
         SetSubscribeState={SetSubscribeState}
       />
       <Featured />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
