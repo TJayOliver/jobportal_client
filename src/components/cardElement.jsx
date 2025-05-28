@@ -27,7 +27,6 @@ const CardElement = ({
   const flag = countryCode
     ? `https://countryflagsapi.netlify.app/flag/${countryCode}.svg`
     : image;
-  console.log(image);
   return (
     <div className="bg-[#0F141E] border-slate-600 h-60 max-w-screen-xl relative rounded-md shadow-lg border motion-translate-y-in-100">
       {/* image,location,title,share */}
