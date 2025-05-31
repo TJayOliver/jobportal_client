@@ -65,7 +65,6 @@ const JobDescription = () => {
                 {limitFeaturedJob.map((job) => (
                   <DescriptionCardElement
                     key={job.id}
-                    image={job.image}
                     descriptionOrOverview={job.overview.substring(0, 50)}
                     postionOrScholarshipName={job.position}
                     countryOrLocation={job.location}
@@ -98,7 +97,6 @@ const JobDescription = () => {
                 {job.map((job) => (
                   <DescriptionTemplate
                     key={job.id}
-                    image={job.image}
                     imageAlt={job.company.substring(0, 2)}
                     location={job.country}
                     category={job.jobcategory}

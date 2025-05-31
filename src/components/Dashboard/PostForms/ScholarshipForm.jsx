@@ -9,7 +9,7 @@ import "react-quill/dist/quill.snow.css";
 import { modules, formats, editorStyle } from "../../reactquillmodules";
 import { BASE_URL } from "../../../pages/request";
 import { ThreeDots } from "react-loader-spinner";
-import Loading from "../../Loading/Loading";
+import { LoadingAdmin } from "../../Loading/Loading";
 
 const ScholarshipForm = ({ username }) => {
   const [post, setPost] = useState("");
@@ -64,7 +64,7 @@ const ScholarshipForm = ({ username }) => {
   return (
     <section>
       {loading ? (
-        <Loading />
+        <LoadingAdmin />
       ) : (
         <form onSubmit={Submit} className=" p-3 flex flex-col gap-4 text-md">
           {/* <FormInputs

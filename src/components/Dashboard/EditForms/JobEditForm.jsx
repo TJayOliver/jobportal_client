@@ -2,10 +2,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import FormInputs from "../formInputs";
-import { countries } from "../countries";
+import { regions } from "../countries";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loading from "../../Loading/Loading";
+import { LoadingAdmin } from "../../Loading/Loading";
 import { fetch, BASE_URL } from "../../../pages/request";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -18,7 +18,6 @@ const JobEditForm = ({ id }) => {
   const [overview, setOverview] = useState("");
 
   const [gform, setGForm] = useState({
-    image: null,
     overview: "",
     company: "",
     salary: "",
@@ -36,27 +35,22 @@ const JobEditForm = ({ id }) => {
 
   const formValues = (e) => {
     const { name, value } = e.target;
-    setGForm((prev) => ({ ...prev, [name]: value }));
-  };
-  const formFiles = (e) => {
-    setGForm({
-      ...gform,
-      image: e.target.files[0],
+    setGForm((prev) => ({
+      ...prev,
       post: post,
       overview: overview,
-    });
+      [name]: value,
+    }));
   };
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-
     const fetchEdit = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/job/edit/${id}`);
         const retrievedData = response.data.data;
         setGForm({
-          image: retrievedData.image,
           company: retrievedData.company,
           salary: retrievedData.salary,
           location: retrievedData.location,
@@ -76,10 +70,8 @@ const JobEditForm = ({ id }) => {
         //console.error(error.message);
       }
     };
-
     fetch("category", setCategory, setLoading, signal, setMessage);
     fetchEdit();
-
     return () => controller.abort();
   }, []);
 
@@ -87,13 +79,7 @@ const JobEditForm = ({ id }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const newFormData = new FormData();
-      for (const key in gform) {
-        newFormData.append(key, gform[key]);
-      }
-      const response = await axios.put(`${BASE_URL}/job/update/${id}`, newFormData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.put(`${BASE_URL}/job/update/${id}`, gform);
       const data = response.data.message;
       setMessage(data);
       setSubmitted(true);
@@ -102,6 +88,7 @@ const JobEditForm = ({ id }) => {
     } catch (error) {
       setLoading(false);
       window.alert(error.response.data.message);
+      window.location.reload();
       //console.error(error.message);
     }
   };
@@ -109,7 +96,7 @@ const JobEditForm = ({ id }) => {
   return (
     <section>
       {loading ? (
-        <Loading />
+        <LoadingAdmin />
       ) : (
         <form className=" p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
           <div className="flex flex-col md:flex md:flex-row gap-4">
@@ -146,7 +133,7 @@ const JobEditForm = ({ id }) => {
               value={gform.salary}
               onChange={formValues}
               required={true}
-              placeholder="e.g. 500 or Confidential"
+              placeholder="e.g. 500 or Leave Blank"
             />
 
             <FormInputs
@@ -157,8 +144,8 @@ const JobEditForm = ({ id }) => {
               name="website"
               value={gform.website}
               onChange={formValues}
-              required={true}
-              placeholder="e.g. www.cocacola.com"
+              required={false}
+              placeholder="e.g. www.cocacola.com or Leave Blank"
             />
           </div>
 
@@ -210,11 +197,11 @@ const JobEditForm = ({ id }) => {
                 required
               >
                 <option value="" disabled>
-                  -- Select Country --{" "}
+                  -- Select Location --{" "}
                 </option>
-                {countries.map((country, id) => (
-                  <option value={country} key={id}>
-                    {country}
+                {regions.map((regions, id) => (
+                  <option value={regions} key={id}>
+                    {regions}
                   </option>
                 ))}
               </select>
@@ -243,7 +230,7 @@ const JobEditForm = ({ id }) => {
           </div>
 
           <div>
-            <p>Overview</p>
+            <p>Description</p>
             <ReactQuill
               className=" text-xl rounded-lg min-h-[200px]"
               theme="snow"
@@ -251,7 +238,13 @@ const JobEditForm = ({ id }) => {
               formats={formats}
               value={overview}
               style={editorStyle}
-              onChange={setOverview}
+              onChange={(content) => {
+                setOverview(content);
+                setGForm((prev) => ({
+                  ...prev,
+                  overview: content,
+                }));
+              }}
             />
           </div>
 
@@ -264,20 +257,15 @@ const JobEditForm = ({ id }) => {
               formats={formats}
               value={post}
               style={editorStyle}
-              onChange={setPost}
+              onChange={(content) => {
+                setPost(content);
+                setGForm((prev) => ({
+                  ...prev,
+                  post: content,
+                }));
+              }}
             />
           </div>
-
-          <FormInputs
-            label="Upload Job Flyer"
-            htmlFor="image"
-            type="file"
-            id="image"
-            name="image"
-            onChange={formFiles}
-            required={false}
-            accept="image/*"
-          />
 
           <button className="bg-teal-600 p-2 rounded-md text-white hover:bg-teal-500">
             {" "}

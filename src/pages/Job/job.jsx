@@ -171,7 +171,7 @@ const Jobs = () => {
             </div>
           </div>
           {/* jobs display*/}
-          <div className="md:basis-[75%] flex flex-col gap-2">
+          <div className="basis-full md:basis-[75%] flex flex-col gap-2">
             {/* search bar */}
             <SearchBar
               name={"position"}

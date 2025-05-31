@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import FormInputs from "../formInputs";
-import { countries } from "../countries";
+import { regions } from "../countries";
 import { useEffect, useState } from "react";
 import { fetch, BASE_URL } from "../../../pages/request";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { modules, formats, editorStyle } from "../../reactquillmodules";
-import Loading from "../../Loading/Loading";
+import { LoadingAdmin } from "../../Loading/Loading";
 import { ThreeDots } from "react-loader-spinner";
 
 const JobForm = ({ username }) => {
@@ -16,7 +16,7 @@ const JobForm = ({ username }) => {
   const [loading, setLoading] = useState(false);
 
   const [post, setPost] = useState("");
-  const [overview, setOverview] = useState("");
+  /* const [overview, setOverview] = useState(""); */
 
   useEffect(() => {
     const controller = new AbortController();
@@ -27,13 +27,13 @@ const JobForm = ({ username }) => {
 
   const [gform, setGForm] = useState({
     image: null,
-    overview: "",
+    /* overview: "", */
     company: "",
     salary: "",
     location: "",
     website: "",
     featured: "",
-    position: "",
+    /* position: "", */
     duration: "",
     post: "",
     jobcategory: "",
@@ -44,29 +44,14 @@ const JobForm = ({ username }) => {
 
   const formValues = (e) => {
     const { name, value } = e.target;
-    setGForm((prev) => ({ ...prev, [name]: value }));
-  };
-  const formFiles = (e) => {
-    setGForm({
-      ...gform,
-      image: e.target.files[0],
-      post: post,
-      overview: overview,
-      author: username,
-    });
+    setGForm((prev) => ({ ...prev, post: post, [name]: value }));
   };
 
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const newFormData = new FormData();
-    for (const key in gform) {
-      newFormData.append(key, gform[key]);
-    }
     try {
-      const response = await axios.post(`${BASE_URL}/job/create`, newFormData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(`${BASE_URL}/job/create`, gform);
       const data = response.data.message;
       setMessage(data);
       setSubmitted(true);
@@ -74,6 +59,7 @@ const JobForm = ({ username }) => {
       window.location.reload();
     } catch (error) {
       setLoading(false);
+      window.location.reload();
       window.alert(error.response.data.message);
       //console.error(error.message);
     }
@@ -82,7 +68,7 @@ const JobForm = ({ username }) => {
   return (
     <section>
       {loading ? (
-        <Loading />
+        <LoadingAdmin />
       ) : (
         <form className=" p-3 flex flex-col gap-4 text-md" onSubmit={submit}>
           <div className="flex flex-col md:flex md:flex-row gap-4">
@@ -94,11 +80,11 @@ const JobForm = ({ username }) => {
               name="company"
               value={gform.company}
               onChange={formValues}
-              required={true}
-              placeholder="e.g. Kwaata Industries Ltd"
+              required={false}
+              placeholder="e.g. Kwaata Industries Ltd or Leave Blank"
             />
 
-            <FormInputs
+            {/*  <FormInputs
               label="Position"
               htmlFor="position"
               type="text"
@@ -108,7 +94,7 @@ const JobForm = ({ username }) => {
               onChange={formValues}
               required={true}
               placeholder="e.g. General Manager"
-            />
+            /> */}
 
             <FormInputs
               label="Salary"
@@ -118,8 +104,8 @@ const JobForm = ({ username }) => {
               name="salary"
               value={gform.salary}
               onChange={formValues}
-              required={true}
-              placeholder="e.g. 500 or Confidential"
+              required={false}
+              placeholder="e.g. 500 or Leave Blank"
             />
 
             <FormInputs
@@ -130,7 +116,7 @@ const JobForm = ({ username }) => {
               name="website"
               value={gform.website}
               onChange={formValues}
-              required={true}
+              required={false}
               placeholder="e.g. www.cocacola.com"
             />
           </div>
@@ -165,7 +151,7 @@ const JobForm = ({ username }) => {
                 required
               >
                 <option value="" disabled>
-                  -- Select Job Contract Type --{" "}
+                  -- Select Contract Type --{" "}
                 </option>
                 <option value="Full Time">Full Time</option>
                 <option value="Part Time">Part Time</option>
@@ -183,18 +169,18 @@ const JobForm = ({ username }) => {
                 required
               >
                 <option value="" disabled>
-                  -- Select Country --{" "}
+                  -- Select Location --{" "}
                 </option>
-                {countries.map((country, id) => (
-                  <option value={country} key={id}>
-                    {country}
+                {regions.map((regions, id) => (
+                  <option value={regions} key={id}>
+                    {regions}
                   </option>
                 ))}
               </select>
             </div>
 
             <div className=" flex flex-col gap-1 w-full">
-              <label htmlFor="jobcategory">Select Job Category</label>
+              <label htmlFor="jobcategory">Select Category</label>
               <select
                 id="jobcategory"
                 name="jobcategory"
@@ -204,7 +190,7 @@ const JobForm = ({ username }) => {
                 required
               >
                 <option value="" disabled>
-                  -- Select Job Category --{" "}
+                  -- Select Category --{" "}
                 </option>
                 {category.map((cat, id) => (
                   <option key={id} value={cat.categoryname}>
@@ -215,8 +201,8 @@ const JobForm = ({ username }) => {
             </div>
           </div>
 
-          <div>
-            <p>Overview</p>
+          {/* <div>
+            <p>Description</p>
             <ReactQuill
               className=".ql-editor"
               theme="snow"
@@ -226,7 +212,7 @@ const JobForm = ({ username }) => {
               value={overview}
               onChange={setOverview}
             />
-          </div>
+          </div> */}
 
           <div>
             <p>Job Details</p>
@@ -235,21 +221,16 @@ const JobForm = ({ username }) => {
               theme="snow"
               modules={modules}
               formats={formats}
-              value={post}
-              onChange={setPost}
+              value={gform.post}
+              onChange={(content) => {
+                setPost(content);
+                setGForm((prev) => ({
+                  ...prev,
+                  post: content,
+                }));
+              }}
             />
           </div>
-
-          <FormInputs
-            label="Upload Job Flyer"
-            htmlFor="image"
-            type="file"
-            id="image"
-            name="image"
-            onChange={formFiles}
-            required={true}
-            accept="image/*"
-          />
 
           <button className="bg-teal-600 p-2  text-white hover:bg-teal-500">
             {loading ? (

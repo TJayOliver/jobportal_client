@@ -44,7 +44,7 @@ const SearchBar = ({
   };
 
   return (
-    <div className="flex justify-between items-center gap-2">
+    <div className="flex justify-between gap-2">
       <div
         onClick={toggleSearch}
         className="rounded-full h-10 w-10 border border-slate-300 flex items-center justify-center"

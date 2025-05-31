@@ -25,7 +25,7 @@ const FormInputs = ({
         value={value}
         onChange={onChange}
         required={required}
-        className="bg-transparent border-[1px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white  "
+        className="bg-transparent border-[1px] placeholder:text-[12px] border-gray-300 p-2 w-full outline-teal-600 focus-within:bg-white  "
       />
     </div>
   );

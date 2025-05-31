@@ -1,4 +1,4 @@
-import { TailSpin } from "react-loader-spinner";
+import { TailSpin, RotatingLines } from "react-loader-spinner";
 
 const Loading = () => {
   return (
@@ -10,6 +10,24 @@ const Loading = () => {
         color="#fff"
         ariaLabel="tail-spin-loading"
         radius="1"
+      />
+    </div>
+  );
+};
+
+export const LoadingAdmin = () => {
+  return (
+    <div className="grid place-content-center">
+      <RotatingLines
+        visible={true}
+        height="66"
+        width="66"
+        color="grey"
+        strokeWidth="5"
+        animationDuration="0.75"
+        ariaLabel="rotating-lines-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
       />
     </div>
   );

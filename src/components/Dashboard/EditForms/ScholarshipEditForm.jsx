@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Loading from "../../Loading/Loading";
+import { LoadingAdmin } from "../../Loading/Loading";
 import { modules, formats } from "../../reactquillmodules";
 import { BASE_URL } from "../../../pages/request";
 import moment from "moment";
@@ -90,7 +90,7 @@ const ScholarshipEditForm = ({ id }) => {
   return (
     <section className=" relative">
       {loading ? (
-        <Loading />
+        <LoadingAdmin />
       ) : (
         <form onSubmit={Submit} className=" p-3 flex flex-col gap-4">
           <FormInputs

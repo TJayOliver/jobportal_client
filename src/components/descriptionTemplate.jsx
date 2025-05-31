@@ -18,7 +18,7 @@ const DescriptionTemplate = ({
       <div className="h-28 p-4 rounded-t-2xl">
         <div className="flex gap-2">
           {!image && (
-            <div className=" h-20 w-20 bg-[#0F141E] border-slate-600 border ">
+            <div className=" h-20 w-20 bg-[#0F141E] border-slate-600 border flex justify-center items-center">
               {imageAlt}
             </div>
           )}
@@ -56,7 +56,7 @@ const DescriptionTemplate = ({
             <small>{jobDurationOrScholarshipType}</small>
           </div>
           <div className="hidden md:flex flex-col">
-            <small>Posted On: {datecreated}</small>
+            <small>Posted On: {moment(datecreated).format("DD-MM-YYYY")}</small>
           </div>
         </div>
         <div
